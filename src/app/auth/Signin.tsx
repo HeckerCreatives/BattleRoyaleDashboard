@@ -131,9 +131,9 @@ export default function Signin() {
   }
 
   return (
-    <div className=' bg-zinc-900 w-screen h-screen flex items-center justify-center '>
+    <div className=' bg-[#141414] w-screen h-screen flex items-center justify-center '>
 
-        <div className=' flex flex-col gap-10 items-center justify-center w-[90%] md:w-[500px] h-auto p-8 bg-zinc-950 rounded-lg'>
+        <div className=' flex flex-col gap-8 items-center justify-center w-[90%] md:w-[500px] h-auto p-8 bg-zinc-950 rounded-lg'>
             <img src="/logo 06 B.png" alt="" width={180} />
             <form  className='max-w-xs space-y-4 flex flex-col gap-2 items-center w-[80%]'>
             <Input placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} type='text' className=' bg-zinc-900 text-white border-none '/>
@@ -144,7 +144,7 @@ export default function Signin() {
             <button
             onClick={handleLogin}
                         style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                        className=' flex items-center justify-center gap-2 h-20 w-[220px] lg:text-lg xl:text-xl font-bold text-amber-950 hover:scale-110 ease-in-out duration-200'
+                        className=' flex items-center justify-center gap-2 h-12 w-[170px] text-sm font-bold text-amber-950 hover:scale-110 ease-in-out duration-200'
                       
                         >
                           { loading === true && (

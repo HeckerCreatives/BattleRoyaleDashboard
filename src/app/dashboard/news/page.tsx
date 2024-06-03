@@ -13,13 +13,6 @@ import {
 import Header from '@/components/Header'
 import { Input } from "@/components/ui/input"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -31,7 +24,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
-import { Checkbox } from '@/components/ui/checkbox'
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from 'react-icons/md'
 import {
   AlertDialog,

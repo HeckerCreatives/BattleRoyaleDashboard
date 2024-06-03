@@ -126,7 +126,7 @@ export default function page() {
             <Header/>
 
             <div className=' flex flex-col gap-4 w-full p-10'>
-                <p className=' text-lg font-semibold py-2 border-b-2 border-zinc-700'>Message</p>
+                <p className=' text-lg font-semibold py-2 border-b-2 border-zinc-800'>Message</p>
 
                 <div className=' w-full flex flex-col gap-4'>
                     <Select onValueChange={setType} value={type}>

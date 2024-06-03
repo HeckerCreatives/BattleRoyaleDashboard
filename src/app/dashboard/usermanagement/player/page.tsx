@@ -46,23 +46,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { HiRefresh } from "react-icons/hi";
 
 
 
 interface PlayerList{
     country: string
-createdAt: string
-email: string
-id: string
-status: string
-username: string
+    createdAt: string
+    email: string
+    id: string
+    status: string
+    username: string
 
 }
 
 interface Inbox {
     description: string
-title: string
-type: string
+    title: string
+    type: string
 
 }
 
@@ -420,7 +421,7 @@ export default function page() {
                         </Select>
                     </div>
 
-                    <button onClick={reset} className=' px-4 py-2 bg-secondary rounded-md'>Reset</button>
+                    <button onClick={reset} className=' px-4 py-2 bg-secondary rounded-md'><HiRefresh size={20}/></button>
 
                 </div>
                     
@@ -605,7 +606,48 @@ export default function page() {
                                     
                                 </DialogContent>
                                 </Dialog>
-                                
+
+                                <AlertDialog>
+                                <AlertDialogTrigger>
+                                     { list.status === 'inactive' && (
+                                    <button 
+                                    onClick={() => {setStatus(list.status); setId(list.id)}}
+                                    className=' text-xs px-2 py-1 bg-green-600 rounded-md'>UnBan</button>
+                                    )}
+                                </AlertDialogTrigger>
+                                <AlertDialogContent className=' bg-zinc-950 border-zinc-900'>
+                                    <AlertDialogHeader>
+                                    <AlertDialogTitle className=' text-secondary'>Are you absolutely sure to unban this player?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will temporarily unbanned the player account.
+                                    </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                    <AlertDialogCancel className=' bg-zinc-900 border-none text-white'>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={unban} className=' flex items-center justify-center gap-2 bg-red-600'>
+                                        { banload === true && (
+                                            <div className="loader">
+                                                <div className="bar1 bg-white"></div>
+                                                <div className="bar2 bg-white"></div>
+                                                <div className="bar3 bg-white"></div>
+                                                <div className="bar4 bg-white"></div>
+                                                <div className="bar5 bg-white"></div>
+                                                <div className="bar6 bg-white"></div>
+                                                <div className="bar7 bg-white"></div>
+                                                <div className="bar8 bg-white"></div>
+                                                <div className="bar9 bg-white"></div>
+                                                <div className="bar10 bg-white"></div>
+                                                <div className="bar11 bg-white"></div>
+                                                <div className="bar12 bg-white"></div>
+                                            </div>
+                                        )}
+                                        Continue</AlertDialogAction>
+                                    </AlertDialogFooter>
+
+                                </AlertDialogContent>
+                                </AlertDialog>
+
+
                                 <AlertDialog>
                                 <AlertDialogTrigger>
                                     { list.status === 'active' && (
@@ -646,47 +688,7 @@ export default function page() {
                                 </AlertDialogContent>
                                 </AlertDialog>
 
-                                <AlertDialog>
-                                <AlertDialogTrigger>
-                                     { list.status === 'inactive' && (
-                                        
-                                    <button 
-                                    onClick={() => {setStatus(list.status); setId(list.id)}}
-                                    className=' text-xs px-2 py-1 bg-green-600 rounded-md'>UnBan</button>
-                                    )}
-                                </AlertDialogTrigger>
-                                <AlertDialogContent className=' bg-zinc-950 border-zinc-900'>
-                                    <AlertDialogHeader>
-                                    <AlertDialogTitle className=' text-secondary'>Are you absolutely sure to unban this player?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        This action cannot be undone. This will temporarily unbanned the player account.
-                                    </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                    <AlertDialogCancel className=' bg-zinc-900 border-none text-white'>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={unban} className=' flex items-center justify-center gap-2 bg-red-600'>
-                                        { banload === true && (
-                                            <div className="loader">
-                                                <div className="bar1 bg-white"></div>
-                                                <div className="bar2 bg-white"></div>
-                                                <div className="bar3 bg-white"></div>
-                                                <div className="bar4 bg-white"></div>
-                                                <div className="bar5 bg-white"></div>
-                                                <div className="bar6 bg-white"></div>
-                                                <div className="bar7 bg-white"></div>
-                                                <div className="bar8 bg-white"></div>
-                                                <div className="bar9 bg-white"></div>
-                                                <div className="bar10 bg-white"></div>
-                                                <div className="bar11 bg-white"></div>
-                                                <div className="bar12 bg-white"></div>
-                                            </div>
-                                        )}
-                                        Continue</AlertDialogAction>
-                                    </AlertDialogFooter>
-
-                                </AlertDialogContent>
-                                </AlertDialog>
-
+                                
                             </TableCell>
                             </TableRow>
                         ))}
@@ -705,7 +707,7 @@ export default function page() {
                     onClick={() => setCurrentpage( currentpage - 1)}
                     disabled={loading ? true : currentpage === 0} 
                    className=' text-secondary'><MdOutlineKeyboardArrowLeft size={40}/></button>
-                    <p className=' text-lg font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p>
+                    <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p>
                     <button
                       onClick={() => setCurrentpage(currentpage + 1)}
                     disabled={ loading ? true :  currentpage + 1 === totalpages}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import {
   Popover,
@@ -25,13 +25,27 @@ import { FaUsers, FaBullhorn } from 'react-icons/fa';
 import { GrTransaction, GrHostMaintenance } from 'react-icons/gr';
 import { IoIosArrowDown, IoIosGift, IoIosSettings } from 'react-icons/io';
 import { MdDashboard, MdAdminPanelSettings } from 'react-icons/md';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie'
+import { MdOutlineFileUpload } from "react-icons/md";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 
 export default function Header() {
   const pathname = usePathname()
   const router = useRouter()
+  const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+
 
    const handleLogout = () => {
     Cookies.remove('sessionToken'); 
@@ -208,8 +222,10 @@ export default function Header() {
 
             </div>
           </PopoverTrigger>
-          <PopoverContent className=' w-[150px] p-4 bg-zinc-950 border-zinc-900 text-white mt-4'>
-            <p onClick={handleLogout} className=' text-sm flex items-center gap-2 cursor-default'><IoLogOut size={20}/>Log Out</p>
+          <PopoverContent className=' flex flex-col gap-4 w-auto p-6 bg-zinc-950 border-zinc-900 text-white mt-4'>
+
+           
+            <p onClick={handleLogout} className=' text-sm flex items-center gap-2 cursor-default hover:text-secondary ease-in-out duration-300'><IoLogOut size={20}/>Log Out</p>
           </PopoverContent>
         </Popover>
 
