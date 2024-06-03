@@ -33,7 +33,7 @@ export default function Sidebar() {
         <div className=' flex flex-col gap-4=2'>
             <Link
             href='/dashboard'
-            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard' && ' text-secondary'}`}
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/' && ' text-secondary'}`}
             passHref
           >
             <MdDashboard size={20}/>

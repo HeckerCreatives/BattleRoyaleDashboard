@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { BsPersonPlusFill } from 'react-icons/bs'
 import { FaUsers } from 'react-icons/fa'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { IoMdDownload } from "react-icons/io";
 
 const data = [
   {
@@ -109,6 +110,22 @@ export default function Dashboard() {
 
             <div className=' flex flex-col gap-4 w-full rounded-lg p-4 md:p-10'> 
 
+             <div className=' relative w-full h-[180px] rounded-lg flex items-end justify-between p-6 shadow-lg'
+                style={{backgroundImage: "url('/maintenance.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                >
+                    <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
+
+                    </div>
+                    <h2 className=' relative z-10 text-2xl font-bold text-secondary'>Dashboard</h2>
+
+                    <div className=' hidden md:flex flex-col items-center justify-center gap-2 h-full w-[180px] bg-zinc-950 rounded-md'>
+                      <IoMdDownload size={30} className=' text-secondary'/>
+                      <h2 className=' text-lg font-bold'>1,286</h2>
+                      <p className=' text-xs text-zinc-300'>Total Downloads</p>
+                    </div>
+
+              </div>     
+
               <div className=' relative flex items-center'>
                 <p onClick={() => setTab('transaction')} className={` relative text-sm font-medium py-2 px-4 cursor-default ${ tab === 'transaction' && ' border-b-2 border-secondary'}`}>Transaction</p>
 
@@ -158,11 +175,11 @@ export default function Dashboard() {
                          <LineChart width={730} height={350} data={data}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
+                        <XAxis dataKey="name" className=' text-xs'/>
+                        <YAxis className=' text-xs' />
+                        <Tooltip/>
                         <Legend />
-                        <Line type="monotone" dataKey="transaction" stroke="#FF7A2C" />
+                        <Line type="monotone" dataKey="transaction" stroke="#FF7A2C" strokeWidth={2} />
                         </LineChart>
                     </ResponsiveContainer>
                    
@@ -212,11 +229,11 @@ export default function Dashboard() {
                          <LineChart width={730} height={350} data={data2}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="registration" stroke="#FF7A2C" />
+                        <XAxis dataKey="name" className=' text-xs'/>
+                        <YAxis className=' text-xs'/>
+                        <Tooltip/>
+                        <Legend/>
+                        <Line type="monotone" dataKey="registration" stroke="#FF7A2C" strokeWidth={2} />
                         </LineChart>
                     </ResponsiveContainer>
                    

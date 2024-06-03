@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
+import CustomBg from '@/components/CustomBg'
 
 
 export default function Signin() {
@@ -131,8 +132,7 @@ export default function Signin() {
   }
 
   return (
-    <div className=' bg-[#141414] w-screen h-screen flex items-center justify-center '>
-
+    <div className=' relative bg-[#141414] w-screen h-screen flex items-center justify-center '>
         <div className=' flex flex-col gap-8 items-center justify-center w-[90%] md:w-[500px] h-auto p-8 bg-zinc-950 rounded-lg'>
             <img src="/logo 06 B.png" alt="" width={180} />
             <form  className='max-w-xs space-y-4 flex flex-col gap-2 items-center w-[80%]'>

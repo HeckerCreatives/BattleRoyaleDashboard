@@ -154,7 +154,7 @@ export default function page() {
                         <button
                         onClick={massNews}
                         style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                        className=' h-10 w-[220px] text-sm font-semibold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
+                        className=' h-10 w-[220px] text-sm font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
                         >
                             { loading === true && (
                                 <div className="loader">

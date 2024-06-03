@@ -37,6 +37,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { HiRefresh } from "react-icons/hi";
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { IoMdEye } from "react-icons/io";
 
 
 interface News {
@@ -460,7 +462,16 @@ export default function page() {
         <main className=' bg-zinc-900 h-screen  overflow-y-auto w-full text-white'>
            <Header/>
 
-            <div className=' flex flex-col gap-8 w-full p-4 md:p-8'>     
+            <div className=' flex flex-col gap-8 w-full p-4 md:p-8'>
+                <div className=' relative w-full h-[180px] rounded-lg flex items-end p-6 shadow-lg'
+                style={{backgroundImage: "url('/maintenance.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                >
+                    <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
+
+                    </div>
+                    <h2 className=' relative z-10 text-2xl font-bold text-secondary'>News</h2>
+
+                </div>     
                 <div className=' flex items-center gap-4'>
                     
                     <div className=' flex items-center gap-2'>
@@ -579,7 +590,7 @@ export default function page() {
                             <Dialog>
                             <DialogTrigger>
                                 <TableCell className=' flex items-center justify-center'>
-                                    <button className=' text-xs px-2 py-1 bg-blue-800 rounded-md'>View</button>
+                                    <button className=' text-xs px-2 py-1 bg-blue-800 rounded-md flex items-center gap-1'><IoMdEye size={15}/>View</button>
                                 </TableCell>
                             </DialogTrigger>
                             <DialogContent className=' w-[90%] md:w-[40%] h-auto p-10 flex items-center justify-center bg-zinc-950 border-zinc-900'>
@@ -594,7 +605,7 @@ export default function page() {
                                     <TableCell>
                                         <button
                                         onClick={() => {setEditTitle(list.title); setEditDescription(list.description); setId(list.newsid)}}
-                                        className=' text-xs px-2 py-1 bg-blue-800 rounded-md'>View</button>
+                                        className=' text-xs px-2 py-1 bg-blue-800 rounded-md flex items-center gap-1'><IoMdEye size={15}/>View</button>
                                     </TableCell>
                                 </DialogTrigger>
                                 <DialogContent className=' flex-col w-[90%] md:w-[40%] h-auto p-4 md:p-10 flex items-center justify-center bg-zinc-950 border-zinc-900 text-white'>
@@ -624,7 +635,7 @@ export default function page() {
                                     </div>
 
                                     <div className=' w-full flex items-center justify-end gap-4 mt-4'>
-                                        <button onClick={editNews} className=' px-4 py-2 w-[180px] rounded-lg flex items-center justify-center gap-2 text-amber-950 text-sm font-semibold'
+                                        <button onClick={editNews} className=' px-4 py-2 w-[180px] rounded-lg flex items-center justify-center gap-2 text-amber-950 text-sm font-bold'
                                         style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                         >
                                             { editload === true && (
@@ -653,7 +664,7 @@ export default function page() {
 
                                 <AlertDialog>
                                 <AlertDialogTrigger>
-                                    <button onClick={() => setId(list.newsid)} className=' text-xs px-2 py-1 bg-red-600 rounded-md'>Delete</button>
+                                    <button onClick={() => setId(list.newsid)} className=' text-xs px-2 py-1 bg-red-600 rounded-md flex items-center gap-1'><RiDeleteBin5Fill size={15}/>Delete</button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent className=' bg-zinc-950 border-zinc-900 text-white w-[90%] md:w-auto'>
                                     <AlertDialogHeader>

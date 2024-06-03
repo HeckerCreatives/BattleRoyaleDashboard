@@ -52,8 +52,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
-
+import { ImBullhorn } from "react-icons/im";
+import { IoMdEye } from "react-icons/io";
+import { IoIosWarning } from "react-icons/io";
+import { TbSquareRoundedCheckFilled } from "react-icons/tb";
 
 
 interface PlayerList{
@@ -374,6 +376,16 @@ export default function page() {
          
             <div className=' flex flex-col gap-8 w-full p-4 md:p-8'>
 
+                <div className=' relative w-full h-[180px] bg-red-500 rounded-lg flex items-end p-6 shadow-lg'
+                style={{backgroundImage: "url('/maintenance.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                >
+                    <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
+
+                    </div>
+                    <h2 className=' relative z-10 text-2xl font-bold text-secondary'>Manage Players</h2>
+
+                </div>     
+
                 <div className=' grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4'>
 
                     <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'>
@@ -478,7 +490,7 @@ export default function page() {
  
                                 <Dialog>
                                 <DialogTrigger onClick={() => setUserid(list.id)}>
-                                    <button className=' bg-secondary px-2 py-1 rounded-md text-xs'>View</button>
+                                    <button className=' bg-blue-600 px-2 py-1 rounded-md text-xs flex items-center gap-1'><IoMdEye size={15}/>View</button>
                                 </DialogTrigger>
                                 <DialogContent className=' flex flex-col items-start bg-zinc-950 border-zinc-900 w-[90%] h-[600px] md:w-[800px] '
                                 style={{backgroundImage: "url('/assets/header BG.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
@@ -533,7 +545,7 @@ export default function page() {
                                                         key={idx} 
                                                         className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${list.title === active && ' border-yellow-500'}`}
                                                         >
-                                                            <img src="/assets/Mail ICON.png" alt="" width={30} />
+                                                            <ImBullhorn size={30}/>
 
                                                             <div className=' flex flex-col items-start h-[70px] w-[50%] gap-1'>
                                                                 <p className=' text-xs font-semibold line-clamp-1'>{list.title}</p>
@@ -580,7 +592,7 @@ export default function page() {
                                                         className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${list.title === active && ' border-yellow-600'}`}
                                                         style={{backgroundImage: "url('/assets/list TAB (off).png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
-                                                            <img src="/assets/Mail ICON.png" alt="" width={30} />
+                                                            <ImBullhorn size={30}/>
 
                                                             <div className=' flex flex-col items-start h-[70px] w-[50%] gap-1'>
                                                                 <p className=' text-xs font-semibold line-clamp-1'>{list.title}</p>
@@ -678,7 +690,7 @@ export default function page() {
                                      { list.status === 'inactive' && (
                                     <button 
                                     onClick={() => {setStatus(list.status); setId(list.id)}}
-                                    className=' text-xs px-2 py-1 bg-green-600 rounded-md'>UnBan</button>
+                                    className=' text-xs px-2 py-1 bg-green-600 rounded-md flex items-center gap-1'><TbSquareRoundedCheckFilled size={15}/>UnBan</button>
                                     )}
                                 </AlertDialogTrigger>
                                 <AlertDialogContent className=' bg-zinc-950 border-zinc-900'>
@@ -719,7 +731,7 @@ export default function page() {
                                     { list.status === 'active' && (
                                     <button 
                                     onClick={() => {setStatus(list.status); setId(list.id)}}
-                                    className=' text-xs px-4 py-1 bg-red-600 rounded-md'>Ban</button>
+                                    className=' text-xs px-4 py-1 bg-red-600 rounded-md flex items-center gap-1'><IoIosWarning size={15}/>Ban</button>
                                     )}
                                 </AlertDialogTrigger>
                                 <AlertDialogContent className=' bg-zinc-950 border-zinc-900'>
@@ -730,8 +742,8 @@ export default function page() {
                                     </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                    <AlertDialogCancel className=' bg-zinc-900 border-none text-white'>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={ban} className=' flex items-center justify-center gap-2 bg-red-600'>
+                                    <AlertDialogCancel className=' bg-zinc-900 border-none text-white hover:bg-zinc-800 hover:text-white'>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={ban} className=' flex items-center justify-center gap-2 bg-red-600 text-white hover:bg-red-700'>
                                         { banload === true && (
                                             <div className="loader">
                                                 <div className="bar1 bg-white"></div>
