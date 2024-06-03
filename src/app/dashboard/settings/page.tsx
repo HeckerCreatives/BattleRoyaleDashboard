@@ -34,38 +34,6 @@ interface List {
 export default function page() {
     const { toast } = useToast()
     const router = useRouter()
-    const [list, setList] = useState<List[]>([])
-   
-    useEffect(() => {
-        const list = async () => {
-            try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/maintenance/getmaintenance`,{
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        }
-                })
-                setList(response.data.data.maintenancelist)
-            } catch (error) {
-                 if (axios.isAxiosError(error)) {
-                    const axiosError = error as AxiosError<{ message: string, data: string }>;
-                    if (axiosError.response && axiosError.response.status === 401) {
-                        router.push('/')
-                        toast({
-                        variant:'destructive',
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
-                
-                    }
-                } 
-                
-            }
-        }
-        list()
-    },[])
-
-
     
   return (
     <div className=' flex w-full h-screen'>

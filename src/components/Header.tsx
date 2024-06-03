@@ -173,36 +173,40 @@ export default function Header() {
         </SheetContent>
       </Sheet>
 
-        { pathname === '/dashboard' && (
+        { pathname === '/dashboard/' && (
           <a href='/dashboard' className=' text-sm text-white'>Dashboard</a>
         )}
 
-        { pathname === '/dashboard/usermanagement/player' && (
+        { pathname === '/dashboard/usermanagement/player/' && (
           <a href='/dashboard/usermanagement/player' className=' text-sm text-white'>User Management / Player</a>
         )}
 
-          { pathname === '/dashboard/usermanagement/admins' && (
+          { pathname === '/dashboard/usermanagement/admins/' && (
           <a href='/dashboard/usermanagement/admins' className=' text-sm text-white'>User Management / Admin</a>
         )}
 
-        { pathname === '/dashboard/transaction' && (
+        { pathname === '/dashboard/transaction/' && (
           <a href='/dashboard/transaction' className=' text-sm text-white'>Transaction</a>
         )}
 
-        { pathname === '/dashboard/rewards' && (
+        { pathname === '/dashboard/rewards/' && (
           <a href='/dashboard/rewards' className=' text-sm text-white'>Rewards</a>
         )}
 
-        { pathname === '/dashboard/news' && (
+        { pathname === '/dashboard/news/' && (
           <a href='/dashboard/news' className=' text-sm text-white'>News</a>
         )}
 
-         { pathname === '/dashboard/maintenance' && (
+         { pathname === '/dashboard/maintenance/' && (
           <a href='/dashboard/maintenance' className=' text-sm text-white'>Maintenance</a>
         )}
 
-         { pathname === '/dashboard/message' && (
+         { pathname === '/dashboard/message/' && (
           <a href='/dashboard/message' className=' text-sm text-white'>Message</a>
+        )}
+
+         { pathname === '/dashboard/settings/' && (
+          <a href='/dashboard/seetings' className=' text-sm text-white'>Account Settings</a>
         )}
 
 

@@ -49,7 +49,7 @@ export default function Sidebar() {
           </div> */}
 
            <p
-              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/usermanagement/player' && ' text-secondary'} ${pathname === '/dashboard/usermanagement/admins' && ' text-secondary'}`}
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/usermanagement/player/' && ' text-secondary'} ${pathname === '/dashboard/usermanagement/admins/' && ' text-secondary'}`}
               role='menuitem'
             >
               <FaUsers size={20}/>
@@ -62,7 +62,7 @@ export default function Sidebar() {
           <CollapsibleContent className=' flex flex-col gap-2 pl-4'>
              <Link
               href='/dashboard/usermanagement/player'
-              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/usermanagement/player' && ' text-secondary'}`}
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/usermanagement/player/' && ' text-secondary'}`}
               passHref
             >
               <FaUsers size={20}/>
@@ -84,7 +84,7 @@ export default function Sidebar() {
 
          <Link
               href='/dashboard/message'
-              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/message' && ' text-secondary'}`}
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/message/' && ' text-secondary'}`}
               passHref
             >
               <FaMessage size={20}/>
@@ -94,7 +94,7 @@ export default function Sidebar() {
 
            <Link
             href='/dashboard/transaction'
-            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/transaction' && ' text-secondary'}`}
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/transaction/' && ' text-secondary'}`}
             role='menuitem'
             passHref
           >
@@ -104,7 +104,7 @@ export default function Sidebar() {
 
           <Link
             href='/dashboard/news'
-            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/news' && ' text-secondary'}`}
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/news/' && ' text-secondary'}`}
             role='menuitem'
             passHref
           >
@@ -115,7 +115,7 @@ export default function Sidebar() {
 
           <Link
             href='/dashboard/maintenance'
-            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/maintenance' && ' text-secondary'}`}
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/maintenance/' && ' text-secondary'}`}
             role='menuitem'
             passHref
           >
@@ -125,7 +125,7 @@ export default function Sidebar() {
 
            <Link
             href='/dashboard/rewards'
-            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/rewards' && ' text-secondary'}`}
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/rewards/' && ' text-secondary'}`}
             role='menuitem'
             passHref
           >
@@ -134,8 +134,8 @@ export default function Sidebar() {
           </Link>
 
            <Link
-            href='/dashboard/playerlist'
-            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/playerlist' && ' text-secondary'}`}
+            href='/dashboard/settings'
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/settings/' && ' text-secondary'}`}
             role='menuitem'
             passHref
           >
