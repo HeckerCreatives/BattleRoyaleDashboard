@@ -11,7 +11,7 @@ export default function page() {
     const [tab, setTab] = useState('topup')
 
   return (
-    <div className=' flex w-full h-full'>
+    <div className=' flex w-full h-screen'>
         <Sidebar/>
         <main className=' bg-zinc-900 w-full text-white'>
            <Header/>

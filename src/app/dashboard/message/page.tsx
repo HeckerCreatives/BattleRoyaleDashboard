@@ -120,12 +120,12 @@ export default function page() {
         
     }
   return (
-    <div className=' flex w-full h-full'>
+    <div className=' flex w-full h-full bg-zinc-900'>
         <Sidebar/>
         <main className=' bg-zinc-900 w-full text-white'>
             <Header/>
 
-            <div className=' flex flex-col gap-4 w-full p-10'>
+            <div className=' flex flex-col gap-4 w-full p-4 md:p-10'>
                 <p className=' text-lg font-semibold py-2 border-b-2 border-zinc-800'>Message</p>
 
                 <div className=' w-full flex flex-col gap-4'>

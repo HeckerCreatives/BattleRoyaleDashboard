@@ -47,6 +47,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { HiRefresh } from "react-icons/hi";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 
 
 
@@ -85,6 +91,8 @@ export default function page() {
   const [userid, setUserid] = useState('')
   const [ inbox, setInbox] = useState<Inbox[]>([])
   const [active, setActive] = useState('')
+
+  console.log('Title:', active)
 
   console.log(id,status)
 
@@ -409,7 +417,7 @@ export default function page() {
 
                    
 
-                    <div>
+                    <div className=' flex items-center gap-4'>
                         <Select onValueChange={setFilter} value={filter}>
                         <SelectTrigger className="w-[180px] bg-zinc-950 border-none">
                             <SelectValue placeholder="Filter" />
@@ -419,9 +427,11 @@ export default function page() {
                             <SelectItem value='inactive' className=' hover:bg-none text-white'>Banned</SelectItem>
                         </SelectContent>
                         </Select>
+
+                    <button onClick={reset} className=' px-4 py-2 bg-secondary text-zinc-950 rounded-md'><HiRefresh size={20}/></button>
+
                     </div>
 
-                    <button onClick={reset} className=' px-4 py-2 bg-secondary rounded-md'><HiRefresh size={20}/></button>
 
                 </div>
                     
@@ -470,15 +480,26 @@ export default function page() {
                                 <DialogTrigger onClick={() => setUserid(list.id)}>
                                     <button className=' bg-secondary px-2 py-1 rounded-md text-xs'>View</button>
                                 </DialogTrigger>
-                                <DialogContent className=' flex flex-col items-start bg-zinc-950 border-zinc-900 w-[800px] h-[80%]'
+                                <DialogContent className=' flex flex-col items-start bg-zinc-950 border-zinc-900 w-[90%] h-[600px] md:w-[800px] '
                                 style={{backgroundImage: "url('/assets/header BG.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                 >
-                                    <div className=' flex items-center justify-center text-white'>
-                                        <p onClick={()=> setTab('dashboard')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'dashboard' && ' border-b-4 border-secondary'}`}>dashboard</p>
-                                        <p onClick={()=> setTab('inventory')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inventory' && ' border-b-4 border-secondary'}`}> inventory</p>
-                                        <p onClick={()=> setTab('transaction')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'transaction' && ' border-b-4 border-secondary'}`}>transaction history</p>
-                                        <p onClick={()=> setTab('inbox')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inbox' && ' border-b-4 border-secondary'}`}> inbox</p>
-                                        <p onClick={()=> setTab('profile')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'profile' && ' border-b-4 border-secondary'}`}>profile</p>
+                                    <Popover>
+                                    <PopoverTrigger className=' block md:hidden text-white bg-zinc-900 p-2 rounded-md text-xs'>Menu</PopoverTrigger>
+                                    <PopoverContent className=' bg-zinc-950 border-zinc-900 text-white w-[150px]'>
+                                        <p onClick={()=> setTab('dashboard')} className={`text-xs px-4 py-1 cursor-default ${tab === 'dashboard' && ' border-b-2 border-secondary'}`}>Dashboard</p>
+                                        <p onClick={()=> setTab('inventory')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inventory' && ' border-b-2 border-secondary'}`}> Inventory</p>
+                                        <p onClick={()=> setTab('transaction')} className={`text-xs px-4 py-1 cursor-default ${tab === 'transaction' && ' border-b-2 border-secondary'}`}>Transaction history</p>
+                                        <p onClick={()=> setTab('inbox')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inbox' && ' border-b-2 border-secondary'}`}>Inbox</p>
+                                        <p onClick={()=> setTab('profile')} className={`text-xs px-4 py-1 cursor-default ${tab === 'profile' && ' border-b-2 border-secondary'}`}>Profile</p>
+                                    </PopoverContent>
+                                    </Popover>
+
+                                    <div className=' hidden md:flex items-center justify-center text-white'>
+                                        <p onClick={()=> setTab('dashboard')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'dashboard' && ' border-b-4 border-secondary'}`}>Dashboard</p>
+                                        <p onClick={()=> setTab('inventory')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inventory' && ' border-b-4 border-secondary'}`}> Inventory</p>
+                                        <p onClick={()=> setTab('transaction')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'transaction' && ' border-b-4 border-secondary'}`}>Transaction history</p>
+                                        <p onClick={()=> setTab('inbox')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inbox' && ' border-b-4 border-secondary'}`}>Inbox</p>
+                                        <p onClick={()=> setTab('profile')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'profile' && ' border-b-4 border-secondary'}`}>Profile</p>
 
                                     </div>
                                     {tab === 'dashboard' && (
@@ -500,9 +521,54 @@ export default function page() {
                                     )}
 
                                     {tab === 'inbox' && (
-                                        <div className=' w-full h-[500px] rounded-lg flex flex-col gap-2 items-center p-14'
+                                        <>
+                                        <p className=' text-white md:hidden block'>Messages</p>
+                                        
+                                        <Dialog>
+                                        <DialogTrigger className=' h-[460px] overflow-y-auto'>
+                                            <div className=' md:hidden w-full flex flex-col gap-2 text-white '>
+                                             { inbox.map((list, idx)=>(
+                                                        <div 
+                                                        onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
+                                                        key={idx} 
+                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${list.title === active && ' border-yellow-500'}`}
+                                                        >
+                                                            <img src="/assets/Mail ICON.png" alt="" width={30} />
+
+                                                            <div className=' flex flex-col items-start h-[70px] w-[50%] gap-1'>
+                                                                <p className=' text-xs font-semibold line-clamp-1'>{list.title}</p>
+                                                                <p className=' text-[.6em] line-clamp-2 text-zinc-400'>{list.description}</p>
+                                                                
+                                                                <p className=' text-[.5em] text-zinc-400'>From: Dev Team</p>
+                                                            </div>
+
+                                                            <div className=' flex flex-col items-end justify-end gap-2 w-[70px]'>
+                                                                <p className=' text-[.6em] text-zinc-400'>4 days ago</p>
+                                                            </div>
+
+                                                        </div>
+                                            ))}
+                                                    
+
+                                        </div>
+                                        </DialogTrigger>
+                                        <DialogContent className=' w-[90%] bg-zinc-950 border-zinc-900'>
+                                            <DialogHeader>
+                                            <DialogTitle className=' text-secondary'>{title}</DialogTitle>
+                                            <DialogDescription>
+                                               {description}
+                                            </DialogDescription>
+                                            </DialogHeader>
+                                        </DialogContent>
+                                        </Dialog>
+
+                                        </>
+                                    )}
+
+                                    {tab === 'inbox' && (
+                                        <div className=' hidden relative w-full h-[500px] rounded-lg md:flex flex-col gap-2 items-center p-14'
                                          style={{backgroundImage: "url('/assets/TAB.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                        >
+                                        ><p className=' absolute top-11 left-6 text-lg text-amber-950 font-semibold'>Messages</p>
                                             <div className=' w-full grid grid-cols-2 place-items-start gap-4 mt-12'>
 
                                                 <div className=' flex flex-col items-start gap-1 w-full h-[300px] overflow-y-auto'>
@@ -511,7 +577,7 @@ export default function page() {
                                                         <div 
                                                         onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
                                                         key={idx} 
-                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${list.title === active && ' border-yellow-500'}`}
+                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${list.title === active && ' border-yellow-600'}`}
                                                         style={{backgroundImage: "url('/assets/list TAB (off).png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
                                                             <img src="/assets/Mail ICON.png" alt="" width={30} />
@@ -551,9 +617,9 @@ export default function page() {
                                     )}
 
                                     {tab === 'profile' && (
-                                        <div className=' bg-zinc-900 w-full h-full rounded-lg flex flex-col gap-2 items-center justify-center'>
+                                        <div className=' bg-zinc-900 w-full h-[500px] overflow-y-auto rounded-lg flex flex-col gap-2 items-center justify-center p-4 py-10'>
                                            
-                                            <div className=' flex items-center gap-2 bg-zinc-950 p-4 rounded-lg w-[70%]'>
+                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-4 rounded-lg w-[90%] md:w-[70%]'>
                                                 <div className=' w-16 h-16 rounded-lg bg-secondary'>
 
                                                 </div>
@@ -563,19 +629,19 @@ export default function page() {
                                                 </div>
                                             </div>
 
-                                            <div className=' flex items-center gap-2 bg-zinc-950 p-4 rounded-lg w-[70%]'>
+                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-4 rounded-lg w-[90%] md:w-[70%]'>
                                                 <Input placeholder='Password' type='password' value={12345678} className=' bg-zinc-900 text-white border-none '/>
 
                                                 <button
                                                             style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                                            className=' flex items-center justify-center gap-2 h-20 w-[220px] font-bold text-amber-950 hover:scale-110 ease-in-out duration-200 text-xs'
+                                                            className=' flex items-center justify-center gap-2 h-20 w-[180px] font-bold text-amber-950 hover:scale-110 ease-in-out duration-200 text-xs'
                                                         
                                                             >
                                                            
                                                 Change Password</button>
                                             </div>
 
-                                            <div className=' flex items-center justify-between gap-4 bg-zinc-950 p-6 rounded-lg w-[70%]'>
+                                            <div className=' flex flex-col md:flex-row items-center justify-between gap-4 bg-zinc-950 p-6 rounded-lg w-[90%] md:w-[70%]'>
                                                 <div className=' flex flex-col gap-4'>
                                                     <div className=' flex flex-col'>
                                                         <p className=' text-xs text-zinc-400'>Email:</p>

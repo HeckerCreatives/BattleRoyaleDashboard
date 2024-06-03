@@ -51,6 +51,52 @@ const data = [
   },
 ];
 
+const data2 = [
+  {
+    name: 'Day 1',
+    uv: 4000,
+    registration: 2400,
+    amt: 2400,
+  },
+  {
+    name: 'Day 2',
+    uv: 3000,
+    registration: 1398,
+    amt: 2210,
+  },
+  {
+    name: 'Day 3',
+    uv: 2000,
+    registration: 9800,
+    amt: 2290,
+  },
+  {
+    name: 'Day 4',
+    uv: 2780,
+    registration: 3908,
+    amt: 2000,
+  },
+  {
+    name: 'Day 5',
+    uv: 1890,
+    registration: 4800,
+    amt: 2181,
+  },
+  {
+    name: 'Day 6',
+    uv: 2390,
+    registration: 3800,
+    amt: 2500,
+  },
+  {
+    name: 'Day 7',
+    uv: 3490,
+    registration: 4300,
+    amt: 2100,
+  },
+];
+
+
 export default function Dashboard() {
   const [tab, setTab] = useState('transaction')
   const [ chart, setChart] = useState('daily')
@@ -61,7 +107,7 @@ export default function Dashboard() {
         <main className=' bg-zinc-900 w-full text-white'>
             <Header/>
 
-            <div className=' flex flex-col gap-4 w-full rounded-lg p-10'> 
+            <div className=' flex flex-col gap-4 w-full rounded-lg p-4 md:p-10'> 
 
               <div className=' relative flex items-center'>
                 <p onClick={() => setTab('transaction')} className={` relative text-sm font-medium py-2 px-4 cursor-default ${ tab === 'transaction' && ' border-b-2 border-secondary'}`}>Transaction</p>
@@ -101,7 +147,7 @@ export default function Dashboard() {
 
                 </div>
 
-                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-zinc-950 p-10'>
+                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-zinc-950 p-2 md:p-10'>
                     <div className=' flex items-center'>
                         <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
                         <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>
@@ -155,7 +201,7 @@ export default function Dashboard() {
 
                 </div>
 
-                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-zinc-950 p-10'>
+                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-zinc-950 p-2 md:p-10'>
                     <div className=' flex items-center'>
                         <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
                         <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>
@@ -163,14 +209,14 @@ export default function Dashboard() {
                         <p onClick={() => setChart('yearly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'yearly' && ' border-b-2 border-secondary'}`}>Yearly</p>
                     </div>
                     <ResponsiveContainer width="100%" height={400}>
-                         <LineChart width={730} height={350} data={data}
+                         <LineChart width={730} height={350} data={data2}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Line type="monotone" dataKey="transaction" stroke="#FF7A2C" />
+                        <Line type="monotone" dataKey="registration" stroke="#FF7A2C" />
                         </LineChart>
                     </ResponsiveContainer>
                    

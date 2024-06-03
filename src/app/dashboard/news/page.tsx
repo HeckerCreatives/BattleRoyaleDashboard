@@ -254,8 +254,8 @@ export default function page() {
     const [ totalpages, setTotalPages] = useState(0)
     const [ listLoad, setListload] = useState(false)
     const [ currentpage, setCurrentpage] = useState<number>(0)
-    const [ edit, setEdit] = useState(true)
     const [ check, setCheck] = useState(false)
+    const [ edit, setEdit] = useState(true)
     const [editTitle, setEditTitle] = useState('')
     const [editdescription, setEditDescription] = useState('')
     const [id, setId] = useState('')
@@ -361,7 +361,9 @@ export default function page() {
             })
         setEditLoad(false)
             console.log(response.data)
-            if ( response.data.message) {
+            if ( response.data.message === 'success') {
+                setSelectedImage(null)
+                setSelectedFile(null)
                  toast({
                 title: 'Success',
                 description: `News updated successfully`
@@ -442,12 +444,15 @@ export default function page() {
 
     const handleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheck(e.target.checked);
-    if ( check === true){
+  };
+
+  useEffect(() => {
+    if ( check === true) {
         setEdit(false)
-    }else{
+    }else {
         setEdit(true)
     }
-  };
+  },[check])
     
   return (
     <div className=' flex w-full'>
@@ -528,7 +533,7 @@ export default function page() {
                         </DialogContent>
                         </Dialog>
 
-                        <button onClick={refresh} className=' p-2 bg-secondary rounded-md'><HiRefresh size={20}/></button>
+                        <button onClick={refresh} className=' p-2 bg-secondary text-zinc-950 rounded-md'><HiRefresh size={20}/></button>
 
                     </div>
 
@@ -577,7 +582,7 @@ export default function page() {
                                     <button className=' text-xs px-2 py-1 bg-blue-800 rounded-md'>View</button>
                                 </TableCell>
                             </DialogTrigger>
-                            <DialogContent className=' w-[40%] h-auto p-10 flex items-center justify-center bg-zinc-950 border-zinc-900'>
+                            <DialogContent className=' w-[90%] md:w-[40%] h-auto p-10 flex items-center justify-center bg-zinc-950 border-zinc-900'>
                                 <img src={`${process.env.NEXT_PUBLIC_API_URL}/${list.banner}`} alt="" width={300} height={300} />
                             </DialogContent>
                             </Dialog>
@@ -592,7 +597,7 @@ export default function page() {
                                         className=' text-xs px-2 py-1 bg-blue-800 rounded-md'>View</button>
                                     </TableCell>
                                 </DialogTrigger>
-                                <DialogContent className=' flex-col w-[40%] h-auto p-10 flex items-center justify-center bg-zinc-950 border-zinc-900 text-white'>
+                                <DialogContent className=' flex-col w-[90%] md:w-[40%] h-auto p-4 md:p-10 flex items-center justify-center bg-zinc-950 border-zinc-900 text-white'>
                                    
                                     <div className=' w-[200px] h-[200px] flex items-center justify-center rounded-lg bg-zinc-900'>
                                         { selectedImage === null && (
@@ -607,32 +612,36 @@ export default function page() {
                                     </div>
                                     <input type="file" accept="image/*" onChange={handleChange} className=' text-xs mt-4' />
                                     <Input onChange={(e) => setEditTitle(e.target.value)} disabled={edit} placeholder='Title' type='text' value={editTitle} className=' bg-zinc-900 text-white border-none '/>
-                                    <Textarea onChange={(e) => setEditDescription(e.target.value)} disabled={edit} value={editdescription} placeholder='Description' className=' bg-zinc-900 border-none'/>
+                                    <Textarea onChange={(e) => setEditDescription(e.target.value)} disabled={edit} value={editdescription} placeholder='Description' className=' bg-zinc-900 border-none h-[150px]'/>
                                     <div className=' w-full flex items-start gap-2'>
                                        <input
                                         type="checkbox"
+                                        checked={check}
                                         onChange={handleEdit}
+                                        className=' h-4 w-4 bg-none border-2'
                                         />
                                         <p className=' text-xs text-zinc-300'>Edit news</p>
                                     </div>
 
                                     <div className=' w-full flex items-center justify-end gap-4 mt-4'>
-                                        <button onClick={editNews} className=' px-4 py-2 bg-secondary rounded-lg flex items-center justify-center gap-2'>
+                                        <button onClick={editNews} className=' px-4 py-2 w-[180px] rounded-lg flex items-center justify-center gap-2 text-amber-950 text-sm font-semibold'
+                                        style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                        >
                                             { editload === true && (
                                                 <>
                                                 <div className="loader">
-                                                    <div className="bar1 bg-white"></div>
-                                                    <div className="bar2 bg-white"></div>
-                                                    <div className="bar3 bg-white"></div>
-                                                    <div className="bar4 bg-white"></div>
-                                                    <div className="bar5 bg-white"></div>
-                                                    <div className="bar6 bg-white"></div>
-                                                    <div className="bar7 bg-white"></div>
-                                                    <div className="bar8 bg-white"></div>
-                                                    <div className="bar9 bg-white"></div>
-                                                    <div className="bar10 bg-white"></div>
-                                                    <div className="bar11 bg-white"></div>
-                                                    <div className="bar12 bg-white"></div>
+                                                    <div className="bar1 bg-zinc-950"></div>
+                                                    <div className="bar2 bg-zinc-950"></div>
+                                                    <div className="bar3 bg-zinc-950"></div>
+                                                    <div className="bar4 bg-zinc-950"></div>
+                                                    <div className="bar5 bg-zinc-950"></div>
+                                                    <div className="bar6 bg-zinc-950"></div>
+                                                    <div className="bar7 bg-zinc-950"></div>
+                                                    <div className="bar8 bg-zinc-950"></div>
+                                                    <div className="bar9 bg-zinc-950"></div>
+                                                    <div className="bar10 bg-zinc-950"></div>
+                                                    <div className="bar11 bg-zinc-950"></div>
+                                                    <div className="bar12 bg-zinc-950"></div>
                                                 </div>
                                                 </>
                                             )}
@@ -646,7 +655,7 @@ export default function page() {
                                 <AlertDialogTrigger>
                                     <button onClick={() => setId(list.newsid)} className=' text-xs px-2 py-1 bg-red-600 rounded-md'>Delete</button>
                                 </AlertDialogTrigger>
-                                <AlertDialogContent className=' bg-zinc-950 border-zinc-900 text-white'>
+                                <AlertDialogContent className=' bg-zinc-950 border-zinc-900 text-white w-[90%] md:w-auto'>
                                     <AlertDialogHeader>
                                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                     <AlertDialogDescription>
@@ -655,8 +664,8 @@ export default function page() {
                                     </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                    <AlertDialogCancel className=' bg-zinc-900 border-none'>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={deleteNews} className=' bg-red-600 text-white'>Continue</AlertDialogAction>
+                                    <AlertDialogCancel className=' bg-zinc-900 border-none hover:bg-zinc-800 text-white'><p className=' text-white'>Cancel</p></AlertDialogCancel>
+                                    <AlertDialogAction onClick={deleteNews} className=' bg-red-600 hover:bg-red-700 text-white'>Continue</AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                                 </AlertDialog>
@@ -677,7 +686,7 @@ export default function page() {
                     onClick={() => setCurrentpage( currentpage - 1)}
                     disabled={loading ? true : currentpage === 0} 
                    className=' text-secondary'><MdOutlineKeyboardArrowLeft size={40}/></button>
-                    <p className=' text-lg font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p>
+                    <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p>
                     <button
                       onClick={() => setCurrentpage(currentpage + 1)}
                     disabled={ loading ? true :  currentpage + 1 === totalpages}
