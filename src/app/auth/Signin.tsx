@@ -16,7 +16,6 @@ export default function Signin() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const auth = Cookies.get('sessionToken')
-  console.log(auth)
 
   const handleLogin = async () => {
     setLoading(true)
@@ -133,11 +132,11 @@ export default function Signin() {
     
   }
 
-  useEffect(() => {
-    if ( auth === undefined || auth === null){
+    useEffect(() => {
+    if (auth === undefined){
       router.push('/')
     }
-    if( auth !== undefined || auth !== null)
+    if(auth !== undefined)
       router.push('/dashboard')
   })
 
