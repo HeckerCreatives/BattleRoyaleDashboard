@@ -77,7 +77,6 @@ export default function page() {
 
      useEffect(() => {
         if (selectedFile) {
-            console.log(selectedFile);
         }
     }, [selectedFile]);
 
@@ -122,7 +121,6 @@ export default function page() {
                         'Content-Type': 'multipart/form-data',
                         }
                 })
-                console.log(response.data)
                 if ( response.data.message === 'success'){
                     setLoading(false)
                     setTitle('')
@@ -199,7 +197,6 @@ export default function page() {
                         'Content-Type': 'application/json',
                         }
                 })
-                console.log(response.data)
                 if ( response.data.message === 'success'){
                     setLoading(false)
                     setTitle('')
@@ -277,7 +274,6 @@ export default function page() {
                 setListload(false)
                 setTotalPages(response.data.data.totalpages)
                 setNews(response.data.data.news)
-                console.log('List',response.data)
             } catch (error) {
                  if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -319,7 +315,6 @@ export default function page() {
                 setListload(false)
                 setTotalPages(response.data.data.totalpages)
                 setNews(response.data.data.news)
-                console.log('List',response.data)
             } catch (error) {
                  if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -362,7 +357,6 @@ export default function page() {
                     }
             })
         setEditLoad(false)
-            console.log(response.data)
             if ( response.data.message === 'success') {
                 setSelectedImage(null)
                 setSelectedFile(null)
@@ -405,7 +399,6 @@ export default function page() {
                     'Content-Type': 'application/json',
                     }
             })
-            console.log(response.data)
              if ( response.data.message) {
                  toast({
                 title: 'Success',

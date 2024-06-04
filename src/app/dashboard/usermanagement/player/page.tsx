@@ -94,9 +94,7 @@ export default function page() {
   const [ inbox, setInbox] = useState<Inbox[]>([])
   const [active, setActive] = useState('')
 
-  console.log('Title:', active)
 
-  console.log(id,status)
 
     useEffect(() => {
         setLoading(true)
@@ -111,7 +109,6 @@ export default function page() {
                 setLoading(false)
                 setPlayer(response.data.data.userlist)
                 setTotalpages(response.data.data.totalPages)
-                console.log(response.data)
             } catch (error) {
                  if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -154,7 +151,6 @@ export default function page() {
                 setSearch('')
                 setPlayer(response.data.data.userlist)
                 setTotalpages(response.data.data.totalPages)
-                console.log(response.data)
             } catch (error) {
                  if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -197,7 +193,6 @@ export default function page() {
                 setLoading(false)
                 setPlayer(response.data.data.userlist)
                 setTotalpages(response.data.data.totalPages)
-                console.log(response.data)
             } catch (error) {
                  if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -240,7 +235,6 @@ export default function page() {
                         'Content-Type': 'application/json',
                         }
             })
-            console.log(response.data)
 
             if ( response.data.message == 'success'){
                 setBanload(false)
@@ -293,7 +287,6 @@ export default function page() {
                         'Content-Type': 'application/json',
                         }
             })
-            console.log(response.data)
 
             if ( response.data.message == 'success'){
                 setBanload(false)
@@ -338,7 +331,6 @@ export default function page() {
                         }
                 })
                 setInbox(response.data.data.inbox)
-                console.log('Inbox',response.data)
             } catch (error) {
                  if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -580,8 +572,8 @@ export default function page() {
                                     {tab === 'inbox' && (
                                         <div className=' hidden relative w-full h-[500px] rounded-lg md:flex flex-col gap-2 items-center p-14'
                                          style={{backgroundImage: "url('/assets/TAB.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                        ><p className=' absolute top-11 left-6 text-lg text-amber-950 font-semibold'>Messages</p>
-                                            <div className=' w-full grid grid-cols-2 place-items-start gap-4 mt-12'>
+                                        ><p className=' absolute top-4 left-6 text-lg text-amber-950 font-semibold'>Messages</p>
+                                            <div className=' w-full grid grid-cols-2 place-items-start gap-4 mt-8'>
 
                                                 <div className=' flex flex-col items-start gap-1 w-full h-[300px] overflow-y-auto'>
 

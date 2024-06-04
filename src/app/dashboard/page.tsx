@@ -9,43 +9,43 @@ import { IoMdDownload } from "react-icons/io";
 
 const data = [
   {
-    name: 'Day 1',
+    name: 'Data 1',
     uv: 4000,
     transaction: 2400,
     amt: 2400,
   },
   {
-    name: 'Day 2',
+    name: 'Data 2',
     uv: 3000,
     transaction: 1398,
     amt: 2210,
   },
   {
-    name: 'Day 3',
+    name: 'Data 3',
     uv: 2000,
     transaction: 9800,
     amt: 2290,
   },
   {
-    name: 'Day 4',
+    name: 'Data 4',
     uv: 2780,
     transaction: 3908,
     amt: 2000,
   },
   {
-    name: 'Day 5',
+    name: 'Data 5',
     uv: 1890,
     transaction: 4800,
     amt: 2181,
   },
   {
-    name: 'Day 6',
+    name: 'Data 6',
     uv: 2390,
     transaction: 3800,
     amt: 2500,
   },
   {
-    name: 'Day 7',
+    name: 'Data 7',
     uv: 3490,
     transaction: 4300,
     amt: 2100,
@@ -54,43 +54,43 @@ const data = [
 
 const data2 = [
   {
-    name: 'Day 1',
+    name: 'Data 1',
     uv: 4000,
     registration: 2400,
     amt: 2400,
   },
   {
-    name: 'Day 2',
+    name: 'Data 2',
     uv: 3000,
     registration: 1398,
     amt: 2210,
   },
   {
-    name: 'Day 3',
+    name: 'Data 3',
     uv: 2000,
     registration: 9800,
     amt: 2290,
   },
   {
-    name: 'Day 4',
+    name: 'Data 4',
     uv: 2780,
     registration: 3908,
     amt: 2000,
   },
   {
-    name: 'Day 5',
+    name: 'Data 5',
     uv: 1890,
     registration: 4800,
     amt: 2181,
   },
   {
-    name: 'Day 6',
+    name: 'Data 6',
     uv: 2390,
     registration: 3800,
     amt: 2500,
   },
   {
-    name: 'Day 7',
+    name: 'Data 7',
     uv: 3490,
     registration: 4300,
     amt: 2100,

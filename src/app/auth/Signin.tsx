@@ -44,7 +44,6 @@ export default function Signin() {
             'Content-Type': 'application/json',
           }
         })
-        console.log(response.data)
         if ( response.data.message === 'success' && response.data.data.auth === 'superadmin') {
           router.push('/dashboard')
         setLoading(false)
