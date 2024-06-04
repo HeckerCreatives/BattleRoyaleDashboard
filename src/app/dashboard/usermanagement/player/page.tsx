@@ -489,12 +489,12 @@ export default function page() {
                                 >
                                     <Popover>
                                     <PopoverTrigger className=' block md:hidden text-white bg-zinc-900 p-2 rounded-md text-xs'>Menu</PopoverTrigger>
-                                    <PopoverContent className=' bg-zinc-950 border-zinc-900 text-white w-[150px]'>
-                                        <p onClick={()=> setTab('dashboard')} className={`text-xs px-4 py-1 cursor-default ${tab === 'dashboard' && ' border-b-2 border-secondary'}`}>Dashboard</p>
-                                        <p onClick={()=> setTab('inventory')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inventory' && ' border-b-2 border-secondary'}`}> Inventory</p>
-                                        <p onClick={()=> setTab('transaction')} className={`text-xs px-4 py-1 cursor-default ${tab === 'transaction' && ' border-b-2 border-secondary'}`}>Transaction history</p>
-                                        <p onClick={()=> setTab('inbox')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inbox' && ' border-b-2 border-secondary'}`}>Inbox</p>
-                                        <p onClick={()=> setTab('profile')} className={`text-xs px-4 py-1 cursor-default ${tab === 'profile' && ' border-b-2 border-secondary'}`}>Profile</p>
+                                    <PopoverContent className=' ml-10 bg-zinc-950 border-zinc-900 text-white w-[180px]'>
+                                        <p onClick={()=> setTab('dashboard')} className={`text-xs px-4 py-1 cursor-default ${tab === 'dashboard' && ' bg-secondary rounded-md'}`}>Dashboard</p>
+                                        <p onClick={()=> setTab('inventory')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inventory' && ' bg-secondary rounded-md'}`}> Inventory</p>
+                                        <p onClick={()=> setTab('transaction')} className={`text-xs px-4 py-1 cursor-default ${tab === 'transaction' && ' bg-secondary rounded-md'}`}>Transaction history</p>
+                                        <p onClick={()=> setTab('inbox')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inbox' && ' bg-secondary rounded-md'}`}>Inbox</p>
+                                        <p onClick={()=> setTab('profile')} className={`text-xs px-4 py-1 cursor-default ${tab === 'profile' && ' bg-secondary rounded-md'}`}>Profile</p>
                                     </PopoverContent>
                                     </Popover>
 
@@ -621,51 +621,51 @@ export default function page() {
                                     )}
 
                                     {tab === 'profile' && (
-                                        <div className=' bg-zinc-900 w-full h-[500px] overflow-y-auto rounded-lg flex flex-col gap-2 items-center justify-center p-4 py-10'>
+                                        <div className=' bg-zinc-900 w-full h-[600px] overflow-y-auto rounded-lg flex flex-col gap-2 items-center justify-center p-2 '>
                                            
-                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-4 rounded-lg w-[90%] md:w-[70%]'>
+                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
                                                 <div className=' w-16 h-16 rounded-lg bg-secondary'>
 
                                                 </div>
-                                                <div className=' flex flex-col gap-1'>
+                                                <div className=' flex flex-col items-center md:items-center gap-1'>
                                                     <p className=' text-sm font-semibold text-zinc-100'>{list.username}</p>
                                                     <p className=' text-xs text-zinc-300'>{list.id}</p>
                                                 </div>
                                             </div>
 
-                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-4 rounded-lg w-[90%] md:w-[70%]'>
+                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
                                                 <Input placeholder='Password' type='password' value={12345678} className=' bg-zinc-900 text-white border-none '/>
 
                                                 <button
                                                             style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                                            className=' flex items-center justify-center gap-2 h-20 w-[180px] font-bold text-amber-950 hover:scale-110 ease-in-out duration-200 text-xs'
+                                                            className=' flex items-center justify-center gap-2 h-12 w-[180px] font-bold text-amber-950 hover:scale-110 ease-in-out duration-200 text-xs'
                                                         
                                                             >
                                                            
                                                 Change Password</button>
                                             </div>
 
-                                            <div className=' flex flex-col md:flex-row items-center justify-between gap-4 bg-zinc-950 p-6 rounded-lg w-[90%] md:w-[70%]'>
-                                                <div className=' flex flex-col gap-4'>
-                                                    <div className=' flex flex-col'>
+                                            <div className=' flex flex-col justify-start md:flex-row items-center md:justify-between gap-4 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
+                                                <div className=' flex flex-col items-start gap-4 w-full'>
+                                                    <div className=' flex flex-col w-full'>
                                                         <p className=' text-xs text-zinc-400'>Email:</p>
                                                         <p className=' text-sm text-zinc-100'>{list.email}</p>
                                                     </div>
-                                                    <div className=' flex flex-col'>
+                                                    <div className=' flex flex-col w-full'>
                                                         <p className=' text-xs text-zinc-400'>Country:</p>
                                                         <p className=' text-sm text-zinc-100'>{list.country}</p>
                                                     </div>
 
                                                 </div>
 
-                                                <div className=' flex flex-col gap-4'>
-                                                    <div className=' flex flex-col'>
+                                                <div className=' flex flex-col items-start gap-4 w-full'>
+                                                    <div className=' flex flex-col w-full'>
                                                         <p className=' text-xs text-zinc-400'>Status:</p>
                                                         <p className={`text-sm ${list.status === 'active' && ' text-green-500'} ${list.status === 'inactive' && ' text-red-500'}`}>{list.status}</p>
                                                     </div>
-                                                    <div className=' flex flex-col'>
+                                                    <div className=' flex flex-col w-full'>
                                                         <p className=' text-xs text-zinc-400'>Account Creation:</p>
-                                                        <p className=' text-sm text-zinc-100'>{list.createdAt}</p>
+                                                        <p className=' text-sm text-zinc-100'>{formatISODate(list.createdAt)}</p>
                                                     </div>
 
                                                 </div>

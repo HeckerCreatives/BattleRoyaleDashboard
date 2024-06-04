@@ -46,8 +46,6 @@ export default function Header() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-
-
    const handleLogout = () => {
     Cookies.remove('sessionToken'); 
     router.push('/');
@@ -187,39 +185,39 @@ export default function Header() {
       </Sheet>
 
         { pathname === '/dashboard/' && (
-          <a href='/dashboard' className=' text-sm text-white'>Dashboard</a>
+          <a href='/dashboard' className=' text-xs md:text-sm text-white'>Dashboard</a>
         )}
 
         { pathname === '/dashboard/usermanagement/player/' && (
-          <a href='/dashboard/usermanagement/player' className=' text-sm text-white'>User Management / Player</a>
+          <a href='/dashboard/usermanagement/player' className=' text-xs md:text-sm text-white'>User Management / Player</a>
         )}
 
           { pathname === '/dashboard/usermanagement/admins/' && (
-          <a href='/dashboard/usermanagement/admins' className=' text-sm text-white'>User Management / Admin</a>
+          <a href='/dashboard/usermanagement/admins' className=' text-xs md:text-sm text-white'>User Management / Admin</a>
         )}
 
         { pathname === '/dashboard/transaction/' && (
-          <a href='/dashboard/transaction' className=' text-sm text-white'>Transaction</a>
+          <a href='/dashboard/transaction' className=' text-xs md:text-sm text-white'>Transaction</a>
         )}
 
         { pathname === '/dashboard/rewards/' && (
-          <a href='/dashboard/rewards' className=' text-sm text-white'>Rewards</a>
+          <a href='/dashboard/rewards' className=' text-xs md:text-sm text-white'>Rewards</a>
         )}
 
         { pathname === '/dashboard/news/' && (
-          <a href='/dashboard/news' className=' text-sm text-white'>News</a>
+          <a href='/dashboard/news' className=' text-xs md:text-sm text-white'>News</a>
         )}
 
          { pathname === '/dashboard/maintenance/' && (
-          <a href='/dashboard/maintenance' className=' text-sm text-white'>Maintenance</a>
+          <a href='/dashboard/maintenance' className=' text-xs md:text-sm text-white'>Maintenance</a>
         )}
 
          { pathname === '/dashboard/message/' && (
-          <a href='/dashboard/message' className=' text-sm text-white'>Message</a>
+          <a href='/dashboard/message' className=' text-xs md:text-sm text-white'>Message</a>
         )}
 
          { pathname === '/dashboard/settings/' && (
-          <a href='/dashboard/seetings' className=' text-sm text-white'>Account Settings</a>
+          <a href='/dashboard/seetings' className=' text-xs md:text-sm text-white'>Account Settings</a>
         )}
 
 
@@ -229,13 +227,11 @@ export default function Header() {
           <PopoverTrigger>
              <div className='flex items-start gap-2'>
               <div className=' flex flex-col items-end'>
-                <p className=' text-xs font-semibold'>Admin Name</p>
-                <p className=' text-xs text-zinc-500'>Admin</p>
+                <p className=' text-xs font-semibold'>Name</p>
+                <p className=' text-xs text-zinc-500'>Super Admin</p>
 
               </div>
-              <div className=' h-10 w-10 bg-zinc-600 rounded-md'>
-
-              </div>
+               <img src="/logo 06 B.png" alt="" width={60} height={60} className=' w-[50px] md:w-[60px]' />
 
             </div>
           </PopoverTrigger>

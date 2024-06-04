@@ -1,11 +1,12 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from "@/components/ui/input"
 import Link from 'next/link'
 import { useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
 import CustomBg from '@/components/CustomBg'
+import Cookies from 'js-cookie'
 
 
 export default function Signin() {
@@ -14,6 +15,8 @@ export default function Signin() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const auth = Cookies.get('sessionToken')
+  console.log(auth)
 
   const handleLogin = async () => {
     setLoading(true)
@@ -129,6 +132,14 @@ export default function Signin() {
     }
     
   }
+
+  useEffect(() => {
+    if ( auth === undefined || auth === null){
+      router.push('/')
+    }
+    if( auth !== undefined || auth !== null)
+      router.push('/dashboard')
+  })
 
   return (
     <div className=' relative bg-[#141414] w-screen h-screen flex items-center justify-center '>

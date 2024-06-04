@@ -37,7 +37,7 @@ import {
 
 export default function page() {
   return (
-    <div className=' flex w-full h-auto md:h-screen'>
+    <div className=' flex w-full h-screen md:h-screen'>
         <Sidebar/>
         <main className=' bg-zinc-900 w-full text-white'>
            <Header/>
