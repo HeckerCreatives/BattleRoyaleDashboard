@@ -46,7 +46,7 @@ export default function Signin() {
             'Content-Type': 'application/json',
           }
         })
-        if ( response.data.message === 'success' && response.data.data.auth === 'superadmin') {
+        if ( response.data.message === 'success') {
           router.push('/dashboard')
         setLoading(false)
         setUsername('')
