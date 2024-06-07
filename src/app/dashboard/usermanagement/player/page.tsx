@@ -93,9 +93,50 @@ export default function page() {
   const [userid, setUserid] = useState('')
   const [ inbox, setInbox] = useState<Inbox[]>([])
   const [active, setActive] = useState('')
+  const [total, setTotal] = useState(0)
+  const [today, setToday] = useState(0)
 
+    useEffect(() => {
+    const getCountregister = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/getregistrationcount`,{
+           withCredentials: true,
+              headers: {
+              'Content-Type': 'application/json',
+                }
+        })
+        setTotal(response.data.data.totalusers)
+        setToday(response.data.data.usersToday)
+        console.log(response.data)
+      } catch (error) {
+         if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
 
-
+                      if (axiosError.response && axiosError.response.status === 400) {
+                        const errorMessage = axiosError.response.data?.message;
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+          } 
+        
+      }
+    }
+    getCountregister()
+  },[])
+  
     useEffect(() => {
         setLoading(true)
         const playerList = async () => {
@@ -384,7 +425,7 @@ export default function page() {
                         <BsPersonPlusFill size={30} className=' text-secondary'/>
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>12,967</p>
+                            <p className=' text-xl font-semibold'>{total}</p>
                             <p className=' text-xs text-zinc-200'>Total Joinings</p>
 
                         </div>
@@ -399,7 +440,7 @@ export default function page() {
                         </lord-icon> */}
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>1,478</p>
+                            <p className=' text-xl font-semibold'>{today}</p>
                             <p className=' text-xs text-zinc-200'>Todays Joinings</p>
 
                         </div>

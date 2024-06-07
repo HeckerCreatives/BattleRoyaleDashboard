@@ -1,53 +1,56 @@
 "use client"
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsPersonPlusFill } from 'react-icons/bs'
 import { FaUsers } from 'react-icons/fa'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { IoMdDownload } from "react-icons/io";
+import { useToast } from "@/components/ui/use-toast"
+import axios, {AxiosError} from 'axios'
+import { useRouter } from 'next/navigation'
 
 const data = [
   {
     name: 'Data 1',
     uv: 4000,
-    transaction: 2400,
+    transaction:0,
     amt: 2400,
   },
   {
     name: 'Data 2',
     uv: 3000,
-    transaction: 1398,
+    transaction:0,
     amt: 2210,
   },
   {
     name: 'Data 3',
     uv: 2000,
-    transaction: 9800,
+    transaction:0,
     amt: 2290,
   },
   {
     name: 'Data 4',
     uv: 2780,
-    transaction: 3908,
+    transaction:0,
     amt: 2000,
   },
   {
     name: 'Data 5',
     uv: 1890,
-    transaction: 4800,
+    transaction:0,
     amt: 2181,
   },
   {
     name: 'Data 6',
     uv: 2390,
-    transaction: 3800,
+    transaction:0,
     amt: 2500,
   },
   {
     name: 'Data 7',
     uv: 3490,
-    transaction: 4300,
+    transaction:0,
     amt: 2100,
   },
 ];
@@ -99,8 +102,106 @@ const data2 = [
 
 
 export default function Dashboard() {
-  const [tab, setTab] = useState('transaction')
+  const [tab, setTab] = useState('registration')
   const [ chart, setChart] = useState('daily')
+  const { toast } = useToast()
+  const router = useRouter()
+  const [total, setTotal] = useState(0)
+  const [today, setToday] = useState(0)
+  const [chartData, setChartData] = useState('daily')
+  const [timeData, setTimeData] = useState<{ time: string, value: number }[]>([]);
+
+  useEffect(() => {
+    const getCountregister = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/getregistrationcount`,{
+           withCredentials: true,
+              headers: {
+              'Content-Type': 'application/json',
+                }
+        })
+        setTotal(response.data.data.totalusers)
+        setToday(response.data.data.usersToday)
+        console.log(response.data)
+      } catch (error) {
+         if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+
+                      if (axiosError.response && axiosError.response.status === 400) {
+                        const errorMessage = axiosError.response.data?.message;
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+          } 
+        
+      }
+    }
+    getCountregister()
+  },[])
+
+   useEffect(() => {
+    const getCountregister = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/getuserregistrationchart`,{
+          params:{
+            charttype: chart
+          },
+           withCredentials: true,
+              headers: {
+              'Content-Type': 'application/json',
+                }
+        })
+       const data = response.data.data;
+
+        // Transform the data
+        const transformedData = Object.entries(data).map(([time, value]) => ({
+          time,
+          value: Number(value)
+        }));
+        console.log('Transformed data:', transformedData); // Log transformed data
+        setTimeData(transformedData);
+        console.log(response.data)
+      } catch (error) {
+         if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+
+                      if (axiosError.response && axiosError.response.status === 400) {
+                        const errorMessage = axiosError.response.data?.message;
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+          } 
+        
+      }
+    }
+    getCountregister()
+  },[chart])
 
   return (
      <div className=' flex w-full h-full'>
@@ -120,16 +221,17 @@ export default function Dashboard() {
 
                     <div className=' hidden md:flex flex-col items-center justify-center gap-2 h-full w-[180px] bg-zinc-950 rounded-md'>
                       <IoMdDownload size={30} className=' text-secondary'/>
-                      <h2 className=' text-lg font-bold'>1,286</h2>
+                      <h2 className=' text-lg font-bold'>0</h2>
                       <p className=' text-xs text-zinc-300'>Total Downloads</p>
                     </div>
 
               </div>     
 
               <div className=' relative flex items-center'>
+                 <p onClick={() => setTab('registration')} className={` relative text-sm font-medium py-2 px-4 cursor-default ${ tab === 'registration' && ' border-b-2 border-secondary'}`}>Registration</p>
                 <p onClick={() => setTab('transaction')} className={` relative text-sm font-medium py-2 px-4 cursor-default ${ tab === 'transaction' && ' border-b-2 border-secondary'}`}>Transaction</p>
 
-                <p onClick={() => setTab('registration')} className={` relative text-sm font-medium py-2 px-4 cursor-default ${ tab === 'registration' && ' border-b-2 border-secondary'}`}>Registration</p>
+               
 
               </div>
 
@@ -141,7 +243,7 @@ export default function Dashboard() {
                         <BsPersonPlusFill size={30} className=' text-secondary'/>
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>12,967</p>
+                            <p className=' text-xl font-semibold'>0</p>
                             <p className=' text-xs text-zinc-200'>Total Transactions</p>
 
                         </div>
@@ -156,7 +258,7 @@ export default function Dashboard() {
                         </lord-icon> */}
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>1,478</p>
+                            <p className=' text-xl font-semibold'>0</p>
                             <p className=' text-xs text-zinc-200'>Todays Transactions</p>
 
                         </div>
@@ -195,7 +297,7 @@ export default function Dashboard() {
                         <BsPersonPlusFill size={30} className=' text-secondary'/>
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>12,967</p>
+                            <p className=' text-xl font-semibold'>{total}</p>
                             <p className=' text-xs text-zinc-200'>Total Registrations</p>
 
                         </div>
@@ -210,7 +312,7 @@ export default function Dashboard() {
                         </lord-icon> */}
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>1,478</p>
+                            <p className=' text-xl font-semibold'>{today}</p>
                             <p className=' text-xs text-zinc-200'>Todays Registrations</p>
 
                         </div>
@@ -226,22 +328,21 @@ export default function Dashboard() {
                         <p onClick={() => setChart('yearly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'yearly' && ' border-b-2 border-secondary'}`}>Yearly</p>
                     </div>
                     <ResponsiveContainer width="100%" height={400}>
-                         <LineChart width={730} height={350} data={data2}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                         <LineChart width={730} height={350} data={timeData}
+                        margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" className=' text-xs'/>
+                        <XAxis dataKey="time" className=' text-xs'/>
                         <YAxis className=' text-xs'/>
                         <Tooltip/>
                         <Legend/>
-                        <Line type="monotone" dataKey="registration" stroke="#FF7A2C" strokeWidth={2} />
+                        <Line type="monotone" dataKey="value" stroke="#FF7A2C" strokeWidth={2} />
                         </LineChart>
                     </ResponsiveContainer>
                    
                 </div>
                 </>
               )}
-              
-              
+            
 
             </div>
              

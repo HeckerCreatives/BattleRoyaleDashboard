@@ -12,14 +12,6 @@ import {
 } from "@/components/ui/table"
 import Header from '@/components/Header'
 import { Input } from "@/components/ui/input"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
@@ -35,6 +27,101 @@ export default function page() {
     const { toast } = useToast()
     const router = useRouter()
     const [tab, setTab] = useState('changepassword')
+    const [loading, setLoading] = useState(false)
+
+    const [oldpw, setOldpw] = useState('')
+    const [newpw, setnewpw] = useState('')
+    const [confirmpw, setconfirmpw] = useState('')
+
+    const changepassword = async () => {
+      setLoading(true)
+      if(oldpw === ''){
+          setLoading(false)
+
+         toast({
+            variant:'destructive',
+            title: `Please enter your old password`,
+        
+            })
+      }
+
+       if(newpw === ''){
+          setLoading(false)
+
+         toast({
+            variant:'destructive',
+            title: `Please enter a new password`,
+        
+            })
+      }
+
+      if(newpw !== confirmpw){
+          setLoading(false)
+
+         toast({
+            variant:'destructive',
+            title: `Password does not match`,
+        
+            })
+      }
+
+      if( oldpw !== '' && newpw === confirmpw){
+         try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/staffusers/changepassword`,{
+          oldpw: oldpw,
+          newpw: newpw
+        },{
+          withCredentials: true,
+              headers: {
+              'Content-Type': 'application/json',
+                }
+        })
+        console.log(response.data)
+        if(response.data.message === 'success'){
+          setLoading(false)
+          toast({
+            title: `${response.data.message}`,
+            description: `${response.data.data}`
+            })
+        }
+
+        if(response.data.message === 'failed'){
+          setLoading(false)
+          toast({
+            variant:'destructive',
+            title: `${response.data.message}`,
+            description: `${response.data.data}`
+            })
+        }
+      } catch (error) {
+          setLoading(false)
+           if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+
+                      if (axiosError.response && axiosError.response.status === 400) {
+                        const errorMessage = axiosError.response.data?.message;
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+          } 
+        
+      }
+      }
+     
+    }
     
   return (
     <div className=' flex w-full h-screen'>
@@ -64,12 +151,32 @@ export default function page() {
                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-auto rounded-lg bg-zinc-950 p-4'>
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
-                           <Input placeholder='New password' type='password' className=' bg-zinc-900 border-none w-full'/>
-                           <Input placeholder='Confirm new password' type='password' className=' bg-zinc-900 border-none'/>
+                           <Input placeholder='Old password' value={oldpw} onChange={(e) => setOldpw(e.target.value)} type='password' className=' bg-zinc-900 border-none w-full'/>
+                           <Input placeholder='New password' value={newpw} onChange={(e) => setnewpw(e.target.value)} type='password' className=' bg-zinc-900 border-none w-full'/>
+                           <Input placeholder='Confirm new password' value={confirmpw} onChange={(e) => setconfirmpw(e.target.value)} type='password' className=' bg-zinc-900 border-none'/>
                             <button
+                            onClick={changepassword}
+                            disabled={loading}
                             style={{backgroundImage: "url('/button.png')", backgroundSize: "contain",backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                            className=' h-10 w-[150px] mt-4 text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
-                            >Change Password</button>
+                            className=' h-16 w-[200px] mt-4 text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
+                            >
+                              {loading === true && (
+                                <div className="loader">
+                                  <div className="bar1 bg-zinc-950"></div>
+                                  <div className="bar2 bg-zinc-950"></div>
+                                  <div className="bar3 bg-zinc-950"></div>
+                                  <div className="bar4 bg-zinc-950"></div>
+                                  <div className="bar5 bg-zinc-950"></div>
+                                  <div className="bar6 bg-zinc-950"></div>
+                                  <div className="bar7 bg-zinc-950"></div>
+                                  <div className="bar8 bg-zinc-950"></div>
+                                  <div className="bar9 bg-zinc-950"></div>
+                                  <div className="bar10 bg-zinc-950"></div>
+                                  <div className="bar11 bg-zinc-950"></div>
+                                  <div className="bar12 bg-zinc-950"></div>
+                              </div>
+                              )}
+                              Change Password</button>
                         </div>
                     </div>
 
