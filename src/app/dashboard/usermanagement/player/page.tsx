@@ -56,6 +56,7 @@ import { ImBullhorn } from "react-icons/im";
 import { IoMdEye } from "react-icons/io";
 import { IoIosWarning } from "react-icons/io";
 import { TbSquareRoundedCheckFilled } from "react-icons/tb";
+import { FaCircleCheck } from "react-icons/fa6";
 
 
 interface PlayerList{
@@ -95,6 +96,7 @@ export default function page() {
   const [active, setActive] = useState('')
   const [total, setTotal] = useState(0)
   const [today, setToday] = useState(0)
+  const [index, setIndex] = useState(0)
 
     useEffect(() => {
     const getCountregister = async () => {
@@ -169,6 +171,10 @@ export default function page() {
         playerList()
 
     },[currentpage, filter])
+
+    useEffect(() => {
+        setCurrentpage(0)
+    },[filter])
 
     const searchByusername = async () => {
         if ( search === ''){
@@ -314,6 +320,53 @@ export default function page() {
 
     }
 
+   const reload = async () => {
+            setLoading(true)
+              try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/getplayerlist?page=${currentpage}&limit=10&search=&filter=`,{
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        }
+                })
+              
+                setLoading(false)
+                setPlayer(response.data.data.userlist)
+            } catch (error) {
+                 if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                         title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+
+                    if (axiosError.response && axiosError.response.status === 400) {
+                        localStorage.setItem('auth', 'false');
+                        toast({
+                        variant: "destructive",
+                         title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+                } 
+                
+        }
+        
+    }
+
+    const handleBan = () => {
+        ban()
+        setTimeout(() => {
+        reload();
+    }, 1000);
+    }
+
     const unban =  async () => {
         if ( status !== ''  && id !== ''){
             setBanload(true)
@@ -358,14 +411,25 @@ export default function page() {
 
     }
 
+    const handleUnban = () => {
+        unban()
+        setTimeout(() => {
+        reload();
+        }, 1000);
+    }
+
     const [ title, setTitle] = useState('')
     const [ description, setDescription] = useState('')
 
     {/*Player Inbox*/}
-    useEffect(() => {
-        const playerInbox = async () => {
+   
+    const playerInbox = async () => {
+
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/inbox/viewplayermessage?userid=662879c170e59d41e4f38eac`,{
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/inbox/viewplayermessage`,{
+                    params:{
+                        userid: userid
+                    },
                     withCredentials: true,
                     headers: {
                         'Content-Type': 'application/json',
@@ -388,9 +452,14 @@ export default function page() {
                 }
                 
             }
-        }
-        playerInbox()
-     },[userid])
+    }
+
+    const handleInbox = () => {
+    setTimeout(() => {
+        playerInbox();
+        }, 2000);
+    }
+
 
 
     const formatISODate = (isoString: any) => {
@@ -399,6 +468,68 @@ export default function page() {
     const formattedTime = date.toLocaleTimeString(); // Format time as per locale
     return `${formattedDate} ${formattedTime}`;
     };
+
+    const [passwordold, setPasswordold] = useState('')
+    const [passwordnew, setPasswordnew] = useState('password')
+    const [passwordload, setPasswordload] = useState(false)
+
+    {/*Change Password*/}
+    const changePassword = async () => {
+        setPasswordload(true)
+        if (passwordnew === ''){
+            setPasswordload(false)
+            toast({
+                variant:"destructive",
+                title: "Failed",
+                  description: "Enter password password",
+            })
+        } else{
+            try {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/changeplayerpasswordadmin`,{
+                     userid: userid,
+                    newpw: passwordnew
+                },{
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                if (response.data.message === 'success'){
+                    setPasswordload(false)
+                    setPasswordold('')
+                    toast({
+                    title: "Success",
+                    description: "Password changed successfully",
+                })
+                }
+
+                 if (response.data.message === 'failed'){
+                    setPasswordload(false)
+                    setPasswordold('')
+                    toast({
+                    title: "Success",
+                    description: "Theres a problem changing the password",
+                })
+                }
+                console.log(response.data)
+            } catch (error) {
+            setPasswordload(false)
+                if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        localStorage.setItem('auth', 'false');
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                        title: "Unauthorized",
+                        })
+                
+                    }
+                } 
+                
+            }
+        }
+    }
 
   return (
     <div className=' flex w-full h-screen overflow-x-hidden'>
@@ -468,7 +599,7 @@ export default function page() {
                             <SelectValue placeholder="Filter" />
                         </SelectTrigger>
                         <SelectContent className=' bg-zinc-950 border-none'>
-                            <SelectItem value='active' className=' hover:bg-none text-white'>Unban</SelectItem>
+                            <SelectItem value='active' className=' hover:bg-none text-white'>Active</SelectItem>
                             <SelectItem value='inactive' className=' hover:bg-none text-white'>Banned</SelectItem>
                         </SelectContent>
                         </Select>
@@ -519,11 +650,11 @@ export default function page() {
                             <TableCell>{list.username}</TableCell>
                             <TableCell className={`${list.status === 'active' && ' text-green-500'} ${list.status === 'inactive' && ' text-red-600'}`}>{list.status}</TableCell>
                             <TableCell >{formatISODate(list.createdAt)}</TableCell>
-                            <TableCell className=' flex items-center justify-center gap-2'>
+                            <TableCell className=' flex items-center justify-start gap-2'>
  
-                                <Dialog>
-                                <DialogTrigger onClick={() => setUserid(list.id)}>
-                                    <button className=' bg-blue-600 px-2 py-1 rounded-md text-xs flex items-center gap-1'><IoMdEye size={15}/>View</button>
+                                <Dialog onOpenChange={() => setTab('dashboard')}>
+                                <DialogTrigger onClick={() => {setUserid(list.id)}}>
+                                    <button className=' bg-blue-100 px-2 py-1 rounded-sm text-xs flex items-center gap-1 text-blue-950'><IoMdEye size={15}/>View</button>
                                 </DialogTrigger>
                                 <DialogContent className=' flex flex-col items-start bg-zinc-950 border-zinc-900 w-[90%] h-[600px] md:w-[800px] '
                                 style={{backgroundImage: "url('/assets/header BG.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
@@ -534,7 +665,7 @@ export default function page() {
                                         <p onClick={()=> setTab('dashboard')} className={`text-xs px-4 py-1 cursor-default ${tab === 'dashboard' && ' bg-secondary rounded-md'}`}>Dashboard</p>
                                         <p onClick={()=> setTab('inventory')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inventory' && ' bg-secondary rounded-md'}`}> Inventory</p>
                                         <p onClick={()=> setTab('transaction')} className={`text-xs px-4 py-1 cursor-default ${tab === 'transaction' && ' bg-secondary rounded-md'}`}>Transaction history</p>
-                                        <p onClick={()=> setTab('inbox')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inbox' && ' bg-secondary rounded-md'}`}>Inbox</p>
+                                        <p onClick={()=> {setTab('inbox'); playerInbox()}} className={`text-xs px-4 py-1 cursor-default ${tab === 'inbox' && ' bg-secondary rounded-md'}`}>Inbox</p>
                                         <p onClick={()=> setTab('profile')} className={`text-xs px-4 py-1 cursor-default ${tab === 'profile' && ' bg-secondary rounded-md'}`}>Profile</p>
                                     </PopoverContent>
                                     </Popover>
@@ -543,7 +674,7 @@ export default function page() {
                                         <p onClick={()=> setTab('dashboard')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'dashboard' && ' border-b-4 border-secondary'}`}>Dashboard</p>
                                         <p onClick={()=> setTab('inventory')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inventory' && ' border-b-4 border-secondary'}`}> Inventory</p>
                                         <p onClick={()=> setTab('transaction')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'transaction' && ' border-b-4 border-secondary'}`}>Transaction history</p>
-                                        <p onClick={()=> setTab('inbox')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inbox' && ' border-b-4 border-secondary'}`}>Inbox</p>
+                                        <p onClick={()=> {setTab('inbox'); playerInbox()}} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inbox' && ' border-b-4 border-secondary'}`}>Inbox</p>
                                         <p onClick={()=> setTab('profile')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'profile' && ' border-b-4 border-secondary'}`}>Profile</p>
 
                                     </div>
@@ -576,7 +707,7 @@ export default function page() {
                                                         <div 
                                                         onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
                                                         key={idx} 
-                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${list.title === active && ' border-yellow-500'}`}
+                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] text-white p-3 border-white  ${active === list.title && ' border-amber-400'}`}
                                                         >
                                                             <ImBullhorn size={30}/>
 
@@ -622,7 +753,7 @@ export default function page() {
                                                         <div 
                                                         onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
                                                         key={idx} 
-                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${list.title === active && ' border-yellow-600'}`}
+                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${active === list.title && ' border-amber-400'}`}
                                                         style={{backgroundImage: "url('/assets/list TAB (off).png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
                                                             <ImBullhorn size={30}/>
@@ -646,7 +777,7 @@ export default function page() {
                                                  <div className=' w-full h-[270px] text-white p-2'
                                                   style={{backgroundImage: "url('/assets/open TAB.png')", backgroundSize: "cover", backgroundPosition: "top", backgroundRepeat:"no-repeat"}}
                                                  >
-                                                    <p className=' text-sm font-semibold'>{title}</p>
+                                                    <p className=' text-sm font-semibold mt-4'>{title}</p>
                                                     <div className=' w-full overflow-y-auto h-[180px] mt-6'>
                                                         <p className=' text-xs text-zinc-200 '>{description}</p>
 
@@ -665,25 +796,43 @@ export default function page() {
                                         <div className=' bg-zinc-900 w-full h-[600px] overflow-y-auto rounded-lg flex flex-col gap-2 items-center justify-center p-2 '>
                                            
                                             <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
-                                                <div className=' w-16 h-16 rounded-lg bg-secondary'>
-
+                                                <div className=' w-16 h-16 rounded-lg flex items-center justify-center'>
+                                                    <img src="/logo 06 B.png" alt="" width={100} height={100} />
                                                 </div>
-                                                <div className=' flex flex-col items-center md:items-center gap-1'>
+                                                <div className=' flex flex-col items-center md:items-start gap-1'>
                                                     <p className=' text-sm font-semibold text-zinc-100'>{list.username}</p>
                                                     <p className=' text-xs text-zinc-300'>{list.id}</p>
                                                 </div>
                                             </div>
 
                                             <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
-                                                <Input placeholder='Password' type='password' value={12345678} className=' bg-zinc-900 text-white border-none '/>
+                                                <Input placeholder='Password' onChange={(e) => setPasswordnew(e.target.value)} type='password' value={passwordnew} className=' bg-zinc-900 text-white border-none '/>
 
                                                 <button
-                                                            style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                                            className=' flex items-center justify-center gap-2 h-12 w-[180px] font-bold text-amber-950 hover:scale-110 ease-in-out duration-200 text-xs'
-                                                        
+                                                
+                                                            className=' flex items-center justify-center gap-2 w-[200px] py-2 rounded-md text-sm font-bold text-amber-950 bg-secondary hover:scale-110 ease-in-out duration-200 '
+                                                        onClick={changePassword}
                                                             >
-                                                           
-                                                Change Password</button>
+
+                                                { passwordload ? (
+                                                     <div className="loader">
+                                                        <div className="bar1 bg-zinc-950"></div>
+                                                        <div className="bar2 bg-zinc-950"></div>
+                                                        <div className="bar3 bg-zinc-950"></div>
+                                                        <div className="bar4 bg-zinc-950"></div>
+                                                        <div className="bar5 bg-zinc-950"></div>
+                                                        <div className="bar6 bg-zinc-950"></div>
+                                                        <div className="bar7 bg-zinc-950"></div>
+                                                        <div className="bar8 bg-zinc-950"></div>
+                                                        <div className="bar9 bg-zinc-950"></div>
+                                                        <div className="bar10 bg-zinc-950"></div>
+                                                        <div className="bar11 bg-zinc-950"></div>
+                                                        <div className="bar12 bg-zinc-950"></div>
+                                                    </div>
+                                                ) : (
+                                                    <p> Change Password</p>
+                                                )} 
+                                               </button>
                                             </div>
 
                                             <div className=' flex flex-col justify-start md:flex-row items-center md:justify-between gap-4 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
@@ -719,13 +868,14 @@ export default function page() {
                                 </Dialog>
 
                                 <AlertDialog>
-                                <AlertDialogTrigger>
                                      { list.status === 'inactive' && (
-                                    <button 
-                                    onClick={() => {setStatus(list.status); setId(list.id)}}
-                                    className=' text-xs px-2 py-1 bg-green-600 rounded-md flex items-center gap-1'><TbSquareRoundedCheckFilled size={15}/>UnBan</button>
+                                    <AlertDialogTrigger>
+                                        <button 
+                                        onClick={() => {setStatus(list.status); setId(list.id)}}
+                                        className=' text-xs px-2 py-1 bg-green-600 rounded-md flex items-center gap-1'><TbSquareRoundedCheckFilled size={15}/>UnBan</button>
+                                    </AlertDialogTrigger>
+
                                     )}
-                                </AlertDialogTrigger>
                                 <AlertDialogContent className=' bg-zinc-950 border-zinc-900'>
                                     <AlertDialogHeader>
                                     <AlertDialogTitle className=' text-secondary'>Are you absolutely sure to unban this player?</AlertDialogTitle>
@@ -735,7 +885,7 @@ export default function page() {
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                     <AlertDialogCancel className=' bg-zinc-900 border-none text-white'>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={unban} className=' flex items-center justify-center gap-2 bg-red-600'>
+                                    <AlertDialogAction onClick={handleUnban} className=' flex items-center justify-center gap-2 bg-red-600'>
                                         { banload === true && (
                                             <div className="loader">
                                                 <div className="bar1 bg-white"></div>
@@ -760,13 +910,15 @@ export default function page() {
 
 
                                 <AlertDialog>
-                                <AlertDialogTrigger>
                                     { list.status === 'active' && (
-                                    <button 
-                                    onClick={() => {setStatus(list.status); setId(list.id)}}
-                                    className=' text-xs px-4 py-1 bg-red-600 rounded-md flex items-center gap-1'><IoIosWarning size={15}/>Ban</button>
+                                    <AlertDialogTrigger>
+
+                                        <button 
+                                        onClick={() => {setStatus(list.status); setId(list.id)}}
+                                        className=' text-xs px-4 py-1 bg-red-800 text-red-200 font-semibold rounded-sm flex items-center gap-1'><IoIosWarning size={15}/>Ban</button>
+                                    </AlertDialogTrigger>
+
                                     )}
-                                </AlertDialogTrigger>
                                 <AlertDialogContent className=' bg-zinc-950 border-zinc-900'>
                                     <AlertDialogHeader>
                                     <AlertDialogTitle className=' text-secondary'>Are you absolutely sure to ban this player?</AlertDialogTitle>
@@ -776,7 +928,7 @@ export default function page() {
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                     <AlertDialogCancel className=' bg-zinc-900 border-none text-white hover:bg-zinc-800 hover:text-white'>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={ban} className=' flex items-center justify-center gap-2 bg-red-600 text-white hover:bg-red-700'>
+                                    <AlertDialogAction onClick={handleBan} className=' flex items-center justify-center gap-2 bg-red-600 text-white hover:bg-red-800'>
                                         { banload === true && (
                                             <div className="loader">
                                                 <div className="bar1 bg-white"></div>

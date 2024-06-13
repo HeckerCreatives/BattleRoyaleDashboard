@@ -303,7 +303,7 @@ export default function page() {
         news()
     },[currentpage])
 
-     const refresh = async () => {
+    const refresh = async () => {
             setListload(true)
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/news/getnewslist?page=${currentpage}&limit=10`,{
@@ -433,6 +433,28 @@ export default function page() {
         }
     }
 
+    const handleDelete = () => {
+        deleteNews()
+         setTimeout(() => {
+            refresh();
+        }, 1000);
+    }
+
+     const handleEditnews = () => {
+        editNews()
+         setTimeout(() => {
+            refresh();
+        }, 1000);
+    }
+
+      const handleAddnews = () => {
+        createNews()
+        massNews();
+         setTimeout(() => {
+            refresh();
+        }, 1000);
+    }
+
      const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMass(e.target.checked);
   };
@@ -509,7 +531,7 @@ export default function page() {
 
                             <div className=' w-full flex items-center justify-center mt-8'>
                                 <button
-                                onClick={handleNews}
+                                onClick={handleAddnews}
                                 style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                 className=' h-10 w-[180px] text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
                                 >
@@ -593,6 +615,7 @@ export default function page() {
 
                             <TableCell className=' text-sm'><p className=' line-clamp-3'>{list.description}</p></TableCell>
                             <TableCell className=' flex items-center gap-2' >
+
                                 <Dialog>
                                 <DialogTrigger>
                                     <TableCell>
@@ -628,7 +651,7 @@ export default function page() {
                                     </div>
 
                                     <div className=' w-full flex items-center justify-end gap-4 mt-4'>
-                                        <button onClick={editNews} className=' px-4 py-2 w-[180px] rounded-lg flex items-center justify-center gap-2 text-amber-950 text-sm font-bold'
+                                        <button onClick={handleEditnews} className=' px-4 py-2 w-[180px] rounded-lg flex items-center justify-center gap-2 text-amber-950 text-sm font-bold'
                                         style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                         >
                                             { editload === true && (
@@ -669,7 +692,7 @@ export default function page() {
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                     <AlertDialogCancel className=' bg-zinc-900 border-none hover:bg-zinc-800 text-white'><p className=' text-white'>Cancel</p></AlertDialogCancel>
-                                    <AlertDialogAction onClick={deleteNews} className=' bg-red-600 hover:bg-red-700 text-white'>Continue</AlertDialogAction>
+                                    <AlertDialogAction onClick={handleDelete} className=' bg-red-600 hover:bg-red-700 text-white'>Continue</AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                                 </AlertDialog>

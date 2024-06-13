@@ -4,6 +4,7 @@ import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
+import { FaCircleCheck } from "react-icons/fa6";
 
 import { cn } from "@/lib/utils"
 
@@ -29,9 +30,10 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: " bg-green-600 text-white",
+        icon: <FaCircleCheck size={20} color="green"/>,
+        default: " bg-green-200 text-gree-800 font-semibold",
         destructive:
-          "destructive group border-destructive bg-destructive text-destructive-foreground",
+          "destructive group border-destructive bg-red-600 text-red-200 font-semibold",
       },
     },
     defaultVariants: {
