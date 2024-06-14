@@ -57,7 +57,7 @@ export default function Signin() {
         })
         }
 
-        if ( response.data.message === 'success' && response.data.data.auth === 'superadmin') {
+        if ( response.data.message === 'success' && response.data.data.auth === 'admin') {
           router.push('/admin')
         setLoading(false)
         setUsername('')
@@ -65,16 +65,6 @@ export default function Signin() {
         toast({
           title: "Success",
           description: "Successfully logged in",
-        })
-        }
-
-         if ( response.data.message === 'success' && response.data.data.auth === 'player') {
-        setLoading(false)
-        setUsername('')
-        setPassword('')
-        toast({
-          title: "error",
-          description: "Unauthorized",
         })
         }
 
