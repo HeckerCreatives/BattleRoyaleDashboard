@@ -39,6 +39,7 @@ import {
 import { HiRefresh } from "react-icons/hi";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { IoMdEye } from "react-icons/io";
+import { TiArrowLeftThick, TiArrowRightThick } from 'react-icons/ti'
 
 
 interface News {
@@ -474,12 +475,16 @@ export default function page() {
   return (
     <div className=' flex w-full'>
         <Sidebar/>
-        <main className=' bg-zinc-900 h-screen  overflow-y-auto w-full text-white'>
+        <main className=' bg-zinc-900 h-screen  overflow-y-auto w-full text-white'
+        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+        
+        >
            <Header/>
 
             <div className=' flex flex-col gap-8 w-full p-4 md:p-8'>
-                <div className=' relative w-full h-[180px] rounded-lg flex items-end p-6 shadow-lg'
-                style={{backgroundImage: "url('/maintenance.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                <div className=' relative w-full h-[180px] rounded-lg flex items-end p-6 shadow-lg border-[1px] border-opacity-50 border-orange-300'
+                style={{backgroundImage: "url('/dashboard/assets/Tab.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+
                 >
                     <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
 
@@ -587,7 +592,7 @@ export default function page() {
                 ):(
                     <>
                     <Table>
-                    <TableHeader className=' bg-zinc-950 hover:bg-zinc-950 text-white'>
+                    <TableHeader className=' bg-amber-800 border-b-2 border-orange-300'>
                         <TableRow>
                         <TableHead >Id</TableHead>
                         <TableHead>Title</TableHead>
@@ -708,16 +713,16 @@ export default function page() {
                 
               
 
-                <div className=' flex items-center justify-center gap-4'>
+                 <div className=' flex items-center justify-end gap-4'>
                     <button 
                     onClick={() => setCurrentpage( currentpage - 1)}
                     disabled={loading ? true : currentpage === 0} 
-                   className=' text-secondary'><MdOutlineKeyboardArrowLeft size={40}/></button>
-                    <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p>
+                   className=' bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
+                    {/* <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p> */}
                     <button
                       onClick={() => setCurrentpage(currentpage + 1)}
                     disabled={ loading ? true :  currentpage + 1 === totalpages}
-                    className=' text-secondary'><MdOutlineKeyboardArrowRight size={40}/></button>
+                    className='bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
 
                 </div>
             </div>

@@ -22,7 +22,10 @@ export default function Sidebar() {
     const pathname = usePathname()
 
   return (
-   <nav className=' lg:block hidden w-[300px] h-screen sticky left-0 top-0 bg-zinc-950 text-white '>
+   <nav className=' lg:block hidden w-[300px] h-screen sticky left-0 top-0 bg-zinc-950 text-white '
+     style={{backgroundImage: "url('/dashboard/assets/Left Rectangular.png')", backgroundSize: "cover", backgroundPosition: "right", backgroundRepeat:"no-repeat"}}
+   
+   >
     <div className=' flex flex-col gap-5 w-full h-full p-4'>
         <Link href='/dashboard' aria-label='Go to the dashboard' passHref>
             <div className='flex items-center justify-center space-x-3'>

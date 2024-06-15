@@ -52,7 +52,10 @@ export default function Header() {
   };
 
   return (
-     <div className=' sticky top-0 z-30 flex items-center justify-between px-4 w-full h-[80px] bg-zinc-950'>
+     <div className=' sticky top-0 z-30 flex items-center justify-between px-4 w-full h-[80px] bg-zinc-950'
+     style={{backgroundImage: "url('/dashboard/assets/Top Rectangular.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+     
+     >
       <div className=' flex items-center gap-4'>
          
          <Sheet  key={'left'}>

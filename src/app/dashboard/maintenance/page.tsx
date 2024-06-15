@@ -111,13 +111,17 @@ export default function page() {
   return (
     <div className=' flex w-full h-screen'>
         <Sidebar/>
-        <main className=' bg-zinc-900 w-full text-white'>
+        <main className=' bg-zinc-900 w-full text-white'
+        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+        
+        >
            <Header/>
 
             <div className=' w-full h-[500px] flex flex-col items-center justify-center p-4 md:p-10'>
 
-                <div className=' relative w-full h-[180px] bg-red-500 rounded-lg flex items-end p-6 shadow-lg overflow-hidden'
-                style={{backgroundImage: "url('/maintenance.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                <div className=' relative w-full h-[180px] rounded-lg flex items-end p-6 shadow-lg overflow-hidden border-[1px] border-opacity-50 border-orange-300'
+                style={{backgroundImage: "url('/dashboard/assets/Tab.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+
                 >
                     <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
 
@@ -130,22 +134,43 @@ export default function page() {
 
              
 
-                <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+                <div className=' grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-4'>
 
-                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-[250px] rounded-lg bg-zinc-950 p-4'>
-                        <p className=' text-xl font-semibold text-center h-12'>Maintenance Fullgame</p>
-                      <Switch
-                     checked={value}
-                     onCheckedChange={handleSwitchChange}
-                      />
+                    <div className=' flex items-center justify-center w-full h-[150px] lg:h-[200px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/maintenance/Assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                    
+                    >
+                      <div className=' w-[50%]'>
+
+                      </div>
+
+                      <div className=' flex flex-col items-center justify-center gap-4'>
+                         <p className=' text-lg font-semibold text-center h-12 text-amber-950'>Maintenance Fullgame</p>
+                        <Switch
+                        checked={value}
+                        onCheckedChange={handleSwitchChange}
+                          />
+                      </div>
+                       
   
                     </div>
 
-                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-[250px] rounded-lg bg-zinc-950 p-4'>
-                        <p className=' text-xl font-semibold text-center h-12'>Maintenance In-Game Queue</p>
-                      <Switch
-                   
-                      />
+                    <div className=' flex items-center justify-center w-full h-[150px] lg:h-[200px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/maintenance/Assets/TAB B.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                    
+                    >
+
+                       <div className=' w-[50%]'>
+
+                      </div>
+
+                      <div className=' flex flex-col items-center justify-center gap-4'>
+                         <p className=' text-lg font-semibold text-center h-12 text-amber-950'>Maintenance In-Game Queue</p>
+                        <Switch
+                       
+                          />
+                      </div>
+                        
   
                     </div>
 

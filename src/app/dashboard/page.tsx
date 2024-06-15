@@ -206,17 +206,20 @@ export default function Dashboard() {
   return (
      <div className=' flex w-full h-full'>
         <Sidebar/>
-        <main className=' bg-zinc-900 w-full text-white'>
+        <main className=' bg-zinc-900 w-full text-white'
+        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+        
+        >
             <Header/>
 
             <div className=' flex flex-col gap-4 w-full rounded-lg p-4 md:p-10'> 
 
-             <div className=' relative w-full h-[180px] rounded-lg flex items-end justify-between p-6 shadow-lg'
-                style={{backgroundImage: "url('/maintenance.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+             <div className=' relative w-full h-[180px] rounded-lg flex items-end justify-between p-6 shadow-lg border-[1px] border-opacity-50 border-orange-300'
+                style={{backgroundImage: "url('/dashboard/assets/Tab.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                 >
-                    <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
+                    {/* <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
 
-                    </div>
+                    </div> */}
                     <h2 className=' relative z-10 text-2xl font-bold text-secondary'>Dashboard</h2>
 
                     <div className=' hidden md:flex flex-col items-center justify-center gap-2 h-full w-[180px] bg-zinc-950 rounded-md'>
@@ -239,7 +242,10 @@ export default function Dashboard() {
                 <>
                 <div className=' grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 mt-4'>
 
-                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'>
+                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                    
+                    >
                         <BsPersonPlusFill size={30} className=' text-secondary'/>
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
@@ -291,36 +297,42 @@ export default function Dashboard() {
 
                { tab === 'registration' && (
                 <>
-                <div className=' grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 mt-4'>
+                <div className=' grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 gap-4 mt-4'>
 
-                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'>
-                        <BsPersonPlusFill size={30} className=' text-secondary'/>
+                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                    
+                    >
+                        {/* <BsPersonPlusFill size={30} className=' text-secondary'/> */}
+                        <div className=' w-[70%] lg:w-[50%]'>
 
-                        <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>{total}</p>
-                            <p className=' text-xs text-zinc-200'>Total Registrations</p>
+                        </div>
+
+                        <div className=' flex flex-col h-full w-full gap-2 items-center justify-center p-2'>
+                            <p className=' text-2xl lg:text-4xl font-bold text-amber-950'>{total}</p>
+                            <p className=' text-xs lg:text-sm font-semibold text-amber-900'>Total Registrations</p>
 
                         </div>
                     </div>
 
-                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'>
-                        <FaUsers size={30} className=' text-secondary'/>
-                        {/* <lord-icon
-                            src="https://cdn.lordicon.com/hrjifpbq.json"
-                            trigger="hover"
-                            style="width:250px;height:250px">
-                        </lord-icon> */}
+                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                    
+                    >
+                        <div className=' w-[70%] lg:w-[50%]'>
 
-                        <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>{today}</p>
-                            <p className=' text-xs text-zinc-200'>Todays Registrations</p>
+                        </div>
+
+                        <div className=' flex flex-col w-full gap-2 items-center justify-center p-2'>
+                            <p className=' text-2xl lg:text-4xl font-semibold text-amber-950'>{today}</p>
+                            <p className=' text-xs lg:text-sm text-amber-900'>Todays Registrations</p>
 
                         </div>
                     </div>
 
                 </div>
 
-                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-zinc-950 p-2 md:p-10'>
+                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-zinc-950 p-2 md:p-10 border-2 border-orange-300 border-opacity-50'>
                     <div className=' flex items-center'>
                         <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
                         <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>

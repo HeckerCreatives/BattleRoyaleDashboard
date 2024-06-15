@@ -121,13 +121,22 @@ export default function page() {
   return (
     <div className=' flex w-full h-full bg-zinc-900'>
         <Sidebar/>
-        <main className=' bg-zinc-900 w-full text-white'>
+        <main className=' bg-zinc-900 w-full text-white'
+        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+        
+        >
             <Header/>
 
-            <div className=' flex flex-col gap-4 w-full p-4 md:p-10'>
-                <p className=' text-lg font-semibold py-2 border-b-2 border-zinc-800'>Message</p>
+            <div className=' flex flex-col gap-4 w-full p-4 md:p-10'
+            
+            >
 
-                <div className=' w-full flex flex-col gap-4'>
+                <div className=' w-full h-auto p-8 border-2 border-orange-300 border-opacity-50 rounded-lg'
+                style={{backgroundImage: "url('/messages/Asset/Big Tab.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                
+                >
+                    <p className=' text-lg font-semibold py-2 border-b-2 bg-amber-800 border-orange-400 px-6 mb-8'>Message</p>
+                    <div className=' w-full flex flex-col gap-4'>
                     <Select onValueChange={setType} value={type}>
                     <SelectTrigger className="w-[180px] bg-zinc-950 border-none text-white">
                         <SelectValue placeholder="Type" />
@@ -137,14 +146,14 @@ export default function page() {
                     </SelectContent>
                     </Select>
 
-                    <div className=' w-full flex flex-col gap-1'>
-                        <p className=' text-sm text-zinc-300'>Title:</p>
+                    <div className=' w-full flex flex-col'>
+                        <p className=' text-sm text-orange-300 bg-zinc-900 py-1 px-4 rounded-t-md'>Title</p>
                         <Input placeholder='Title' value={title} onChange={(e)=> setTitle(e.target.value)} className=' bg-zinc-950 border-none' />
 
                     </div>
 
-                    <div className=' w-full flex flex-col gap-1'>
-                        <p className=' text-sm text-zinc-300'>Description:</p>
+                    <div className=' w-full flex flex-col'>
+                        <p className=' text-sm text-orange-300 bg-zinc-900 py-1 px-4 rounded-t-md'>Descriptio:</p>
                         <Textarea placeholder='Description' value={description} onChange={(e)=> setDescription(e.target.value)} className=' bg-zinc-950 border-none h-[300px]'/>
 
                     </div>
@@ -152,8 +161,7 @@ export default function page() {
                     <div className=' w-full flex'>
                         <button
                         onClick={massNews}
-                        style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                        className=' h-10 w-[220px] text-sm font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
+                        className=' h-10 w-[220px] text-sm font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'
                         >
                             { loading === true && (
                                 <div className="loader">
@@ -177,7 +185,10 @@ export default function page() {
 
                     
 
+                    </div>
                 </div>
+
+                
             </div>
              
         </main>

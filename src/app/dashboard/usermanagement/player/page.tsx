@@ -57,6 +57,7 @@ import { IoMdEye } from "react-icons/io";
 import { IoIosWarning } from "react-icons/io";
 import { TbSquareRoundedCheckFilled } from "react-icons/tb";
 import { FaCircleCheck } from "react-icons/fa6";
+import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
 
 
 interface PlayerList{
@@ -531,17 +532,23 @@ export default function page() {
         }
     }
 
+    const [inventory, setInventory] = useState('skin')
+
   return (
     <div className=' flex w-full h-screen overflow-x-hidden'>
         <Sidebar/>
-        <main className=' bg-zinc-900 w-full text-white'>
+        <main className=' w-full text-white h-auto overflow-y-auto'
+        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+        
+        >
            <Header/>
 
          
             <div className=' flex flex-col gap-8 w-full p-4 md:p-8'>
 
-                <div className=' relative w-full h-[180px] bg-red-500 rounded-lg flex items-end p-6 shadow-lg'
-                style={{backgroundImage: "url('/maintenance.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                <div className=' relative w-full h-[180px] rounded-lg flex items-end p-6 shadow-lg border-[1px] border-opacity-50 border-orange-300'
+                style={{backgroundImage: "url('/dashboard/assets/Tab.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+
                 >
                     <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
 
@@ -550,7 +557,7 @@ export default function page() {
 
                 </div>     
 
-                <div className=' grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4'>
+                {/* <div className=' grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4'>
 
                     <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'>
                         <BsPersonPlusFill size={30} className=' text-secondary'/>
@@ -564,11 +571,7 @@ export default function page() {
 
                     <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'>
                         <FaUsers size={30} className=' text-secondary'/>
-                        {/* <lord-icon
-                            src="https://cdn.lordicon.com/hrjifpbq.json"
-                            trigger="hover"
-                            style="width:250px;height:250px">
-                        </lord-icon> */}
+                        
 
                         <div className=' flex flex-col gap-2 items-center p-2'>
                             <p className=' text-xl font-semibold'>{today}</p>
@@ -577,15 +580,49 @@ export default function page() {
                         </div>
                     </div>
 
+                </div> */}
+
+                <div className=' grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 gap-4 mt-4'>
+
+                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                    
+                    >
+                        {/* <BsPersonPlusFill size={30} className=' text-secondary'/> */}
+                        <div className=' w-[70%] lg:w-[50%]'>
+
+                        </div>
+
+                        <div className=' flex flex-col h-full w-full gap-2 items-center justify-center p-2'>
+                            <p className=' text-2xl lg:text-4xl font-bold text-amber-950'>{total}</p>
+                            <p className=' text-xs lg:text-sm font-semibold text-amber-900'>Total Joinings</p>
+
+                        </div>
+                    </div>
+
+                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                    
+                    >
+                        <div className=' w-[70%] lg:w-[50%]'>
+
+                        </div>
+
+                        <div className=' flex flex-col w-full gap-2 items-center justify-center p-2'>
+                            <p className=' text-2xl lg:text-4xl font-semibold text-amber-950'>{today}</p>
+                            <p className=' text-xs lg:text-sm text-amber-900'>Todays Joinings</p>
+
+                        </div>
+                    </div>
+
                 </div>
 
                 <div className=' flex flex-col lg:flex-row items-center gap-4'>
                      <div className=' flex items-center gap-2'>
-                        <Input placeholder='Search by username or email' value={search} onChange={(e) => setSearch(e.target.value)} type='text' className=' bg-zinc-950 border-none w-[200px] lg:w-[300px]'/>
+                        <Input placeholder='Search by username or email' value={search} onChange={(e) => setSearch(e.target.value)} type='text' className=' bg-zinc-950 border-2 border-orange-300 border-opacity-50 w-[200px] lg:w-[300px]'/>
                         <button
                         onClick={searchByusername}
-                        style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                        className=' h-10 w-[120px] md:w-[150px] text-sm font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
+                        className=' h-10 w-[120px] md:w-[150px] text-sm font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-300 to-orange-400 rounded-md'
                         >
                        
                             Search</button>
@@ -595,7 +632,7 @@ export default function page() {
 
                     <div className=' flex items-center gap-4'>
                         <Select onValueChange={setFilter} value={filter}>
-                        <SelectTrigger className="w-[180px] bg-zinc-950 border-none">
+                        <SelectTrigger className="w-[180px] bg-zinc-950 border-2 border-orange-300 border-opacity-50">
                             <SelectValue placeholder="Filter" />
                         </SelectTrigger>
                         <SelectContent className=' bg-zinc-950 border-none'>
@@ -604,7 +641,7 @@ export default function page() {
                         </SelectContent>
                         </Select>
 
-                    <button onClick={reset} className=' px-4 py-2 bg-secondary text-zinc-950 rounded-md'><HiRefresh size={20}/></button>
+                    <button onClick={reset} className=' px-4 py-2 bg-gradient-to-tr from-orange-200 to-orange-400 text-zinc-950 rounded-md'><HiRefresh size={20}/></button>
 
                     </div>
 
@@ -632,9 +669,9 @@ export default function page() {
                       
                     </>
                 ) : (
-                    <>
-                    <Table>
-                    <TableHeader className=' bg-zinc-950 hover:bg-zinc-950 text-white'>
+                    <div className=' p-2 border-[1px] border-orange-300 border-opacity-20'>
+                    <Table className=' '>
+                    <TableHeader className=' bg-amber-800 border-b-2 border-orange-300 text-white'>
                         <TableRow>
                         <TableHead className="w-[50px]">Select</TableHead>
                         <TableHead>Username</TableHead>
@@ -657,7 +694,8 @@ export default function page() {
                                     <button className=' bg-blue-100 px-2 py-1 rounded-sm text-xs flex items-center gap-1 text-blue-950'><IoMdEye size={15}/>View</button>
                                 </DialogTrigger>
                                 <DialogContent className=' flex flex-col items-start bg-zinc-950 border-zinc-900 w-[90%] h-[600px] md:w-[800px] '
-                                style={{backgroundImage: "url('/assets/header BG.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+
                                 >
                                     <Popover>
                                     <PopoverTrigger className=' block md:hidden text-white bg-zinc-900 p-2 rounded-md text-xs'>Menu</PopoverTrigger>
@@ -670,28 +708,145 @@ export default function page() {
                                     </PopoverContent>
                                     </Popover>
 
-                                    <div className=' hidden md:flex items-center justify-center text-white'>
-                                        <p onClick={()=> setTab('dashboard')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'dashboard' && ' border-b-4 border-secondary'}`}>Dashboard</p>
-                                        <p onClick={()=> setTab('inventory')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inventory' && ' border-b-4 border-secondary'}`}> Inventory</p>
-                                        <p onClick={()=> setTab('transaction')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'transaction' && ' border-b-4 border-secondary'}`}>Transaction history</p>
-                                        <p onClick={()=> {setTab('inbox'); playerInbox()}} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'inbox' && ' border-b-4 border-secondary'}`}>Inbox</p>
-                                        <p onClick={()=> setTab('profile')} className={`text-sm font-semibold px-4 py-1 cursor-default ${tab === 'profile' && ' border-b-4 border-secondary'}`}>Profile</p>
+                                    <div className=' hidden md:flex items-center gap-2 justify-center text-white'>
+                                        <p onClick={()=> setTab('dashboard')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default ${tab === 'dashboard' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>DASHBOARD</p>
+                                        <p onClick={()=> setTab('inventory')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default  ${tab === 'inventory' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>INVENTORY</p>
+                                        <p onClick={()=> setTab('transaction')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default ${tab === 'transaction' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>TRANSACTION</p>
+                                        <p onClick={()=> {setTab('inbox'); playerInbox()}} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default ${tab === 'inbox' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>INBOX</p>
+                                        <p onClick={()=> setTab('profile')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default ${tab === 'profile' && 'text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>PROFILE</p>
 
                                     </div>
                                     {tab === 'dashboard' && (
-                                        <div className=' bg-zinc-900 w-full h-full rounded-lg flex items-center justify-center'>
-                                            <p className=' text-xs text-zinc-300'>Coming Soon!</p>
+                                        <div className=' relative w-full h-full rounded-lg flex items-start p-6'
+                                        style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                        >
+
+                                        <img src="/userdashboard/Assets/Character B.png" alt="" width={350} className=' absolute bottom-2 right-0 z-20' />
+                                         <img src="/userdashboard/Assets/Character A.png" alt="" width={450} className=' absolute bottom-2 right-0' />
+                                        <div className=' relative z-30 flex flex-col gap-4 w-[40%]'>
+
+                                            <div className=' flex items-end justify-end h-[120px]'
+                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                                            >
+
+                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>0</h2>
+                                                    <p className=' text-sm text-amber-950'>Total Kills</p>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div className=' flex items-end justify-end h-[120px]'
+                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB B.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                                            >
+
+                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>0</h2>
+                                                    <p className=' text-sm text-amber-950'>Total Deaths</p>
+
+                                                </div>
+
+                                            </div>
+
+                                             <div className=' flex items-end justify-end h-[120px]'
+                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB C.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                                            >
+
+                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>0</h2>
+                                                    <p className=' text-sm text-amber-950'>Current Rank</p>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
                                         </div>
                                     )}
 
                                      {tab === 'inventory' && (
-                                        <div className=' bg-zinc-900 w-full h-full rounded-lg flex items-center justify-center'>
-                                            <p className=' text-xs text-zinc-300'>Coming Soon!</p>
+                                        <div className=' relative w-full h-full rounded-lg flex flex-col gap-10 items-start p-4'
+                                        style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                        
+                                        >
+
+                                            <div className=' w-full bg-amber-900 grid grid-cols-4 p-2'>
+                                                <p onClick={() => setInventory('skin')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-default ${inventory === 'skin' ? ' text-orange-300' : ' text-orange-100'}`}>SKIN</p>
+
+                                                 <p onClick={() => setInventory('color')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-default ${inventory === 'color' ? ' text-orange-300' : ' text-orange-100'}`}>COLOR</p>
+
+                                                  <p onClick={() => setInventory('effects')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-default ${inventory === 'effects' ? ' text-orange-300' : ' text-orange-100'}`}>EFFECTS</p>
+
+                                                   <p onClick={() => setInventory('misc')} className={`w-full text-lg text-center cursor-default ${inventory === 'misc' ? ' text-orange-300' : ' text-orange-100'}`}>MISC</p>
+                                            
+
+                                            </div>
+
+                                            <div className=' grid grid-cols-5 w-full gap-4'>
+
+                                                <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
+
+                                                </div>
+
+                                                 
+
+                                            </div>
+
+                                            <div className=' absolute bottom-4 right-4 flex items-center gap-4'>
+                                                <button 
+                                             
+                                                className=' bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
+                                                {/* <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p> */}
+                                                <button
+                                               
+                                                className='bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
+
+                                            </div>
                                         </div>
                                     )}
 
                                     {tab === 'transaction' && (
-                                        <div className=' bg-zinc-900 w-full h-full rounded-lg flex items-center justify-center'>
+                                        <div className=' bg-zinc-900 w-full h-full rounded-lg flex items-center justify-center'
+                                        style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                        
+                                        >
                                             <p className=' text-xs text-zinc-300'>Coming Soon!</p>
                                         </div>
                                     )}
@@ -742,23 +897,37 @@ export default function page() {
                                     )}
 
                                     {tab === 'inbox' && (
-                                        <div className=' hidden relative w-full h-[500px] rounded-lg md:flex flex-col gap-2 items-center p-14'
-                                         style={{backgroundImage: "url('/assets/TAB.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                        ><p className=' absolute top-4 left-6 text-lg text-amber-950 font-semibold'>Messages</p>
-                                            <div className=' w-full grid grid-cols-2 place-items-start gap-4 mt-8'>
+                                        <div className=' hidden relative w-full h-[700px] rounded-lg md:flex flex-col gap-2 items-center p-6'
+                                        style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                         
+                                        >
+                                        <div className=' w-full h-full grid grid-cols-2 place-items-start gap-4'>
 
-                                                <div className=' flex flex-col items-start gap-1 w-full h-[300px] overflow-y-auto'>
+                                              <div className=' w-full h-[400px] text-white p-4 border-x-2 border-orange-300'
+                                                style={{backgroundImage: "url('/inbox/Assets/Tab Big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+
+                                                 >
+                                                    <p className=' text-xs'>11.11.14 <span className=' text-sm font-semibold text-orange-400'>Games</span></p>
+                                                    <p className=' text-sm font-semibold mt-4'>{title}</p>
+                                                    <div className=' w-full overflow-y-auto overflow-x-hidden h-[80%] mt-2'>
+                                                        <p className=' text-xs text-zinc-200 '>{description}</p>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div className=' flex flex-col items-start gap-1 w-full h-full overflow-y-auto'>
 
                                                     { inbox.map((list, idx)=>(
                                                         <div 
                                                         onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
                                                         key={idx} 
-                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] border-zinc-200 text-white p-3 ${active === list.title && ' border-amber-400'}`}
-                                                        style={{backgroundImage: "url('/assets/list TAB (off).png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg text-white border-x-4 border-orange-300 p-3 ${active === list.title && ' border-amber-400'}`}
+                                                       style={{backgroundImage: "url('/inbox/Assets/Tab small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
                                                             <ImBullhorn size={30}/>
 
-                                                            <div className=' flex flex-col items-start h-[70px] w-[50%] gap-1'>
+                                                            <div className=' flex flex-col items-start h-[70px] w-[50%] gap-1 p-2 overflow-hidden'>
                                                                 <p className=' text-xs font-semibold line-clamp-1'>{list.title}</p>
                                                                 <p className=' text-[.6em] line-clamp-2 text-zinc-400'>{list.description}</p>
                                                                 
@@ -774,16 +943,7 @@ export default function page() {
                                                     
                                                 </div>
 
-                                                 <div className=' w-full h-[270px] text-white p-2'
-                                                  style={{backgroundImage: "url('/assets/open TAB.png')", backgroundSize: "cover", backgroundPosition: "top", backgroundRepeat:"no-repeat"}}
-                                                 >
-                                                    <p className=' text-sm font-semibold mt-4'>{title}</p>
-                                                    <div className=' w-full overflow-y-auto h-[180px] mt-6'>
-                                                        <p className=' text-xs text-zinc-200 '>{description}</p>
-
-                                                    </div>
-
-                                                </div>
+                                               
 
                                             </div>
 
@@ -793,9 +953,15 @@ export default function page() {
                                     )}
 
                                     {tab === 'profile' && (
-                                        <div className=' bg-zinc-900 w-full h-[600px] overflow-y-auto rounded-lg flex flex-col gap-2 items-center justify-center p-2 '>
+                                        <div className=' w-full h-[600px] overflow-y-auto rounded-lg flex flex-col gap-2 items-center justify-center p-2 '
+                                        style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                        
+                                        >
                                            
-                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
+                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] border-[1px] border-orange-300 border-opacity-30 '
+                                            style={{backgroundImage: "url('/profile/Assets/Tab A.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                            
+                                            >
                                                 <div className=' w-16 h-16 rounded-lg flex items-center justify-center'>
                                                     <img src="/logo 06 B.png" alt="" width={100} height={100} />
                                                 </div>
@@ -805,14 +971,16 @@ export default function page() {
                                                 </div>
                                             </div>
 
-                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
-                                                <Input placeholder='Password' onChange={(e) => setPasswordnew(e.target.value)} type='password' value={passwordnew} className=' bg-zinc-900 text-white border-none '/>
+                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] border-[1px] border-orange-300 border-opacity-30 '
+                                             style={{backgroundImage: "url('/profile/Assets/Tab B.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                            >
+                                                <Input placeholder='Password' onChange={(e) => setPasswordnew(e.target.value)} type='password' value={passwordnew} className=' bg-zinc-950 border-none text-white'/>
 
                                                 <button
                                                 
-                                                            className=' flex items-center justify-center gap-2 w-[200px] py-2 rounded-md text-sm font-bold text-amber-950 bg-secondary hover:scale-110 ease-in-out duration-200 '
-                                                        onClick={changePassword}
-                                                            >
+                                                className=' flex items-center justify-center gap-2 w-[200px] py-2 rounded-md text-sm font-bold text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 hover:scale-110 ease-in-out duration-200 '
+                                                onClick={changePassword}
+                                                >
 
                                                 { passwordload ? (
                                                      <div className="loader">
@@ -835,13 +1003,15 @@ export default function page() {
                                                </button>
                                             </div>
 
-                                            <div className=' flex flex-col justify-start md:flex-row items-center md:justify-between gap-4 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] md:w-[70%]'>
+                                            <div className=' flex flex-col justify-start md:flex-row items-center md:justify-between gap-4 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] border-[1px] border-orange-300 border-opacity-30 '
+                                            style={{backgroundImage: "url('/profile/Assets/Tab C.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                            >
                                                 <div className=' flex flex-col items-start gap-4 w-full'>
-                                                    <div className=' flex flex-col w-full'>
+                                                    <div className=' flex flex-col w-full bg-zinc-950 p-2 rounded-md'>
                                                         <p className=' text-xs text-zinc-400'>Email:</p>
                                                         <p className=' text-sm text-zinc-100'>{list.email}</p>
                                                     </div>
-                                                    <div className=' flex flex-col w-full'>
+                                                    <div className=' flex flex-col w-full bg-zinc-950 p-2 rounded-md'>
                                                         <p className=' text-xs text-zinc-400'>Country:</p>
                                                         <p className=' text-sm text-zinc-100'>{list.country}</p>
                                                     </div>
@@ -849,11 +1019,11 @@ export default function page() {
                                                 </div>
 
                                                 <div className=' flex flex-col items-start gap-4 w-full'>
-                                                    <div className=' flex flex-col w-full'>
+                                                    <div className=' flex flex-col w-full bg-zinc-950 p-2 rounded-md'>
                                                         <p className=' text-xs text-zinc-400'>Status:</p>
                                                         <p className={`text-sm ${list.status === 'active' && ' text-green-500'} ${list.status === 'inactive' && ' text-red-500'}`}>{list.status}</p>
                                                     </div>
-                                                    <div className=' flex flex-col w-full'>
+                                                    <div className=' flex flex-col w-full bg-zinc-950 p-2 rounded-md'>
                                                         <p className=' text-xs text-zinc-400'>Account Creation:</p>
                                                         <p className=' text-sm text-zinc-100'>{formatISODate(list.createdAt)}</p>
                                                     </div>
@@ -961,20 +1131,20 @@ export default function page() {
                     {player.length === 0 && (
                         <p className=' w-full text-center text-sm text-red-600'>No data</p>
                     )}
-                    </>
+                    </div>
                 )}
               
 
-                <div className=' flex items-center justify-center gap-4'>
+                <div className=' flex items-center justify-end gap-4'>
                     <button 
                     onClick={() => setCurrentpage( currentpage - 1)}
                     disabled={loading ? true : currentpage === 0} 
-                   className=' text-secondary'><MdOutlineKeyboardArrowLeft size={40}/></button>
-                    <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p>
+                   className=' bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
+                    {/* <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p> */}
                     <button
                       onClick={() => setCurrentpage(currentpage + 1)}
                     disabled={ loading ? true :  currentpage + 1 === totalpages}
-                    className=' text-secondary'><MdOutlineKeyboardArrowRight size={40}/></button>
+                    className='bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
 
                 </div>
 
