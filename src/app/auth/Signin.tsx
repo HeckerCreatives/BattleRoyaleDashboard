@@ -46,8 +46,8 @@ export default function Signin() {
             'Content-Type': 'application/json',
           }
         })
-        if ( response.data.message === 'success') {
-          router.push('/dashboard')
+        if ( response.data.message === 'success' && response.data.data.auth === 'superadmin') {
+        router.push('/dashboard')
         setLoading(false)
         setUsername('')
         setPassword('')
@@ -65,6 +65,17 @@ export default function Signin() {
         toast({
           title: "Success",
           description: "Successfully logged in",
+        })
+        }
+
+         if ( response.data.message === 'success' && response.data.data.auth === 'player') {
+        setLoading(false)
+        setUsername('')
+        setPassword('')
+        toast({
+          variant:"destructive",
+          title: "error",
+          description: "You are not authorized to view this page",
         })
         }
 

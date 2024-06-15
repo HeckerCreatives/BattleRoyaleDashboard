@@ -20,6 +20,7 @@ const ToastViewport = React.forwardRef<
       "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]",
       className
     )}
+
     {...props}
   />
 ))
@@ -30,10 +31,9 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        icon: <FaCircleCheck size={20} color="green"/>,
-        default: " bg-green-200 text-gree-800 font-semibold",
+        default: " bg-green-200 text-green-600 font-semibold",
         destructive:
-          "destructive group border-destructive bg-red-600 text-red-200 font-semibold",
+          "destructive group border-destructive bg-red-600 text-red-600 font-semibold",
       },
     },
     defaultVariants: {
@@ -51,6 +51,7 @@ const Toast = React.forwardRef<
     <ToastPrimitives.Root
       ref={ref}
       className={cn(toastVariants({ variant }), className)}
+      style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
       {...props}
     />
   )

@@ -66,7 +66,7 @@ export default function Header() {
          style={{backgroundImage: "url('/dashboard/assets/Left Rectangular.png')", backgroundSize: "cover", backgroundPosition: "right", backgroundRepeat:"no-repeat"}}
         >
           <div className=' flex flex-col gap-5 w-full h-full p-4 text-white'>
-            <Link href='/dashboard' aria-label='Go to the dashboard' passHref>
+            <Link href='/dashboard/' aria-label='Go to the dashboard' passHref>
                 <div className='flex items-center justify-center space-x-3'>
                 <img src="/logo 06 B.png" alt="" width={120} />
                 </div>
@@ -74,7 +74,7 @@ export default function Header() {
             <div className=' flex flex-col gap-4=2'>
             <Link
             href='/dashboard'
-            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard' && ' text-secondary'}`}
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/' && ' text-secondary'}`}
             passHref
           >
             <MdDashboard size={20}/>
