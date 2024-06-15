@@ -240,39 +240,42 @@ export default function Dashboard() {
 
               { tab === 'transaction' && (
                 <>
-                <div className=' grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 mt-4'>
+                 <div className=' grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 gap-4 mt-4'>
 
-                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'
-                    style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                     
                     >
-                        <BsPersonPlusFill size={30} className=' text-secondary'/>
+                        {/* <BsPersonPlusFill size={30} className=' text-secondary'/> */}
+                        <div className=' w-[60%] lg:w-[70%]'>
 
-                        <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>0</p>
-                            <p className=' text-xs text-zinc-200'>Total Transactions</p>
+                        </div>
+
+                        <div className=' flex flex-col h-full w-full gap-2 items-center justify-center p-2'>
+                            <p className=' text-2xl lg:text-4xl font-bold text-amber-950'>0</p>
+                            <p className=' text-xs lg:text-sm font-semibold text-amber-900'>Total Transaction</p>
 
                         </div>
                     </div>
 
-                    <div className=' flex flex-col gap-5 items-center justify-center w-full h-[180px] rounded-lg bg-zinc-950 p-4'>
-                        <FaUsers size={30} className=' text-secondary'/>
-                        {/* <lord-icon
-                            src="https://cdn.lordicon.com/hrjifpbq.json"
-                            trigger="hover"
-                            style="width:250px;height:250px">
-                        </lord-icon> */}
+                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950 p-4'
+                    style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                    
+                    >
+                        <div className=' w-[60%] lg:w-[70%]'>
 
-                        <div className=' flex flex-col gap-2 items-center p-2'>
-                            <p className=' text-xl font-semibold'>0</p>
-                            <p className=' text-xs text-zinc-200'>Todays Transactions</p>
+                        </div>
+
+                        <div className=' flex flex-col w-full gap-2 items-center justify-center p-2'>
+                            <p className=' text-2xl lg:text-4xl font-semibold text-amber-950'>0</p>
+                            <p className=' text-xs lg:text-sm text-amber-900'>Todays Transactions</p>
 
                         </div>
                     </div>
 
                 </div>
 
-                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-zinc-950 p-2 md:p-10'>
+                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-[#000000] p-2 md:p-10 border-2 border-orange-300 border-opacity-50'>
                     <div className=' flex items-center'>
                         <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
                         <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>
@@ -299,12 +302,12 @@ export default function Dashboard() {
                 <>
                 <div className=' grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 gap-4 mt-4'>
 
-                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950 p-4'
+                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg'
                     style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                     
                     >
                         {/* <BsPersonPlusFill size={30} className=' text-secondary'/> */}
-                        <div className=' w-[70%] lg:w-[50%]'>
+                        <div className=' w-[60%] lg:w-[70%]'>
 
                         </div>
 
@@ -315,11 +318,11 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950 p-4'
+                    <div className=' flex items-center gap-5 w-full h-[150px] rounded-lg bg-zinc-950'
                     style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                     
                     >
-                        <div className=' w-[70%] lg:w-[50%]'>
+                        <div className='w-[60%] lg:w-[70%]'>
 
                         </div>
 
@@ -332,7 +335,7 @@ export default function Dashboard() {
 
                 </div>
 
-                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-zinc-950 p-2 md:p-10 border-2 border-orange-300 border-opacity-50'>
+                <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-[#000000] p-2 md:p-10 border-2 border-orange-300 border-opacity-50'>
                     <div className=' flex items-center'>
                         <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
                         <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>

@@ -62,7 +62,9 @@ export default function Header() {
         <SheetTrigger className=' block lg:hidden'>
           <RiMenu2Line size={20}/>
         </SheetTrigger>
-        <SheetContent key={'left'} className=' bg-zinc-950 border-zinc-900'>
+        <SheetContent key={'left'} className=' bg-zinc-950 border-zinc-900'
+         style={{backgroundImage: "url('/dashboard/assets/Left Rectangular.png')", backgroundSize: "cover", backgroundPosition: "right", backgroundRepeat:"no-repeat"}}
+        >
           <div className=' flex flex-col gap-5 w-full h-full p-4 text-white'>
             <Link href='/dashboard' aria-label='Go to the dashboard' passHref>
                 <div className='flex items-center justify-center space-x-3'>

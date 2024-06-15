@@ -589,7 +589,7 @@ export default function page() {
                     
                     >
                         {/* <BsPersonPlusFill size={30} className=' text-secondary'/> */}
-                        <div className=' w-[70%] lg:w-[50%]'>
+                        <div className=' w-[60%] lg:w-[70%]'>
 
                         </div>
 
@@ -604,7 +604,7 @@ export default function page() {
                     style={{backgroundImage: "url('/dashboard/assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                     
                     >
-                        <div className=' w-[70%] lg:w-[50%]'>
+                        <div className='  w-[60%] lg:w-[70%]'>
 
                         </div>
 
@@ -693,7 +693,7 @@ export default function page() {
                                 <DialogTrigger onClick={() => {setUserid(list.id)}}>
                                     <button className=' bg-blue-100 px-2 py-1 rounded-sm text-xs flex items-center gap-1 text-blue-950'><IoMdEye size={15}/>View</button>
                                 </DialogTrigger>
-                                <DialogContent className=' flex flex-col items-start bg-zinc-950 border-zinc-900 w-[90%] h-[600px] md:w-[800px] '
+                                <DialogContent className=' flex flex-col items-start border-x-8 border-orange-300 w-[90%] h-[600px] md:w-[800px] rounded-md '
                                 style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
 
                                 >
@@ -721,11 +721,11 @@ export default function page() {
                                         style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                         >
 
-                                        <img src="/userdashboard/Assets/Character B.png" alt="" width={350} className=' absolute bottom-2 right-0 z-20' />
-                                         <img src="/userdashboard/Assets/Character A.png" alt="" width={450} className=' absolute bottom-2 right-0' />
-                                        <div className=' relative z-30 flex flex-col gap-4 w-[40%]'>
+                                        <img src="/userdashboard/Assets/Character B.png" alt="" width={350} className=' absolute bottom-2 right-0 z-20 md:block hidden' />
+                                         <img src="/userdashboard/Assets/Character A.png" alt="" width={450} className=' absolute bottom-2 right-0 md:block hidden' />
+                                        <div className=' relative z-30 flex flex-col gap-4 md:w-[40%] w-full'>
 
-                                            <div className=' flex items-end justify-end h-[120px]'
+                                            <div className=' flex items-end justify-end h-[100px] md:h-[120px]'
                                             style={{backgroundImage: "url('/userdashboard/Assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                                             >
 
@@ -737,7 +737,7 @@ export default function page() {
 
                                             </div>
 
-                                            <div className=' flex items-end justify-end h-[120px]'
+                                            <div className=' flex items-end justify-end h-[100px] md:h-[120px]'
                                             style={{backgroundImage: "url('/userdashboard/Assets/TAB B.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                                             >
 
@@ -749,7 +749,7 @@ export default function page() {
 
                                             </div>
 
-                                             <div className=' flex items-end justify-end h-[120px]'
+                                             <div className=' flex items-end justify-end h-[100px] md:h-[120px]'
                                             style={{backgroundImage: "url('/userdashboard/Assets/TAB C.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                                             >
 
@@ -766,12 +766,12 @@ export default function page() {
                                     )}
 
                                      {tab === 'inventory' && (
-                                        <div className=' relative w-full h-full rounded-lg flex flex-col gap-10 items-start p-4'
+                                        <div className=' relative w-full h-full rounded-lg flex flex-col gap-6 items-start p-4'
                                         style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                         
                                         >
 
-                                            <div className=' w-full bg-amber-900 grid grid-cols-4 p-2'>
+                                            <div className=' hidden w-full bg-amber-900 md:grid grid-cols-4 p-2'>
                                                 <p onClick={() => setInventory('skin')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-default ${inventory === 'skin' ? ' text-orange-300' : ' text-orange-100'}`}>SKIN</p>
 
                                                  <p onClick={() => setInventory('color')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-default ${inventory === 'color' ? ' text-orange-300' : ' text-orange-100'}`}>COLOR</p>
@@ -783,7 +783,19 @@ export default function page() {
 
                                             </div>
 
-                                            <div className=' grid grid-cols-5 w-full gap-4'>
+                                            <Select>
+                                            <SelectTrigger className=" visible md:hidden bg-zinc-950 border-2 border-orange-300 border-opacity-30 text-orange-100">
+                                                <SelectValue placeholder="Select" />
+                                            </SelectTrigger>
+                                            <SelectContent className=' bg-zinc-950 border-orange-300 border-opacity-30 text-orange-100'>
+                                                <SelectItem value="skin">SKIN</SelectItem>
+                                                <SelectItem value="color">COLOR</SelectItem>
+                                                <SelectItem value="effects">EFFECTS</SelectItem>
+                                                <SelectItem value="misc">MISC</SelectItem>
+                                            </SelectContent>
+                                            </Select>
+
+                                            <div className=' grid grid-cols-3 md:grid-cols-5 w-full h-[75%] overflow-y-auto gap-4'>
 
                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
 
@@ -852,58 +864,64 @@ export default function page() {
                                     )}
 
                                     {tab === 'inbox' && (
-                                        <>
-                                        <p className=' text-white md:hidden block'>Messages</p>
-                                        
-                                        <Dialog>
-                                        <DialogTrigger className=' h-[460px] overflow-y-auto'>
-                                            <div className=' md:hidden w-full flex flex-col gap-2 text-white '>
+                                        <div className=' flex flex-col items-start justify-start w-full h-[90%]'>
+
+                                            <div className=' md:hidden w-full h-full flex flex-col items-start justify-start gap-2 text-white overflow-y-auto overflow-x-hidden '>
                                              { inbox.map((list, idx)=>(
-                                                        <div 
-                                                        onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
-                                                        key={idx} 
-                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg border-[1px] text-white p-3 border-white  ${active === list.title && ' border-amber-400'}`}
+                                                   
+                                                    <Dialog>
+                                                        <DialogTrigger className=' '>
+                                                            <div 
+                                                            onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
+                                                            key={idx} 
+                                                            className={`flex items-center justify-between gap-4 w-[100%] rounded-lg text-white border-4 p-3 overflow-hidden ${active === list.title ? ' border-orange-400' : 'border-orange-300'}`}
+                                                            style={{backgroundImage: "url('/inbox/Assets/Tab small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                                                >
+                                                                    <ImBullhorn size={30}/>
+
+                                                                    <div className=' flex flex-col items-start h-[70px] w-[50%] gap-1 overflow-hidden'>
+                                                                        <p className=' text-xs font-semibold line-clamp-1'>{list.title}</p>
+                                                                        <p className=' text-[.6em] line-clamp-2 text-zinc-400'>{list.description}</p>
+                                                                        
+                                                                        <p className=' text-[.5em] text-zinc-400'>From: Dev Team</p>
+                                                                    </div>
+
+                                                                    <div className=' flex flex-col items-end justify-end gap-2 w-[70px]'>
+                                                                        <p className=' text-[.6em] text-zinc-400'>4 days ago</p>
+                                                                    </div>
+
+                                                            </div>
+                                                        </DialogTrigger>
+                                                        <DialogContent className=' w-[90%] border-4 border-orange-300 rounded-md'
+                                                        style={{backgroundImage: "url('/inbox/Assets/Tab Big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
-                                                            <ImBullhorn size={30}/>
+                                                            <p className=' text-white text-xs'>11.11.14 <span className=' text-sm font-semibold text-orange-400'>Games</span></p>
 
-                                                            <div className=' flex flex-col items-start h-[70px] w-[50%] gap-1'>
-                                                                <p className=' text-xs font-semibold line-clamp-1'>{list.title}</p>
-                                                                <p className=' text-[.6em] line-clamp-2 text-zinc-400'>{list.description}</p>
-                                                                
-                                                                <p className=' text-[.5em] text-zinc-400'>From: Dev Team</p>
-                                                            </div>
-
-                                                            <div className=' flex flex-col items-end justify-end gap-2 w-[70px]'>
-                                                                <p className=' text-[.6em] text-zinc-400'>4 days ago</p>
-                                                            </div>
-
-                                                        </div>
-                                            ))}
+                                                            <DialogHeader>
+                                                            <DialogTitle className=' text-orange-100 text-start'>{title}</DialogTitle>
+                                                            <DialogDescription className=' text-start h-[300px] overflow-y-auto'>
+                                                            {description}
+                                                            </DialogDescription>
+                                                            </DialogHeader>
+                                                        </DialogContent>
+                                                        </Dialog>
+                                                ))}
                                                     
 
-                                        </div>
-                                        </DialogTrigger>
-                                        <DialogContent className=' w-[90%] bg-zinc-950 border-zinc-900'>
-                                            <DialogHeader>
-                                            <DialogTitle className=' text-secondary'>{title}</DialogTitle>
-                                            <DialogDescription>
-                                               {description}
-                                            </DialogDescription>
-                                            </DialogHeader>
-                                        </DialogContent>
-                                        </Dialog>
+                                            </div>
+                                      
 
-                                        </>
+                                        </div>
                                     )}
 
                                     {tab === 'inbox' && (
-                                        <div className=' hidden relative w-full h-[700px] rounded-lg md:flex flex-col gap-2 items-center p-6'
+                                        <div className=' hidden relative w-full h-[480px] rounded-lg md:flex flex-col gap-2 items-center p-6'
                                         style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                          
                                         >
                                         <div className=' w-full h-full grid grid-cols-2 place-items-start gap-4'>
 
-                                              <div className=' w-full h-[400px] text-white p-4 border-x-2 border-orange-300'
+                                              <div className=' w-full h-[420px] text-white p-4 border-4 border-orange-300 rounded-md'
                                                 style={{backgroundImage: "url('/inbox/Assets/Tab Big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
 
                                                  >
@@ -922,7 +940,7 @@ export default function page() {
                                                         <div 
                                                         onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
                                                         key={idx} 
-                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg text-white border-x-4 border-orange-300 p-3 ${active === list.title && ' border-amber-400'}`}
+                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg text-white border-4 p-3 ${active === list.title ? ' border-orange-400' : 'border-orange-300'}`}
                                                        style={{backgroundImage: "url('/inbox/Assets/Tab small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
                                                             <ImBullhorn size={30}/>
@@ -958,14 +976,14 @@ export default function page() {
                                         
                                         >
                                            
-                                            <div className=' flex flex-col md:flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] border-[1px] border-orange-300 border-opacity-30 '
+                                            <div className=' flex flex-row items-center gap-2 bg-zinc-950 p-2 md:p-4 rounded-lg w-[90%] border-[1px] border-orange-300 border-opacity-30 '
                                             style={{backgroundImage: "url('/profile/Assets/Tab A.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                             
                                             >
                                                 <div className=' w-16 h-16 rounded-lg flex items-center justify-center'>
                                                     <img src="/logo 06 B.png" alt="" width={100} height={100} />
                                                 </div>
-                                                <div className=' flex flex-col items-center md:items-start gap-1'>
+                                                <div className=' flex flex-col items-start md:items-start gap-1'>
                                                     <p className=' text-sm font-semibold text-zinc-100'>{list.username}</p>
                                                     <p className=' text-xs text-zinc-300'>{list.id}</p>
                                                 </div>

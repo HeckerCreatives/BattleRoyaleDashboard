@@ -124,7 +124,7 @@ export default function page() {
     }
     
   return (
-    <div className=' flex w-full h-screen'>
+    <div className=' flex w-full h-auto '>
         <Sidebar/>
         <main className=' bg-zinc-900 w-full text-white'
         style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
@@ -132,63 +132,61 @@ export default function page() {
         >
            <Header/>
 
-            <div className=' w-full flex flex-col items-center p-4 md:p-10'>
+            <div className=' w-full h-screen flex flex-col items-center p-4 md:p-10 overflow-y-auto '>
                <div className=' relative w-full h-[180px] bg-red-500 rounded-lg flex items-end p-6 shadow-lg border-[1px] border-opacity-50 border-orange-300'
                 style={{backgroundImage: "url('/dashboard/assets/Tab.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
 
                 >
-                    <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
-
-                    </div>
                     <h2 className=' relative z-10 text-2xl font-bold text-secondary'>Manage Account</h2>
 
                 </div>    
-                <div className=' w-full flex items-center justify-start mt-4'>
+               
+                  <div className=' w-full mt-8'>
 
-                  <p onClick={() => setTab('changepassword')} className={` text-sm font-semibold px-4 py-2 cursor-default ${tab === 'changepassword' && ' border-b-2 border-secondary'}`}>Change Password</p>
-
-                </div>
-
-                { tab === 'changepassword' && (
-                  <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full mt-4'>
-
-                   <div className=' flex flex-col gap-5 items-center justify-center w-full h-auto rounded-lg bg-zinc-950 p-4 border-[1px] border-orange-300 border-opacity-30'
+                   <div className=' relative grid grid-cols-1 md:grid-cols-2 items-center w-full md:w-[80%] lg:w-[70%] h-[400px] rounded-lg bg-zinc-950 border-[1px] border-orange-300 border-opacity-30'
                     style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                    
                    >
-
-                        <div className=' flex flex-col gap-2 items-center p-2'>
+                    <p className=' w-full py-2 px-4 text-xl font-semibold text-orange-100 absolute top-4 left-4 bg-gradient-to-r from-amber-900 to-[#00000000]'>Change Password</p>
+                        <div className=' flex flex-col gap-2 items-start p-8'>
                            <Input placeholder='Old password' value={oldpw} onChange={(e) => setOldpw(e.target.value)} type='password' className=' bg-zinc-900 border-none w-full'/>
                            <Input placeholder='New password' value={newpw} onChange={(e) => setnewpw(e.target.value)} type='password' className=' bg-zinc-900 border-none w-full'/>
                            <Input placeholder='Confirm new password' value={confirmpw} onChange={(e) => setconfirmpw(e.target.value)} type='password' className=' bg-zinc-900 border-none'/>
-                            <button
-                            onClick={changepassword}
-                            disabled={loading}
-                            style={{backgroundImage: "url('/button.png')", backgroundSize: "contain",backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                            className=' h-16 w-[200px] mt-4 text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
-                            >
-                              {loading === true && (
-                                <div className="loader">
-                                  <div className="bar1 bg-zinc-950"></div>
-                                  <div className="bar2 bg-zinc-950"></div>
-                                  <div className="bar3 bg-zinc-950"></div>
-                                  <div className="bar4 bg-zinc-950"></div>
-                                  <div className="bar5 bg-zinc-950"></div>
-                                  <div className="bar6 bg-zinc-950"></div>
-                                  <div className="bar7 bg-zinc-950"></div>
-                                  <div className="bar8 bg-zinc-950"></div>
-                                  <div className="bar9 bg-zinc-950"></div>
-                                  <div className="bar10 bg-zinc-950"></div>
-                                  <div className="bar11 bg-zinc-950"></div>
-                                  <div className="bar12 bg-zinc-950"></div>
-                              </div>
-                              )}
-                              Change Password</button>
+
+                           <div className=' flex items-end justify-end w-full'>
+                             <button
+                              onClick={changepassword}
+                              disabled={loading}
+                              className=' w-[200px] py-3 mt-4 text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'
+                              >
+                                {loading === true && (
+                                  <div className="loader">
+                                    <div className="bar1 bg-zinc-950"></div>
+                                    <div className="bar2 bg-zinc-950"></div>
+                                    <div className="bar3 bg-zinc-950"></div>
+                                    <div className="bar4 bg-zinc-950"></div>
+                                    <div className="bar5 bg-zinc-950"></div>
+                                    <div className="bar6 bg-zinc-950"></div>
+                                    <div className="bar7 bg-zinc-950"></div>
+                                    <div className="bar8 bg-zinc-950"></div>
+                                    <div className="bar9 bg-zinc-950"></div>
+                                    <div className="bar10 bg-zinc-950"></div>
+                                    <div className="bar11 bg-zinc-950"></div>
+                                    <div className="bar12 bg-zinc-950"></div>
+                                </div>
+                                )}
+                                Change Password</button>
+                           </div>
+                           
+                        </div>
+
+                        <div className=' w-full h-full relative'>
+                           <img src="/userdashboard/Assets/Character B.png" alt="" width={300} className=' absolute bottom-0 right-0 z-20 md:block hidden' />
+                            <img src="/userdashboard/Assets/Character A.png" alt="" width={400} className=' absolute bottom-0 right-0 md:block hidden' />
                         </div>
                     </div>
 
                   </div>
-                )}
 
                 
 
