@@ -1064,7 +1064,7 @@ export default function page() {
                                     </AlertDialogTrigger>
 
                                     )}
-                                <AlertDialogContent className=' bg-zinc-950 border-zinc-900'>
+                                <AlertDialogContent className=' w-[90%] md:w-[full] bg-zinc-950 border-zinc-900'>
                                     <AlertDialogHeader>
                                     <AlertDialogTitle className=' text-secondary'>Are you absolutely sure to unban this player?</AlertDialogTitle>
                                     <AlertDialogDescription>
@@ -1107,7 +1107,7 @@ export default function page() {
                                     </AlertDialogTrigger>
 
                                     )}
-                                <AlertDialogContent className=' bg-zinc-950 border-zinc-900'>
+                                <AlertDialogContent className=' w-[90%] md:w-full bg-zinc-950 border-zinc-900'>
                                     <AlertDialogHeader>
                                     <AlertDialogTitle className=' text-secondary'>Are you absolutely sure to ban this player?</AlertDialogTitle>
                                     <AlertDialogDescription>

@@ -148,7 +148,7 @@ export default function page() {
                    
                    >
                     <p className=' w-full py-2 px-4 text-xl font-semibold text-orange-100 absolute top-4 left-4 bg-gradient-to-r from-amber-900 to-[#00000000]'>Change Password</p>
-                        <div className=' flex flex-col gap-2 items-start p-8'>
+                        <div className=' flex flex-col gap-2 items-start p-8 mt-10'>
                            <Input placeholder='Old password' value={oldpw} onChange={(e) => setOldpw(e.target.value)} type='password' className=' bg-zinc-900 border-none w-full'/>
                            <Input placeholder='New password' value={newpw} onChange={(e) => setnewpw(e.target.value)} type='password' className=' bg-zinc-900 border-none w-full'/>
                            <Input placeholder='Confirm new password' value={confirmpw} onChange={(e) => setconfirmpw(e.target.value)} type='password' className=' bg-zinc-900 border-none'/>

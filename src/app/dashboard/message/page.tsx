@@ -130,8 +130,7 @@ export default function page() {
             <div className=' flex flex-col gap-4 w-full p-4 md:p-10'
             
             >
-
-                <div className=' w-full h-auto p-8 border-2 border-orange-300 border-opacity-50 rounded-lg'
+                <div className=' w-full h-auto p-4 md:p-8 border-2 border-orange-300 border-opacity-50 rounded-lg'
                 style={{backgroundImage: "url('/messages/Asset/Big Tab.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                 
                 >

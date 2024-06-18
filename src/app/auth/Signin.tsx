@@ -156,7 +156,9 @@ export default function Signin() {
      style={{backgroundImage: "url('/login/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
     
     >
-        <div className=' flex flex-col gap-8 items-center justify-center w-[90%] md:w-[500px] h-auto p-8 bg-zinc-950 rounded-lg'>
+        <div className=' flex flex-col gap-8 items-center justify-center w-[90%] md:w-[500px] h-auto p-8 bg-zinc-950 rounded-lg'
+        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+        >
             <img src="/login/assets/rof.png" alt="" width={180} />
             <form  className='max-w-xs space-y-4 flex flex-col gap-2 items-center w-[80%]'>
             <Input placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)} type='text' className=' bg-zinc-900 text-white border-2 border-orange-300 '/>

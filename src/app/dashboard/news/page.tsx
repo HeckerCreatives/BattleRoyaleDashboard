@@ -503,7 +503,9 @@ export default function page() {
                             className=' h-10 w-[220px] text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
                             >Add News</button>
                         </DialogTrigger>
-                        <DialogContent className=' w-[90%] md:w-[500px] h-auto bg-zinc-950 border-zinc-900 text-white'>
+                        <DialogContent className=' w-[90%] md:w-[500px] h-auto bg-zinc-950 border-zinc-900 text-white'
+                        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                        >
                            <div className=' w-full h-full md:p-4'>
                             <p className=' text-lg font-semibold text-secondary'>News Information</p>
 
@@ -613,7 +615,10 @@ export default function page() {
                                     <button className=' text-xs px-2 py-1 bg-blue-800 rounded-md flex items-center gap-1'><IoMdEye size={15}/>View</button>
                                 </TableCell>
                             </DialogTrigger>
-                            <DialogContent className=' w-[90%] md:w-[40%] h-auto p-10 flex items-center justify-center bg-zinc-950 border-zinc-900'>
+                            <DialogContent className=' w-[90%] md:w-auto h-auto p-10 flex items-center justify-center bg-zinc-950 border-zinc-900'
+                            style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                            
+                            >
                                 <img src={`${process.env.NEXT_PUBLIC_API_URL}/${list.banner}`} alt="" width={300} height={300} />
                             </DialogContent>
                             </Dialog>
@@ -629,7 +634,10 @@ export default function page() {
                                         className=' text-xs px-2 py-1 bg-blue-800 rounded-md flex items-center gap-1'><IoMdEye size={15}/>View</button>
                                     </TableCell>
                                 </DialogTrigger>
-                                <DialogContent className=' flex-col w-[90%] md:w-[40%] h-auto p-4 md:p-10 flex items-center justify-center bg-zinc-950 border-zinc-900 text-white'>
+                                <DialogContent className=' flex-col w-[90%] md:w-[40%] h-auto p-4 md:p-10 flex items-center justify-center bg-zinc-950 border-zinc-900 text-white'
+                                style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                
+                                >
                                    
                                     <div className=' w-[200px] h-[200px] flex items-center justify-center rounded-lg bg-zinc-900'>
                                         { selectedImage === null && (
