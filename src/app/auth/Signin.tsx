@@ -143,13 +143,13 @@ export default function Signin() {
     
   }
 
-     useEffect(() => {
-     if (auth === undefined){
-       router.push('/')
-     }
-     if(auth !== undefined)
-       router.push('/dashboard')
-   })
+  //    useEffect(() => {
+  //    if (auth === undefined){
+  //      router.push('/')
+  //    }
+  //    else if(auth !== undefined)
+  //      router.push('/dashboard')
+  //  })
 
   return (
     <div className=' relative bg-[#141414] w-screen h-screen flex items-center justify-center '
