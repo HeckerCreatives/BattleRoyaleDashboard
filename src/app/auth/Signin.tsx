@@ -15,7 +15,6 @@ export default function Signin() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const auth = Cookies.get('sessionToken')
 
   const handleLogin = async () => {
     setLoading(true)
@@ -143,13 +142,14 @@ export default function Signin() {
     
   }
 
-  //    useEffect(() => {
-  //    if (auth === undefined){
-  //      router.push('/')
-  //    }
-  //    else if(auth !== undefined)
-  //      router.push('/dashboard')
-  //  })
+ useEffect(() => {
+  const auth = Cookies.get('sessionToken');
+  if (auth === undefined) {
+    router.push('/');
+  } else {
+    router.push('/dashboard');
+  }
+}, []);
 
   return (
     <div className=' relative bg-[#141414] w-screen h-screen flex items-center justify-center '
