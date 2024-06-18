@@ -869,23 +869,23 @@ export default function page() {
                                              { inbox.map((list, idx)=>(
                                                    
                                                     <Dialog>
-                                                        <DialogTrigger className=' '>
+                                                        <DialogTrigger className=' w-full '>
                                                             <div 
                                                             onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
                                                             key={idx} 
-                                                            className={`flex items-center justify-between gap-4 w-[100%] rounded-lg text-white border-4 p-3 overflow-hidden ${active === list.title ? ' border-orange-400' : 'border-orange-300'}`}
+                                                            className={`flex items-center justify-between gap-4 w-full rounded-lg text-white border-4 p-3 overflow-hidden ${active === list.title ? ' border-orange-400' : 'border-orange-300'}`}
                                                             style={{backgroundImage: "url('/inbox/Assets/Tab small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                                 >
                                                                     <ImBullhorn size={30}/>
 
-                                                                    <div className=' flex flex-col items-start h-[70px] w-[50%] gap-1 overflow-hidden'>
+                                                                    <div className=' flex flex-col items-start h-[70px] w-[55%] gap-1 overflow-hidden'>
                                                                         <p className=' text-xs font-semibold line-clamp-1'>{list.title}</p>
                                                                         <p className=' text-[.6em] line-clamp-2 text-zinc-400'>{list.description}</p>
                                                                         
                                                                         <p className=' text-[.5em] text-zinc-400'>From: Dev Team</p>
                                                                     </div>
 
-                                                                    <div className=' flex flex-col items-end justify-end gap-2 w-[70px]'>
+                                                                    <div className=' flex flex-col items-end justify-end gap-2 w-[50px]'>
                                                                         <p className=' text-[.6em] text-zinc-400'>4 days ago</p>
                                                                     </div>
 
@@ -894,7 +894,7 @@ export default function page() {
                                                         <DialogContent className=' w-[90%] border-4 border-orange-300 rounded-md'
                                                         style={{backgroundImage: "url('/inbox/Assets/Tab Big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
-                                                            <p className=' text-white text-xs'>11.11.14 <span className=' text-sm font-semibold text-orange-400'>Games</span></p>
+                                                           
 
                                                             <DialogHeader>
                                                             <DialogTitle className=' text-orange-100 text-start'>{title}</DialogTitle>
@@ -924,7 +924,7 @@ export default function page() {
                                                 style={{backgroundImage: "url('/inbox/Assets/Tab Big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
 
                                                  >
-                                                    <p className=' text-xs'>11.11.14 <span className=' text-sm font-semibold text-orange-400'>Games</span></p>
+                                                   
                                                     <p className=' text-sm font-semibold mt-4'>{title}</p>
                                                     <div className=' w-full overflow-y-auto overflow-x-hidden h-[80%] mt-2'>
                                                         <p className=' text-xs text-zinc-200 '>{description}</p>
