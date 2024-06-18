@@ -160,7 +160,7 @@ export default function page() {
                     
                     >
 
-                       <div className=' w-[50%]'>
+                       <div className=' w-[60%] md:w-[50%]'>
 
                       </div>
 
