@@ -9,9 +9,17 @@ export default function Home() {
   const auth = Cookies.get('sessionToken')
   const router = useRouter()
 
+  //   useEffect(() => {
+  //    if (auth === undefined){
+  //      router.push('/')
+  //    }
+  //    if(auth !== undefined)
+  //      router.push('/dashboard')
+  //  })
+
   return (
-    <> 
-    <Signin/>
+    <>
+     <Signin/>
     </>
   );
 }
