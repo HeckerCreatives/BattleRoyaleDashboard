@@ -23,8 +23,8 @@ import {
 import { useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
-
-
+import { RiCloseFill } from "react-icons/ri";
+import { FiCheck } from "react-icons/fi";
 
 
 export default function page() {
@@ -78,8 +78,18 @@ export default function page() {
                     setDescription('')
                     setType('')
                       toast({
-                        title: "Success",
-                        description:'News successfully created'
+                        description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Message succesfully sent to players</p></div>)
+                        })
+                }
+
+                  if ( response.data.message === 'failed'){
+                    setLoading(false)
+                    setTitle('')
+                    setDescription('')
+                    setType('')
+                      toast({
+                        variant:'destructive',
+                        description:(<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>Message succesfully sent to players</p></div>)
                         })
                 }
 

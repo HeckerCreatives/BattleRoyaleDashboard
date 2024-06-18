@@ -4,7 +4,8 @@ import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
-import { FaCircleCheck } from "react-icons/fa6";
+import { RiCloseFill } from "react-icons/ri";
+import { FiCheck } from "react-icons/fi";
 
 import { cn } from "@/lib/utils"
 
@@ -47,13 +48,20 @@ const Toast = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> &
     VariantProps<typeof toastVariants>
 >(({ className, variant, ...props }, ref) => {
+
+  // Define icons based on variant
+ 
+   
   return (
     <ToastPrimitives.Root
       ref={ref}
       className={cn(toastVariants({ variant }), className)}
       style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
       {...props}
-    />
+    >
+     
+    </ToastPrimitives.Root>
+    
   )
 })
 Toast.displayName = ToastPrimitives.Root.displayName
@@ -111,7 +119,8 @@ const ToastDescription = React.forwardRef<
     ref={ref}
     className={cn("text-sm opacity-90", className)}
     {...props}
-  />
+  >
+  </ToastPrimitives.Description>
 ))
 ToastDescription.displayName = ToastPrimitives.Description.displayName
 

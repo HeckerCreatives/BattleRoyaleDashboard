@@ -16,6 +16,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
+import { RiCloseFill } from "react-icons/ri";
+import { FiCheck } from "react-icons/fi";
 
 interface List {
     value: number;
@@ -80,8 +82,7 @@ export default function page() {
         if(response.data.message === 'success'){
           setLoading(false)
           toast({
-            title: `${response.data.message}`,
-            description: `${response.data.data}`
+            description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
             })
         }
 
@@ -89,8 +90,7 @@ export default function page() {
           setLoading(false)
           toast({
             variant:'destructive',
-            title: `${response.data.message}`,
-            description: `${response.data.data}`
+            description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>{response.data.data}</p></div>)
             })
         }
       } catch (error) {

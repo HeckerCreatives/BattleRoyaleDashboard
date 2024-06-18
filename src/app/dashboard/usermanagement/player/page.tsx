@@ -58,6 +58,8 @@ import { IoIosWarning } from "react-icons/io";
 import { TbSquareRoundedCheckFilled } from "react-icons/tb";
 import { FaCircleCheck } from "react-icons/fa6";
 import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
+import { RiCloseFill } from "react-icons/ri";
+import { FiCheck } from "react-icons/fi";
 
 
 interface PlayerList{
@@ -287,8 +289,7 @@ export default function page() {
             if ( response.data.message == 'success'){
                 setBanload(false)
                  toast({
-                title: "Success",
-                description: "Player banned successfully",
+                description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Player banned successfully</p></div>),
                 })
             }
             
@@ -386,8 +387,7 @@ export default function page() {
             if ( response.data.message == 'success'){
                 setBanload(false)
                  toast({
-                title: "Success",
-                description: "Player unbanned successfully",
+                description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Player unbanned successfully</p></div>),
                 })
             }
             
@@ -499,8 +499,7 @@ export default function page() {
                     setPasswordload(false)
                     setPasswordold('')
                     toast({
-                    title: "Success",
-                    description: "Password changed successfully",
+                    description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Password changed successfully</p></div>),
                 })
                 }
 
@@ -508,8 +507,8 @@ export default function page() {
                     setPasswordload(false)
                     setPasswordold('')
                     toast({
-                    title: "Success",
-                    description: "Theres a problem changing the password",
+                    variant: 'destructive',
+                    description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>Theres a problem changing the password</p></div>),
                 })
                 }
                 console.log(response.data)

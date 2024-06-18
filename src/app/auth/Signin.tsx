@@ -7,6 +7,9 @@ import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
 import CustomBg from '@/components/CustomBg'
 import Cookies from 'js-cookie'
+import { CheckIcon } from 'lucide-react'
+import { RiCloseFill } from "react-icons/ri";
+import { FiCheck } from "react-icons/fi";
 
 
 export default function Signin() {
@@ -22,8 +25,7 @@ export default function Signin() {
       setLoading(false)
        toast({
         variant: "destructive",
-          title: "Form Error",
-          description: "Please enter your password",
+          description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>Please enter your password</p></div>),
         })
     }
 
@@ -31,8 +33,7 @@ export default function Signin() {
       setLoading(false)
        toast({
         variant: "destructive",
-          title: "Form Error",
-          description: "Please enter your username",
+          description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>Please enter your username</p></div>),
         })
     }
 
@@ -51,8 +52,7 @@ export default function Signin() {
         setUsername('')
         setPassword('')
         toast({
-          title: "Success",
-          description: "Successfully logged in",
+          description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Successfully logged in</p></div>),
         })
         }
 
@@ -154,7 +154,6 @@ export default function Signin() {
   return (
     <div className=' relative bg-[#141414] w-screen h-screen flex items-center justify-center '
      style={{backgroundImage: "url('/login/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-    
     >
         <div className=' flex flex-col gap-8 items-center justify-center w-[90%] md:w-[500px] h-auto p-8 bg-zinc-950 rounded-lg'
         style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}

@@ -40,6 +40,8 @@ import { HiRefresh } from "react-icons/hi";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { IoMdEye } from "react-icons/io";
 import { TiArrowLeftThick, TiArrowRightThick } from 'react-icons/ti'
+import { RiCloseFill } from "react-icons/ri";
+import { FiCheck } from "react-icons/fi";
 
 
 interface News {
@@ -128,8 +130,18 @@ export default function page() {
                     setDescription('')
                     setSelectedImage(null)
                       toast({
-                        title: "Success",
-                        description:'News successfully created'
+                        description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News successfully created</p></div>)
+                        })
+                }
+
+                 if ( response.data.message === 'failed'){
+                    setLoading(false)
+                    setTitle('')
+                    setDescription('')
+                    setSelectedImage(null)
+                      toast({
+                        variant:'destructive',
+                        description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
                         })
                 }
 
@@ -362,8 +374,16 @@ export default function page() {
                 setSelectedImage(null)
                 setSelectedFile(null)
                  toast({
-                title: 'Success',
-                description: `News updated successfully`
+                description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News updated successfully</p></div>)
+                })
+            }
+
+            if ( response.data.message === 'failed') {
+                setSelectedImage(null)
+                setSelectedFile(null)
+                 toast({
+                    variant:'destructive',
+                description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>{response.data.data}</p></div>)
                 })
             }
         } catch (error) {
@@ -400,10 +420,16 @@ export default function page() {
                     'Content-Type': 'application/json',
                     }
             })
-             if ( response.data.message) {
+             if ( response.data.message === 'success') {
                  toast({
-                title: 'Success',
-                description: `News deleted successfully`
+                description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News deleted successfully</p></div>)
+                })
+            }
+
+            if ( response.data.message === 'failed') {
+                 toast({
+                    variant:'destructive',
+                description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>{response.data.data}</p></div>)
                 })
             }
 
