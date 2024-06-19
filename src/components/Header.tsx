@@ -243,7 +243,7 @@ export default function Header() {
           <PopoverContent className=' flex flex-col gap-4 w-auto p-6 bg-zinc-950 border-zinc-900 text-white mt-4'>
 
            
-            <p onClick={handleLogout} className=' text-sm flex items-center gap-2 cursor-default hover:text-secondary ease-in-out duration-300'><IoLogOut size={20}/>Log Out</p>
+            <p onClick={handleLogout} className=' cursor-pointer text-sm flex items-center gap-2 hover:text-secondary ease-in-out duration-300'><IoLogOut size={20}/>Log Out</p>
           </PopoverContent>
         </Popover>
 

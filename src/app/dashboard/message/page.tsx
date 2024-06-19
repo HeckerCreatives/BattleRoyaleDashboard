@@ -147,11 +147,11 @@ export default function page() {
                     <p className=' text-lg font-semibold py-2 border-b-2 bg-amber-800 border-orange-400 px-6 mb-8'>Message</p>
                     <div className=' w-full flex flex-col gap-4'>
                     <Select onValueChange={setType} value={type}>
-                    <SelectTrigger className="w-[180px] bg-zinc-950 border-none text-white">
-                        <SelectValue placeholder="Type" />
+                    <SelectTrigger className="w-[180px] bg-zinc-950 border-none text-white cursor-pointer">
+                        <SelectValue placeholder="Type" className=' cursor-pointer' />
                     </SelectTrigger>
                     <SelectContent className=' bg-zinc-950 border-zinc-900 text-white'>
-                        <SelectItem value="announcement">Announcement</SelectItem>
+                        <SelectItem value="announcement" className=' cursor-pointer'>Announcement</SelectItem>
                     </SelectContent>
                     </Select>
 

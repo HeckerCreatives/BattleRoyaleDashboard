@@ -208,6 +208,33 @@
           animation-delay: 1.2s;
         }
 
+        body{
+          cursor: pointer;
+       
+        }
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 10%;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-image: url('/scrollbar2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 10%;
+}
+
 
 
 

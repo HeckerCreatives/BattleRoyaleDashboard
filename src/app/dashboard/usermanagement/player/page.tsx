@@ -76,6 +76,7 @@ interface Inbox {
     description: string
     title: string
     type: string
+    daysago: string
 
 }
 
@@ -634,9 +635,9 @@ export default function page() {
                         <SelectTrigger className="w-[180px] bg-zinc-950 border-2 border-orange-300 border-opacity-50">
                             <SelectValue placeholder="Filter" />
                         </SelectTrigger>
-                        <SelectContent className=' bg-zinc-950 border-none'>
-                            <SelectItem value='active' className=' hover:bg-none text-white'>Active</SelectItem>
-                            <SelectItem value='inactive' className=' hover:bg-none text-white'>Banned</SelectItem>
+                        <SelectContent className=' bg-zinc-950 border-none cursor-pointer'>
+                            <SelectItem value='active' className=' hover:bg-none text-white cursor-pointer'>Active</SelectItem>
+                            <SelectItem value='inactive' className=' hover:bg-none text-white cursor-pointer'>Banned</SelectItem>
                         </SelectContent>
                         </Select>
 
@@ -708,11 +709,11 @@ export default function page() {
                                     </Popover>
 
                                     <div className=' hidden md:flex items-center gap-2 justify-center text-white'>
-                                        <p onClick={()=> setTab('dashboard')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default ${tab === 'dashboard' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>DASHBOARD</p>
-                                        <p onClick={()=> setTab('inventory')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default  ${tab === 'inventory' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>INVENTORY</p>
-                                        <p onClick={()=> setTab('transaction')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default ${tab === 'transaction' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>TRANSACTION</p>
-                                        <p onClick={()=> {setTab('inbox'); playerInbox()}} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default ${tab === 'inbox' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>INBOX</p>
-                                        <p onClick={()=> setTab('profile')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-default ${tab === 'profile' && 'text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>PROFILE</p>
+                                        <p onClick={()=> setTab('dashboard')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'dashboard' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>DASHBOARD</p>
+                                        <p onClick={()=> setTab('inventory')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'inventory' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>INVENTORY</p>
+                                        <p onClick={()=> setTab('transaction')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'transaction' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>TRANSACTION</p>
+                                        <p onClick={()=> {setTab('inbox'); playerInbox()}} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'inbox' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>INBOX</p>
+                                        <p onClick={()=> setTab('profile')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'profile' && 'text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>PROFILE</p>
 
                                     </div>
                                     {tab === 'dashboard' && (
@@ -771,13 +772,13 @@ export default function page() {
                                         >
 
                                             <div className=' hidden w-full bg-amber-900 md:grid grid-cols-4 p-2'>
-                                                <p onClick={() => setInventory('skin')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-default ${inventory === 'skin' ? ' text-orange-300' : ' text-orange-100'}`}>SKIN</p>
+                                                <p onClick={() => setInventory('skin')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-pointer ${inventory === 'skin' ? ' text-orange-300' : ' text-orange-100'}`}>SKIN</p>
 
-                                                 <p onClick={() => setInventory('color')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-default ${inventory === 'color' ? ' text-orange-300' : ' text-orange-100'}`}>COLOR</p>
+                                                 <p onClick={() => setInventory('color')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-pointer ${inventory === 'color' ? ' text-orange-300' : ' text-orange-100'}`}>COLOR</p>
 
-                                                  <p onClick={() => setInventory('effects')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-default ${inventory === 'effects' ? ' text-orange-300' : ' text-orange-100'}`}>EFFECTS</p>
+                                                  <p onClick={() => setInventory('effects')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-pointer ${inventory === 'effects' ? ' text-orange-300' : ' text-orange-100'}`}>EFFECTS</p>
 
-                                                   <p onClick={() => setInventory('misc')} className={`w-full text-lg text-center cursor-default ${inventory === 'misc' ? ' text-orange-300' : ' text-orange-100'}`}>MISC</p>
+                                                   <p onClick={() => setInventory('misc')} className={`w-full text-lg text-center cursor-pointer ${inventory === 'misc' ? ' text-orange-300' : ' text-orange-100'}`}>MISC</p>
                                             
 
                                             </div>
@@ -787,10 +788,10 @@ export default function page() {
                                                 <SelectValue placeholder="Select" />
                                             </SelectTrigger>
                                             <SelectContent className=' bg-zinc-950 border-orange-300 border-opacity-30 text-orange-100'>
-                                                <SelectItem value="skin">SKIN</SelectItem>
-                                                <SelectItem value="color">COLOR</SelectItem>
-                                                <SelectItem value="effects">EFFECTS</SelectItem>
-                                                <SelectItem value="misc">MISC</SelectItem>
+                                                <SelectItem value="skin" className=' cursor-pointer'>SKIN</SelectItem>
+                                                <SelectItem value="color" className=' cursor-pointer'>COLOR</SelectItem>
+                                                <SelectItem value="effects" className=' cursor-pointer'>EFFECTS</SelectItem>
+                                                <SelectItem value="misc" className=' cursor-pointer'>MISC</SelectItem>
                                             </SelectContent>
                                             </Select>
 
@@ -939,7 +940,7 @@ export default function page() {
                                                         <div 
                                                         onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
                                                         key={idx} 
-                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg text-white border-4 p-3 ${active === list.title ? ' border-orange-400' : 'border-orange-300'}`}
+                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg text-white border-4 p-3 cursor-pointer ${active === list.title ? ' border-orange-400' : 'border-orange-300'}`}
                                                        style={{backgroundImage: "url('/inbox/Assets/Tab small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
                                                             <ImBullhorn size={30}/>
@@ -952,7 +953,7 @@ export default function page() {
                                                             </div>
 
                                                             <div className=' flex flex-col items-end justify-end gap-2 w-[70px]'>
-                                                                <p className=' text-[.6em] text-zinc-400'>4 days ago</p>
+                                                                <p className=' text-[.6em] text-zinc-400'>{list.daysago}</p>
                                                             </div>
 
                                                         </div>
@@ -1156,12 +1157,12 @@ export default function page() {
                     <button 
                     onClick={() => setCurrentpage( currentpage - 1)}
                     disabled={loading ? true : currentpage === 0} 
-                   className=' bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
+                   className=' cursor-pointer bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
                     {/* <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p> */}
                     <button
                       onClick={() => setCurrentpage(currentpage + 1)}
                     disabled={ loading ? true :  currentpage + 1 === totalpages}
-                    className='bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
+                    className=' cursor-pointer bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
 
                 </div>
 

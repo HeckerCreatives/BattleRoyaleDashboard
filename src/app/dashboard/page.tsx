@@ -231,8 +231,8 @@ export default function Dashboard() {
               </div>     
 
               <div className=' relative flex items-center'>
-                 <p onClick={() => setTab('registration')} className={` relative text-sm font-medium py-2 px-4 cursor-default ${ tab === 'registration' && ' border-b-2 border-secondary'}`}>Registration</p>
-                <p onClick={() => setTab('transaction')} className={` relative text-sm font-medium py-2 px-4 cursor-default ${ tab === 'transaction' && ' border-b-2 border-secondary'}`}>Transaction</p>
+                 <p onClick={() => setTab('registration')} className={` relative text-sm font-medium py-2 px-4 cursor-pointer ${ tab === 'registration' && ' border-b-2 border-secondary'}`}>Registration</p>
+                <p onClick={() => setTab('transaction')} className={` relative text-sm font-medium py-2 px-4 cursor-pointer ${ tab === 'transaction' && ' border-b-2 border-secondary'}`}>Transaction</p>
 
                
 
@@ -277,10 +277,10 @@ export default function Dashboard() {
 
                 <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-[#000000] p-2 md:p-10 border-2 border-orange-300 border-opacity-50'>
                     <div className=' flex items-center'>
-                        <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
-                        <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>
-                        <p onClick={() => setChart('monthly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'monthly' && ' border-b-2 border-secondary'}`}>Monthly</p>
-                        <p onClick={() => setChart('yearly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'yearly' && ' border-b-2 border-secondary'}`}>Yearly</p>
+                        <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
+                        <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>
+                        <p onClick={() => setChart('monthly')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'monthly' && ' border-b-2 border-secondary'}`}>Monthly</p>
+                        <p onClick={() => setChart('yearly')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'yearly' && ' border-b-2 border-secondary'}`}>Yearly</p>
                     </div>
                     <ResponsiveContainer width="100%" height={400}>
                          <LineChart width={730} height={350} data={data}
@@ -337,10 +337,10 @@ export default function Dashboard() {
 
                 <div className=' flex flex-col items-center justify-center gap-6 w-full h-auto rounded-lg bg-[#000000] p-2 md:p-10 border-2 border-orange-300 border-opacity-50'>
                     <div className=' flex items-center'>
-                        <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
-                        <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>
-                        <p onClick={() => setChart('monthly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'monthly' && ' border-b-2 border-secondary'}`}>Monthly</p>
-                        <p onClick={() => setChart('yearly')} className={` text-sm font-medium px-4 py-2 cursor-default ${chart === 'yearly' && ' border-b-2 border-secondary'}`}>Yearly</p>
+                        <p onClick={() => setChart('daily')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'daily' && ' border-b-2 border-secondary'}`}>Daily</p>
+                        <p onClick={() => setChart('weekly')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'weekly' && ' border-b-2 border-secondary'}`}>Weekly</p>
+                        <p onClick={() => setChart('monthly')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'monthly' && ' border-b-2 border-secondary'}`}>Monthly</p>
+                        <p onClick={() => setChart('yearly')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'yearly' && ' border-b-2 border-secondary'}`}>Yearly</p>
                     </div>
                     <ResponsiveContainer width="100%" height={400}>
                          <LineChart width={730} height={350} data={timeData}

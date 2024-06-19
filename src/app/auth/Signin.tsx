@@ -142,14 +142,14 @@ export default function Signin() {
     
   }
 
- useEffect(() => {
-  const auth = Cookies.get('sessionToken');
-  if (auth === undefined) {
-    router.push('/');
-  } else {
-    router.push('/dashboard');
-  }
-}, []);
+//  useEffect(() => {
+//   const auth = Cookies.get('sessionToken');
+//   if (auth === undefined) {
+//     router.push('/');
+//   } else {
+//     router.push('/dashboard');
+//   }
+// }, []);
 
   return (
     <div className=' relative bg-[#141414] w-screen h-screen flex items-center justify-center '

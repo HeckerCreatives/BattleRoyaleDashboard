@@ -541,7 +541,7 @@ export default function page() {
                                         <img src={selectedImage as string} alt="" />
 
                                     </div>
-                                    <input type="file" accept="image/*" onChange={handleChange} className=' text-xs mt-4' />
+                                    <input type="file" accept="image/*" onChange={handleChange} className=' text-xs mt-4 cursor-pointer' />
 
                                 </div>
 
@@ -751,12 +751,12 @@ export default function page() {
                     <button 
                     onClick={() => setCurrentpage( currentpage - 1)}
                     disabled={loading ? true : currentpage === 0} 
-                   className=' bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
+                   className=' cursor-pointer  bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
                     {/* <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p> */}
                     <button
                       onClick={() => setCurrentpage(currentpage + 1)}
                     disabled={ loading ? true :  currentpage + 1 === totalpages}
-                    className='bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
+                    className=' cursor-pointer bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
 
                 </div>
             </div>
