@@ -10,6 +10,9 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { toast } from '@/components/ui/use-toast';
+import axios, { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
+import { FiCheck } from 'react-icons/fi';
   
 
 export default function Promotional() {
@@ -17,6 +20,7 @@ export default function Promotional() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const router = useRouter();
   
     const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
@@ -31,6 +35,78 @@ export default function Promotional() {
           });
       }
     };
+
+    const handleCreateVideoContent = async () => {
+    
+        if(title !== "" || content !== "" || videoFile !== null){
+            try {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/content/createcontent`,
+                     {
+                        title: title,
+                        description: content,
+                        link: videoFile,
+                        type: "video"
+                     }, 
+                     {                
+                        withCredentials: true,
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            }
+                     })
+                     if ( response.data.message === 'success'){
+                           setTitle("")
+                           setContent("")
+                           setVideoFile(null)
+                          toast({
+                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News successfully created</p></div>)
+                            })
+                    }
+    
+                     if ( response.data.message === 'failed'){
+                        setTitle("")
+                        setContent("")
+                        setVideoFile(null)
+                          toast({
+                            variant:'destructive',
+                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
+                            })
+                    }
+                    if ( response.data.message === 'bad-request'){
+                        setTitle("")
+                        setContent("")
+                        setVideoFile(null)
+                          toast({
+                            variant:'destructive',
+                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
+                            })
+                    }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+
+                      if (axiosError.response && axiosError.response.status === 400) {
+                        const errorMessage = axiosError.response.data?.message;
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+                }
+            }
+        }
+
+      }
 
 
   return (
@@ -62,7 +138,7 @@ export default function Promotional() {
                 <input accept="video/*" type="file" src="" alt="" onChange={handleVideoUpload} />
 
                 <div className=' w-full flex items-end justify-end gap-4 text-xs'>
-                    <button className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
+                    <button onClick={handleCreateVideoContent} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
                     <Dialog>
                     <DialogTrigger>
                         <button className=' bg-zinc-700 text-white px-4 py-2 rounded-md flex items-center gap-2'><Eye size={15}/>Preview</button>

@@ -18,6 +18,9 @@ import {
     CarouselNext,
     CarouselPrevious,
   } from "@/components/ui/carousel"
+import axios, { AxiosError } from 'axios'
+import { FiCheck } from 'react-icons/fi'
+import { useRouter } from 'next/navigation'
   
 
 type FormData = {
@@ -31,12 +34,13 @@ export default function Maps() {
     const [formData, setFormData] = useState<FormData[]>([
         { title: '', content: '', image: null, previewUrl: null },
       ]);
+      const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isValidated, setIsvalidated] = useState(false)
     const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)
     const [count, setCount] = React.useState(0)
+    const router = useRouter();
 
     React.useEffect(() => {
         if (!api) {
@@ -114,7 +118,130 @@ export default function Maps() {
         });
       };
 
-      console.log(formData)
+
+      const handleCreateMap = async () => {
+        const formDataToSend = new FormData()
+
+        formData.forEach(obj => {
+            formDataToSend.append('mapObjectArray', JSON.stringify({
+                title: obj.title,
+                description: obj.content,
+                image: obj.image,
+                previewUrl: obj.previewUrl,
+                type: 'map'
+            }))
+            if(obj.image){
+                formDataToSend.append('image', obj.image);
+            }
+        })
+        
+        if(formData.length > 0){
+            try {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/content/mapcontent`, 
+                     formDataToSend,
+                     {                
+                        withCredentials: true,
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            }
+                     })
+                     if ( response.data.message === 'success'){
+                        setFormData([])
+                        setSelectedFile(null)
+                        setSelectedImage(null)
+                          toast({
+                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News successfully created</p></div>)
+                            })
+                    }
+    
+                     if ( response.data.message === 'failed'){
+                        setFormData([])
+                        setSelectedFile(null)
+                        setSelectedImage(null)
+                          toast({
+                            variant:'destructive',
+                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
+                            })
+                    }
+                    if ( response.data.message === 'bad-request'){
+                        setFormData([])
+                        setSelectedFile(null)
+                        setSelectedImage(null)
+                          toast({
+                            variant:'destructive',
+                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
+                            })
+                    }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+
+                      if (axiosError.response && axiosError.response.status === 400) {
+                        const errorMessage = axiosError.response.data?.message;
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+                }
+            }
+        }
+
+      }
+
+
+
+
+      // fetch map list
+
+      useEffect(() =>{
+        const news = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/content/getcontent?limit=10`,{
+                     withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        }
+                })
+            } catch (error) {
+                 if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/')
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+
+                      if (axiosError.response && axiosError.response.status === 400) {
+                        const errorMessage = axiosError.response.data?.message;
+                        toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                        })
+                
+                    }
+                } 
+                
+            }
+        }
+        news()
+    },[])
       
 
 
@@ -165,7 +292,7 @@ export default function Maps() {
 
             <div className=' w-full flex flex-col gap-4 mt-12'> 
                 <div className=' w-full flex items-end justify-end gap-4 text-xs'>
-                    <button className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
+                    <button onClick={handleCreateMap} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
                     <button onClick={handleAddForm} className=' bg-zinc-700 text-white px-4 py-2 rounded-md flex items-center gap-2'><Plus size={15}/>Add more</button>
                     <Dialog>
                         <DialogTrigger>
