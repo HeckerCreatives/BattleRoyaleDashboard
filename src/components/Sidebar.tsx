@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FaUsers } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { FaEdit, FaUsers } from "react-icons/fa";
+import { MdDashboard, MdWeb } from "react-icons/md";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { GrHostMaintenance } from "react-icons/gr";
 import { GrTransaction } from "react-icons/gr";
@@ -10,7 +10,7 @@ import { FaBullhorn } from "react-icons/fa";
 import { IoIosGift } from "react-icons/io";
 import { IoIosSettings } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-import { FaMessage } from "react-icons/fa6";
+import { FaMessage, FaWebAwesome } from "react-icons/fa6";
 import {
   Collapsible,
   CollapsibleContent,
@@ -114,6 +114,36 @@ export default function Sidebar() {
             <FaBullhorn size={20}/>
             <span>News</span>
           </Link>
+
+          <Collapsible>
+          <CollapsibleTrigger className=' flex items-center justify-between'>
+
+           <p
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname.includes('/dashboard/customization/') && ' text-secondary'}`}
+              role='menuitem'
+            >
+              <FaEdit size={20}/>
+              <span>Customization</span>
+            </p>
+
+            <IoIosArrowDown size={10}/>
+           
+          </CollapsibleTrigger>
+          <CollapsibleContent className=' flex flex-col gap-2 pl-4'>
+             <Link
+              href='/dashboard/customization/landingpage'
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname.includes('/dashboard/customization/landingpage') && ' text-secondary'}`}
+              passHref
+            >
+              <MdWeb size={20}/>
+              <span>Landing Page</span>
+            </Link>
+
+           
+
+            
+          </CollapsibleContent>
+        </Collapsible>
 
 
           <Link

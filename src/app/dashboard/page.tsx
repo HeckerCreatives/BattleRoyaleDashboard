@@ -10,95 +10,6 @@ import { useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
 
-const data = [
-  {
-    name: 'Data 1',
-    uv: 4000,
-    transaction:0,
-    amt: 2400,
-  },
-  {
-    name: 'Data 2',
-    uv: 3000,
-    transaction:0,
-    amt: 2210,
-  },
-  {
-    name: 'Data 3',
-    uv: 2000,
-    transaction:0,
-    amt: 2290,
-  },
-  {
-    name: 'Data 4',
-    uv: 2780,
-    transaction:0,
-    amt: 2000,
-  },
-  {
-    name: 'Data 5',
-    uv: 1890,
-    transaction:0,
-    amt: 2181,
-  },
-  {
-    name: 'Data 6',
-    uv: 2390,
-    transaction:0,
-    amt: 2500,
-  },
-  {
-    name: 'Data 7',
-    uv: 3490,
-    transaction:0,
-    amt: 2100,
-  },
-];
-
-const data2 = [
-  {
-    name: 'Data 1',
-    uv: 4000,
-    registration: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Data 2',
-    uv: 3000,
-    registration: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Data 3',
-    uv: 2000,
-    registration: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Data 4',
-    uv: 2780,
-    registration: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Data 5',
-    uv: 1890,
-    registration: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Data 6',
-    uv: 2390,
-    registration: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Data 7',
-    uv: 3490,
-    registration: 4300,
-    amt: 2100,
-  },
-];
 
 
 export default function Dashboard() {
@@ -283,7 +194,7 @@ export default function Dashboard() {
                         <p onClick={() => setChart('yearly')} className={` text-sm font-medium px-4 py-2 cursor-pointer ${chart === 'yearly' && ' border-b-2 border-secondary'}`}>Yearly</p>
                     </div>
                     <ResponsiveContainer width="100%" height={400}>
-                         <LineChart width={730} height={350} data={data}
+                         <LineChart width={730} height={350}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" className=' text-xs'/>
