@@ -1,6 +1,7 @@
 'use client'
 import { Eye, Plus, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
+
 import {
     Dialog,
     DialogContent,
@@ -20,6 +21,8 @@ export default function Promotional() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [count, setCount] = useState(0); 
+
     const router = useRouter();
   
     const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,6 +111,9 @@ export default function Promotional() {
 
       }
 
+      React.useEffect(()=> {
+        setCount(content.length)
+      }, [content])
 
   return (
     <div className=' w-full flex flex-col gap-4 '>
@@ -116,8 +122,10 @@ export default function Promotional() {
                 <label htmlFor="">Title</label>
                 <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Title' className=' p-4 bg-zinc-800 rounded-md'/>
                 <label htmlFor="">Content</label>
-                <textarea  value={content} onChange={(e) => setContent(e.target.value)} placeholder='Content' className=' h-[300px] p-4 bg-zinc-800 rounded-md'/>
-
+                <textarea  value={content} maxLength={500} onChange={(e) =>{ setContent(e.target.value)}} placeholder='Content' className=' h-[300px] p-4 bg-zinc-800 rounded-md'/>
+                <div className="text-right text-gray-400">
+                    {count} / {500} characters
+                </div>
             </div>
 
             <div className=' w-full flex flex-col items-center gap-4 '>
@@ -202,3 +210,7 @@ export default function Promotional() {
     </div>
   )
 }
+function useEffect(arg0: () => void, arg1: string[]) {
+    throw new Error('Function not implemented.');
+}
+

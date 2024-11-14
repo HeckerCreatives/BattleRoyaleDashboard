@@ -21,9 +21,14 @@ import {
 import axios, { AxiosError } from 'axios'
 import { FiCheck } from 'react-icons/fi'
 import { useRouter } from 'next/navigation'
+import { RiCloseFill } from 'react-icons/ri'
   
 
 type FormData = {
+    id?: string; // Optional id field for fetched data
+    url?: string;
+    updated?: boolean;
+    charCount: number; // Track character count here
     title: string;
     content: string;
     image: File | null;
@@ -32,7 +37,7 @@ type FormData = {
 
 export default function Maps() {
     const [formData, setFormData] = useState<FormData[]>([
-        { title: '', content: '', image: null, previewUrl: null },
+        { title: '', content: '', image: null, previewUrl: null, charCount: 0, id: '', url: '', updated: false },
       ]);
       const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isValidated, setIsvalidated] = useState(false)
@@ -40,6 +45,7 @@ export default function Maps() {
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)
     const [count, setCount] = React.useState(0)
+    const [count1, setCount1] = useState(0); 
     const router = useRouter();
 
     React.useEffect(() => {
@@ -78,7 +84,7 @@ export default function Maps() {
         }
     }, [selectedFile]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         handleImageChange(e);
         handleFileChange(e);
       };
@@ -87,9 +93,7 @@ export default function Maps() {
 
       const handleAddForm = () => {
         const lastForm = formData[formData.length - 1];
-        const isFormComplete = Object.values(lastForm).every(value => value !== '' && value !== null);
-    
-        if (!isFormComplete) {
+        if (lastForm.title === '' || lastForm.content === '') {
           toast({
             variant: 'destructive',
             description: 'Please fill all the fields',
@@ -98,7 +102,7 @@ export default function Maps() {
           return;
         }
     
-        setFormData([...formData, { title: '', content: '', image: null, previewUrl: null }]);
+        setFormData([...formData, { charCount: 0, title: '', content: '', image: null, previewUrl: null, updated: false }]);
       };
     
       const handleRemoveForm = (index: number) => {
@@ -108,11 +112,20 @@ export default function Maps() {
       const handleChangeForm = (index: number, field: keyof FormData, value: string | File | null) => {
         setFormData((prevFormData) => {
           const newFormData = [...prevFormData];
+
+          const maxLength = field === 'title' ? 50 : field === 'content' ? 500 : undefined;
+
+ 
           if (field === 'image' && value instanceof File) {
             newFormData[index].image = value;
+            newFormData[index]['updated'] = true
             newFormData[index].previewUrl = URL.createObjectURL(value); // Generate and set the preview URL
           } else if (field === 'title' || field === 'content') {
             newFormData[index][field] = value as string;
+            newFormData[index]['updated'] = true
+            if (field === 'content') {
+              newFormData[index].charCount = (value as string).length;
+            }
           }
           return newFormData;
         });
@@ -120,102 +133,131 @@ export default function Maps() {
 
 
       const handleCreateMap = async () => {
-        const formDataToSend = new FormData()
-
-        formData.forEach(obj => {
-            formDataToSend.append('mapObjectArray', JSON.stringify({
+        const successMessages = [];
+        const errorMessages = [];
+      
+        try {
+          for (const obj of formData) {
+            if(!obj.updated){
+                continue;
+            }
+            const formDataToSend = new FormData();
+            formDataToSend.append(
+              'mapObjectArray',
+              JSON.stringify({
                 title: obj.title,
                 description: obj.content,
                 image: obj.image,
                 previewUrl: obj.previewUrl,
+                url: obj.url,
                 type: 'map'
-            }))
-            if(obj.image){
-                formDataToSend.append('image', obj.image);
+              })
+            );
+      
+            if (obj.image) {
+              formDataToSend.append('link', obj.image);
             }
-        })
-        
-        if(formData.length > 0){
-            try {
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/content/mapcontent`, 
-                     formDataToSend,
-                     {                
-                        withCredentials: true,
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            }
-                     })
-                     if ( response.data.message === 'success'){
-                        setFormData([])
-                        setSelectedFile(null)
-                        setSelectedImage(null)
-                          toast({
-                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News successfully created</p></div>)
-                            })
-                    }
-    
-                     if ( response.data.message === 'failed'){
-                        setFormData([])
-                        setSelectedFile(null)
-                        setSelectedImage(null)
-                          toast({
-                            variant:'destructive',
-                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
-                            })
-                    }
-                    if ( response.data.message === 'bad-request'){
-                        setFormData([])
-                        setSelectedFile(null)
-                        setSelectedImage(null)
-                          toast({
-                            variant:'destructive',
-                            description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
-                            })
-                    }
-            } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    const axiosError = error as AxiosError<{ message: string, data: string }>;
-                    if (axiosError.response && axiosError.response.status === 401) {
-                        router.push('/')
-                        toast({
-                        variant: "destructive",
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
-                
-                    }
-
-                      if (axiosError.response && axiosError.response.status === 400) {
-                        const errorMessage = axiosError.response.data?.message;
-                        toast({
-                        variant: "destructive",
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
-                
-                    }
-                }
+      
+            // Choose the API endpoint based on whether `id` is present or empty
+            const endpoint =
+              obj.id && obj.id !== ''
+                ? `${process.env.NEXT_PUBLIC_API_URL}/content/editmapcontent?mapid=${obj.id}`
+                : `${process.env.NEXT_PUBLIC_API_URL}/content/mapcontent`;
+      
+            // Add the `id` field to `formDataToSend` if it exists and sending to `updatecontent`
+            if (obj.id && obj.id !== '') {
+              formDataToSend.append('id', obj.id);
             }
+      
+            // Make the request to the appropriate endpoint
+            const response = await axios.post(endpoint, formDataToSend, {
+              withCredentials: true,
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+      
+            // Collect success or error messages
+            if (response.data.message === 'success') {
+              successMessages.push(`Content "${obj.title}" saved successfully.`);
+            } else {
+              errorMessages.push(`Failed to save "${obj.title}": ${response.data.data}`);
+            }
+          }
+      
+          // Display toast for results
+          if (successMessages.length > 0) {
+            toast({
+              description: (
+                <div className='flex items-center gap-2'>
+                  <FiCheck size={20} />
+                  <div>
+                    <p>{successMessages.join(', ')}</p>
+                  </div>
+                </div>
+              )
+            });
+          }
+      
+          if (errorMessages.length > 0) {
+            toast({
+              variant: 'destructive',
+              description: (
+                <div className='flex items-center gap-2'>
+                  <FiCheck size={20} />
+                  <div>
+                    <p>{errorMessages.join(', ')}</p>
+                  </div>
+                </div>
+              )
+            });
+          }
+      
+          setSelectedFile(null);
+          setSelectedImage(null);
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            const axiosError = error;
+            const errorMessage = axiosError.response?.data?.message || 'An error occurred';
+            toast({
+              variant: 'destructive',
+              title: errorMessage,
+              description: axiosError.response?.data?.data || 'Please try again later.'
+            });
+            if (axiosError.response?.status === 401) {
+              router.push('/');
+            }
+          }
         }
+      };
+      
+    
 
-      }
+      // handle delete map
 
-
-
-
-      // fetch map list
-
-      useEffect(() =>{
-        const news = async () => {
-            try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/content/getcontent?limit=10`,{
-                     withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        }
+      const handleDeleteMap = async (id: string) => {
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/news/deletecontent?contentid=${id}`,{
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    }
+            })
+             if ( response.data.message === 'success') {
+                toast({
+                description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News deleted successfully</p></div>)
                 })
-            } catch (error) {
-                 if (axios.isAxiosError(error)) {
+            }
+
+            if ( response.data.message === 'failed') {
+                toast({
+                variant:'destructive',
+                description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>{response.data.data}</p></div>)
+                })
+            }
+
+        } catch (error) {
+             if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
                     if (axiosError.response && axiosError.response.status === 401) {
                         router.push('/')
@@ -237,12 +279,59 @@ export default function Maps() {
                 
                     }
                 } 
-                
-            }
+            
         }
-        news()
-    },[])
-      
+      }
+
+
+      // fetch map list
+
+      useEffect(() => {
+        const fetchMapData = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/content/getcontent?limit=10&type=map`, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                if(response.data.data.length > 0){
+                    const mappedData = response.data.data.map((mapItem: any) => ({
+                        title: mapItem.title || '',
+                        content: mapItem.description || '',
+                        image: null,
+                        updated: false, 
+                        previewUrl: `${process.env.NEXT_PUBLIC_API_URL}/${mapItem.link}` || null,
+                        url: mapItem.link,
+                        id: mapItem.id
+                    }));       
+                    setFormData(mappedData);
+                }
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    const axiosError = error as AxiosError<{ message: string, data: string }>;
+                    if (axiosError.response && axiosError.response.status === 401) {
+                        router.push('/');
+                        toast({
+                            variant: "destructive",
+                            title: `${axiosError.response.data.message}`,
+                            description: `${axiosError.response.data.data}`
+                        });
+                    } else if (axiosError.response && axiosError.response.status === 400) {
+                        toast({
+                            variant: "destructive",
+                            title: `${axiosError.response.data.message}`,
+                            description: `${axiosError.response.data.data}`
+                        });
+                    }
+                }
+            }
+        };
+    
+        fetchMapData();
+    }, []);
+    
 
 
   return (
@@ -255,8 +344,10 @@ export default function Maps() {
                     <label htmlFor="">Title</label>
                     <input value={item.title} onChange={(e) => handleChangeForm(index, 'title' , e.target.value)} placeholder='Title' className=' p-4 bg-zinc-800 rounded-md'/>
                     <label htmlFor="">Content</label>
-                    <textarea  value={item.content} onChange={(e) => handleChangeForm(index, 'content' , e.target.value)} placeholder='Content' className=' h-[300px] p-4 bg-zinc-800 rounded-md'/>
-        
+                    <textarea  value={item.content} maxLength={500} onChange={(e) => handleChangeForm(index, 'content' , e.target.value)} placeholder='Content' className=' h-[300px] p-4 bg-zinc-800 rounded-md'/>
+                    <div className="text-right text-gray-400">
+                        {item.charCount} / {500} characters
+                    </div>
                 </div>
         
                 <div className=' w-full flex flex-col gap-4'>
@@ -292,8 +383,9 @@ export default function Maps() {
 
             <div className=' w-full flex flex-col gap-4 mt-12'> 
                 <div className=' w-full flex items-end justify-end gap-4 text-xs'>
-                    <button onClick={handleCreateMap} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
-                    <button onClick={handleAddForm} className=' bg-zinc-700 text-white px-4 py-2 rounded-md flex items-center gap-2'><Plus size={15}/>Add more</button>
+                <button onClick={handleCreateMap} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
+                <button onClick={()=> console.log(formData)} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>log</button>
+                <button onClick={handleAddForm} className=' bg-zinc-700 text-white px-4 py-2 rounded-md flex items-center gap-2'><Plus size={15}/>Add more</button>
                     <Dialog>
                         <DialogTrigger>
                            

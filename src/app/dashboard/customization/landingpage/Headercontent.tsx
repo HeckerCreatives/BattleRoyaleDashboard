@@ -1,5 +1,5 @@
-import { Eye } from 'lucide-react'
-import React, { useState } from 'react'
+import { Contact, Eye } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -12,6 +12,7 @@ import axios, { AxiosError } from 'axios'
 import { toast } from '@/components/ui/use-toast'
 import { FiCheck } from 'react-icons/fi'
 import { useRouter } from 'next/navigation'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 type Header = {
     title: string
@@ -20,18 +21,19 @@ type Header = {
 export default function Headercontent() {
     const [header, setHeader] = useState('LOREM IPSUM')
     const [content, setContent] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
-    
+    const [selectedOption, setSelectedOption] = useState('');
+    const [count, setCount] = useState(0); 
     const router = useRouter();
     const handleCreateHeaderContent = async () => {
-    
-        if(header !== "" || content !== ""){
+
+        if(header !== "" || content !== "" || selectedOption !== ''){
             try {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/content/createcontent`,
                      {
                         title: header,
                         description: content,
                         link: "",
-                        type: "header"
+                        type: selectedOption
                      }, 
                      {                
                         withCredentials: true,
@@ -40,8 +42,9 @@ export default function Headercontent() {
                             }
                      })
                      if ( response.data.message === 'success'){
-                           setHeader("")
-                           setContent("")
+                        setHeader("")
+                        setSelectedOption("")
+                        setContent("")
                            toast({
                             description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News successfully created</p></div>)
                             })
@@ -50,6 +53,7 @@ export default function Headercontent() {
                      if ( response.data.message === 'failed'){
                           setHeader("")
                           setContent("")
+                          setSelectedOption("")
                           toast({
                             variant:'destructive',
                             description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
@@ -58,6 +62,7 @@ export default function Headercontent() {
                     if ( response.data.message === 'bad-request'){
                           setHeader("")
                           setContent("")
+                          setSelectedOption("")
                           toast({
                             variant:'destructive',
                             description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
@@ -88,15 +93,36 @@ export default function Headercontent() {
                 }
             }
         }
-
       }
+
+
+      useEffect(()=> {
+        setCount(content.length)
+      }, [content])
   return (
     <div className=' w-full flex flex-col gap-4 text-xs'>
+         <label htmlFor="">Type</label>
+          <Select 
+          value={selectedOption}
+          onValueChange={(value) => {
+              setSelectedOption(value);
+          }}
+          >
+            <SelectTrigger className='w-full bg-zinc-900 rounded-md'>
+                <SelectValue placeholder="Select Type"/>
+            </SelectTrigger>
+            <SelectContent>
+            <SelectItem value='header'>Header</SelectItem>
+            <SelectItem value='about'>About</SelectItem>
+            </SelectContent>
+          </Select>
          <label htmlFor="">Title </label>
          <input value={header} onChange={(e) => setHeader(e.target.value)} placeholder='Title' className=' p-4 bg-zinc-800 rounded-md'/>
         <label htmlFor=""> Content</label>
-        <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder='Input content here' className=' h-[350px] p-4 bg-zinc-800 rounded-md'/>
-
+        <textarea value={content} maxLength={500} onChange={(e) =>setContent(e.target.value)} placeholder='Input content here' className=' h-[350px] p-4 bg-zinc-800 rounded-md'/>
+        <div className="text-right text-gray-400">
+            {count} / {500} characters
+        </div>
         <div className=' w-full flex items-end justify-end gap-4 text-xs'>
             <button onClick={handleCreateHeaderContent} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
             <Dialog>
