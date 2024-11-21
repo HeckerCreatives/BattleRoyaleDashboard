@@ -33,7 +33,6 @@ export default function Dashboard() {
         })
         setTotal(response.data.data.totalusers)
         setToday(response.data.data.usersToday)
-        console.log(response.data)
       } catch (error) {
          if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -82,9 +81,7 @@ export default function Dashboard() {
           time,
           value: Number(value)
         }));
-        console.log('Transformed data:', transformedData); // Log transformed data
         setTimeData(transformedData);
-        console.log(response.data)
       } catch (error) {
          if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;

@@ -78,7 +78,6 @@ export default function page() {
               'Content-Type': 'application/json',
                 }
         })
-        console.log(response.data)
         if(response.data.message === 'success'){
           setLoading(false)
           toast({

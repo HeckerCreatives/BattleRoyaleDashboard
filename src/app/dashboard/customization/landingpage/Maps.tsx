@@ -384,7 +384,7 @@ export default function Maps() {
             <div className=' w-full flex flex-col gap-4 mt-12'> 
                 <div className=' w-full flex items-end justify-end gap-4 text-xs'>
                 <button onClick={handleCreateMap} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
-                <button onClick={()=> console.log(formData)} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>log</button>
+                {/* <button onClick={()=> console.log(formData)} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>log</button> */}
                 <button onClick={handleAddForm} className=' bg-zinc-700 text-white px-4 py-2 rounded-md flex items-center gap-2'><Plus size={15}/>Add more</button>
                     <Dialog>
                         <DialogTrigger>

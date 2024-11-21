@@ -113,7 +113,6 @@ export default function page() {
         })
         setTotal(response.data.data.totalusers)
         setToday(response.data.data.usersToday)
-        console.log(response.data)
       } catch (error) {
          if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -512,7 +511,6 @@ export default function page() {
                     description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>Theres a problem changing the password</p></div>),
                 })
                 }
-                console.log(response.data)
             } catch (error) {
             setPasswordload(false)
                 if (axios.isAxiosError(error)) {
