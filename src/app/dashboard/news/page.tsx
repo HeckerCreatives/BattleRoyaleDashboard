@@ -42,6 +42,7 @@ import { IoMdEye } from "react-icons/io";
 import { TiArrowLeftThick, TiArrowRightThick } from 'react-icons/ti'
 import { RiCloseFill } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
+import emailjs from "emailjs-com";
 
 
 interface News {
@@ -50,6 +51,10 @@ description: string
 newsid: string
 title: string
 
+}
+
+type Subscriber = {
+    email: string
 }
 export default function page() {
     const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
@@ -60,6 +65,7 @@ export default function page() {
     const [loading, setLoading] = useState(false)
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [mass, setMass] = useState(false)
+    const [subscription, setSubscription] = useState<Subscriber[]>([])
 
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -88,98 +94,98 @@ export default function page() {
     handleFileChange(e);
   };
 
-    const createNews = async () => {
-        setLoading(true)
-        if( title === ''){
-        setLoading(false)
-             toast({
-            variant: "destructive",
-            title: "Enter a news title",
-            })
-        }
-        if( description === ''){
-        setLoading(false)
-             toast({
-            variant: "destructive",
-            title: "Enter a news description",
-            })
-        }
+    // const createNews = async () => {
+    //     setLoading(true)
+    //     if( title === ''){
+    //     setLoading(false)
+    //          toast({
+    //         variant: "destructive",
+    //         title: "Enter a news title",
+    //         })
+    //     }
+    //     if( description === ''){
+    //     setLoading(false)
+    //          toast({
+    //         variant: "destructive",
+    //         title: "Enter a news description",
+    //         })
+    //     }
 
-        if( selectedImage === null){
-        setLoading(false)
-             toast({
-            variant: "destructive",
-            title: "Please add an image",
-            })
-        }
-        if(selectedImage !== null && title !== '' && description !== ''){
-            try {
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/createnews`,{
-                    title: title,
-                    description: description,
-                    bannerimg: selectedFile
-                },{
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        }
-                })
-                if ( response.data.message === 'success'){
-                    setLoading(false)
-                    setTitle('')
-                    setDescription('')
-                    setSelectedImage(null)
-                      toast({
-                        description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News successfully created</p></div>)
-                        })
-                }
+    //     if( selectedImage === null){
+    //     setLoading(false)
+    //          toast({
+    //         variant: "destructive",
+    //         title: "Please add an image",
+    //         })
+    //     }
+    //     if(selectedImage !== null && title !== '' && description !== ''){
+    //         try {
+    //             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/createnews`,{
+    //                 title: title,
+    //                 description: description,
+    //                 bannerimg: selectedFile
+    //             },{
+    //                 withCredentials: true,
+    //                 headers: {
+    //                     'Content-Type': 'multipart/form-data',
+    //                     }
+    //             })
+    //             if ( response.data.message === 'success'){
+    //                 setLoading(false)
+    //                 setTitle('')
+    //                 setDescription('')
+    //                 setSelectedImage(null)
+    //                   toast({
+    //                     description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News successfully created</p></div>)
+    //                     })
+    //             }
 
-                 if ( response.data.message === 'failed'){
-                    setLoading(false)
-                    setTitle('')
-                    setDescription('')
-                    setSelectedImage(null)
-                      toast({
-                        variant:'destructive',
-                        description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
-                        })
-                }
+    //              if ( response.data.message === 'failed'){
+    //                 setLoading(false)
+    //                 setTitle('')
+    //                 setDescription('')
+    //                 setSelectedImage(null)
+    //                   toast({
+    //                     variant:'destructive',
+    //                     description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
+    //                     })
+    //             }
 
-                 if ( response.data.message === 'failed'){
-                    setLoading(false)
-                      toast({
-                        title: "Failed",
-                        description:`${response.data.data}`
-                        })
-                }
-            } catch (error) {
-                 if (axios.isAxiosError(error)) {
-                    const axiosError = error as AxiosError<{ message: string, data: string }>;
-                    if (axiosError.response && axiosError.response.status === 401) {
-                        router.push('/')
-                        toast({
-                        variant: "destructive",
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
+    //              if ( response.data.message === 'failed'){
+    //                 setLoading(false)
+    //                   toast({
+    //                     title: "Failed",
+    //                     description:`${response.data.data}`
+    //                     })
+    //             }
+    //         } catch (error) {
+    //              if (axios.isAxiosError(error)) {
+    //                 const axiosError = error as AxiosError<{ message: string, data: string }>;
+    //                 if (axiosError.response && axiosError.response.status === 401) {
+    //                     router.push('/')
+    //                     toast({
+    //                     variant: "destructive",
+    //                     title: `${axiosError.response.data.message}`,
+    //                     description: `${axiosError.response.data.data}`
+    //                     })
                 
-                    }
+    //                 }
 
-                      if (axiosError.response && axiosError.response.status === 400) {
-                        const errorMessage = axiosError.response.data?.message;
-                        toast({
-                        variant: "destructive",
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
+    //                   if (axiosError.response && axiosError.response.status === 400) {
+    //                     const errorMessage = axiosError.response.data?.message;
+    //                     toast({
+    //                     variant: "destructive",
+    //                     title: `${axiosError.response.data.message}`,
+    //                     description: `${axiosError.response.data.data}`
+    //                     })
                 
-                    }
-                } 
+    //                 }
+    //             } 
                 
-            }
-        }
+    //         }
+    //     }
         
-    }
+    // }
 
     const massNews = async () => {
         setLoading(true)
@@ -497,6 +503,189 @@ export default function page() {
         setEdit(true)
     }
   },[check])
+
+  useEffect(() =>{
+    const news = async () => {
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/subscription/getsubscribers`,{
+                 withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    }
+            })
+
+            setSubscription(response.data.data)
+           
+        } catch (error) {
+             if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError<{ message: string, data: string }>;
+                if (axiosError.response && axiosError.response.status === 401) {
+                    router.push('/')
+                    toast({
+                    variant: "destructive",
+                    title: `${axiosError.response.data.message}`,
+                    description: `${axiosError.response.data.data}`
+                    })
+            
+                }
+
+                  if (axiosError.response && axiosError.response.status === 400) {
+                    const errorMessage = axiosError.response.data?.message;
+                    toast({
+                    variant: "destructive",
+                    title: `${axiosError.response.data.message}`,
+                    description: `${axiosError.response.data.data}`
+                    })
+            
+                }
+            } 
+            
+        }
+    }
+    news()
+},[])
+
+
+const createNews = async () => {
+    setLoading(true);
+
+    // Validation checks
+    if (title === '') {
+        setLoading(false);
+        toast({ variant: "destructive", title: "Enter a news title" });
+        return;
+    }
+    if (description === '') {
+        setLoading(false);
+        toast({ variant: "destructive", title: "Enter a news description" });
+        return;
+    }
+    if (selectedImage === null) {
+        setLoading(false);
+        toast({ variant: "destructive", title: "Please add an image" });
+        return;
+    }
+
+    try {
+        // API call to create news
+        const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/news/createnews`,
+            {
+                title,
+                description,
+                bannerimg: selectedFile,
+            },
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+
+        if (response.data.message === 'success') {
+            setLoading(false);
+            setTitle('');
+            setDescription('');
+            setSelectedImage(null);
+
+            toast({
+                description: (
+                    <div className="flex items-center gap-2">
+                        <FiCheck size={20} />
+                        <p>News successfully created</p>
+                    </div>
+                ),
+            });
+
+            // Send email notifications to subscribers
+            await sendEmailToSubscribers(title, description);
+        }
+
+        if (response.data.message === 'failed') {
+            setLoading(false);
+            toast({
+                variant: 'destructive',
+                description: (
+                    <div className="flex items-center gap-2">
+                        <FiCheck size={20} />
+                        <p>{response.data.data}</p>
+                    </div>
+                ),
+            });
+        }
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            const axiosError = error as AxiosError<{ message: string; data: string }>;
+            if (axiosError.response) {
+                const { status, data } = axiosError.response;
+                if (status === 401) {
+                    router.push('/');
+                    toast({
+                        variant: "destructive",
+                        title: `${data.message}`,
+                        description: `${data.data}`,
+                    });
+                }
+                if (status === 400) {
+                    toast({
+                        variant: "destructive",
+                        title: `${data.message}`,
+                        description: `${data.data}`,
+                    });
+                }
+            }
+        }
+    }
+};
+
+// Helper function to send emails using EmailJS
+const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string) => {
+    try {
+        // Fetch subscribers
+        const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/subscription/getsubscribers`,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const subscribers = response.data.data; // Assuming this is an array of emails
+
+        console.log(subscribers)
+
+        // Send email to each subscriber
+        for (const subscriber of subscribers) {
+            await emailjs.send(
+                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+                {
+                    to_name: subscriber.email,
+                    from_name: "Rise of Fearless", 
+                    to_email: subscriber.email,
+                    subject: `New News from Rise of Fearless: ${title}`,
+                    message: description, 
+                    banner_img: ''
+                },
+                process.env.NEXT_PUBLIC_EMAILJS_USER_ID
+            );
+        }
+        toast({
+            variant: "default",
+            title: `Emails sent to all subscribers!`,
+        });
+    } catch (error) {
+        toast({
+            variant: "destructive",
+            title: `Failed to send emails to subscribers.`,
+        });
+    }
+};
+
+
     
   return (
     <div className=' flex w-full'>
