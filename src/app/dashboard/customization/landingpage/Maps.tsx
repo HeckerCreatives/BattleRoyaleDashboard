@@ -22,6 +22,7 @@ import axios, { AxiosError } from 'axios'
 import { FiCheck } from 'react-icons/fi'
 import { useRouter } from 'next/navigation'
 import { RiCloseFill } from 'react-icons/ri'
+import Loader from '@/components/Loader'
   
 
 type FormData = {
@@ -47,6 +48,8 @@ export default function Maps() {
     const [count, setCount] = React.useState(0)
     const [count1, setCount1] = useState(0); 
     const router = useRouter();
+    const [loading, setLoading] = useState(false)
+    const [maplist, setMaplist] = useState(0)
 
     React.useEffect(() => {
         if (!api) {
@@ -135,12 +138,15 @@ export default function Maps() {
       const handleCreateMap = async () => {
         const successMessages = [];
         const errorMessages = [];
+        setLoading(true)
       
         try {
           for (const obj of formData) {
+
             if(!obj.updated){
-                continue;
-            }
+              continue;
+          }
+            
             const formDataToSend = new FormData();
             formDataToSend.append(
               'mapObjectArray',
@@ -179,14 +185,21 @@ export default function Maps() {
       
             // Collect success or error messages
             if (response.data.message === 'success') {
+              fetchMapData()
               successMessages.push(`Content "${obj.title}" saved successfully.`);
+               setLoading(false)
+
             } else {
               errorMessages.push(`Failed to save "${obj.title}": ${response.data.data}`);
+              setLoading(false)
+
             }
           }
       
           // Display toast for results
           if (successMessages.length > 0) {
+            setLoading(false)
+
             toast({
               description: (
                 <div className='flex items-center gap-2'>
@@ -200,6 +213,8 @@ export default function Maps() {
           }
       
           if (errorMessages.length > 0) {
+            setLoading(false)
+
             toast({
               variant: 'destructive',
               description: (
@@ -216,6 +231,8 @@ export default function Maps() {
           setSelectedFile(null);
           setSelectedImage(null);
         } catch (error) {
+          setLoading(false)
+
           if (axios.isAxiosError(error)) {
             const axiosError = error;
             const errorMessage = axiosError.response?.data?.message || 'An error occurred';
@@ -230,6 +247,127 @@ export default function Maps() {
           }
         }
       };
+
+      const fetchMapData = async () => {
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/content/getcontent?limit=10&type=map`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            if(response.data.data.length > 0){
+                const mappedData = response.data.data.map((mapItem: any) => ({
+                    title: mapItem.title || '',
+                    content: mapItem.description || '',
+                    image: null,
+                    updated: false, 
+                    previewUrl: `${process.env.NEXT_PUBLIC_API_URL}/${mapItem.link}` || null,
+                    url: mapItem.link,
+                    id: mapItem.id
+                }));       
+                setFormData(mappedData);
+            }
+
+            setMaplist(response.data.data.length)
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError<{ message: string, data: string }>;
+                if (axiosError.response && axiosError.response.status === 401) {
+                    router.push('/');
+                    toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                    });
+                } else if (axiosError.response && axiosError.response.status === 400) {
+                    toast({
+                        variant: "destructive",
+                        title: `${axiosError.response.data.message}`,
+                        description: `${axiosError.response.data.data}`
+                    });
+                }
+            }
+        }
+    };
+
+      const deleteMap = async (id: string) => {
+        setLoading(true)
+
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/content/deletecontent?id=${id}`,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+
+        if ( response.data.message === 'success') {
+          setLoading(false)
+          fetchMapData()
+          toast({
+            title: "Success",
+            description: "Successfully deleted",
+          })
+          }
+          
+        } catch (error) {
+          setLoading(false)
+
+          if (axios.isAxiosError(error)) {
+            const axiosError = error as AxiosError<{ message: string, data: string }>;
+            if (axiosError.response && axiosError.response.status === 401) {
+                router.push('/')
+                toast({
+                variant:'destructive',
+                title: `${axiosError.response.data.message}`,
+                description: `${axiosError.response.data.data}`
+                })
+        
+            }
+
+            if (axiosError.response && axiosError.response.status === 400) {
+                toast({
+                variant:'destructive',
+                title: `${axiosError.response.data.message}`,
+                description: `${axiosError.response.data.data}`
+                })
+        
+            }
+
+            if (axiosError.response && axiosError.response.status === 402) {
+                toast({
+                variant:'destructive',
+                title: `${axiosError.response.data.message}`,
+                description: `${axiosError.response.data.data}`
+                })
+        
+            }
+
+            if (axiosError.response && axiosError.response.status === 403) {
+                toast({
+                variant:'destructive',
+                title: `${axiosError.response.data.message}`,
+                description: `${axiosError.response.data.data}`
+                })
+        
+            }
+
+            if (axiosError.response && axiosError.response.status === 404) {
+                toast({
+                variant:'destructive',
+                title: `${axiosError.response.data.message}`,
+                description: `${axiosError.response.data.data}`
+                })
+        
+            }
+        } 
+        }
+      }
       
     
 
@@ -308,6 +446,8 @@ export default function Maps() {
                     }));       
                     setFormData(mappedData);
                 }
+
+                setMaplist(response.data.data.length)
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     const axiosError = error as AxiosError<{ message: string, data: string }>;
@@ -331,6 +471,8 @@ export default function Maps() {
     
         fetchMapData();
     }, []);
+
+    console.log(formData)
     
 
 
@@ -364,10 +506,23 @@ export default function Maps() {
                     <input  onChange={(e) => handleChangeForm(index, 'image', e.target.files ? e.target.files[0] : null)}  type="file"  accept="image/*" />
         
                     <div className=' w-full flex items-end justify-end gap-4 text-xs'>
-                       
-                        {index !== 0 && (
-                            <button onClick={() => handleRemoveForm(index)} className=' bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2'><Trash2 size={15}/>Delete</button>
+                      {maplist !== 0 ? (
+                            <button onClick={() => deleteMap(item.id ?? '')} className=' bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2'>
+                               { loading === true && (
+                          <Loader/>
                         )}
+                              <Trash2 size={15}/>
+                              
+                            Delete</button>
+
+                      ): (
+                        <button onClick={() => handleRemoveForm(index)} className=' bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2'><Trash2 size={15}/>Delete</button>
+
+                      )}
+                       
+                        {/* {index !== 0 && (
+                            <button onClick={() => handleRemoveForm(index)} className=' bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2'><Trash2 size={15}/>Delete</button>
+                        )} */}
         
         
                     </div>
@@ -383,7 +538,11 @@ export default function Maps() {
 
             <div className=' w-full flex flex-col gap-4 mt-12'> 
                 <div className=' w-full flex items-end justify-end gap-4 text-xs'>
-                <button onClick={handleCreateMap} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>Save</button>
+                <button disabled={loading} onClick={handleCreateMap} className=' bg-orange-600 text-white px-4 py-2 rounded-md flex items-center gap-2'>
+                { loading === true && (
+                          <Loader/>
+                        )}
+                  Save</button>
                 {/* <button onClick={()=> console.log(formData)} className=' bg-orange-600 text-white px-4 py-2 rounded-md'>log</button> */}
                 <button onClick={handleAddForm} className=' bg-zinc-700 text-white px-4 py-2 rounded-md flex items-center gap-2'><Plus size={15}/>Add more</button>
                     <Dialog>
