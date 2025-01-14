@@ -472,7 +472,6 @@ export default function Maps() {
         fetchMapData();
     }, []);
 
-    console.log(formData)
     
 
 

@@ -94,99 +94,6 @@ export default function page() {
     handleFileChange(e);
   };
 
-    // const createNews = async () => {
-    //     setLoading(true)
-    //     if( title === ''){
-    //     setLoading(false)
-    //          toast({
-    //         variant: "destructive",
-    //         title: "Enter a news title",
-    //         })
-    //     }
-    //     if( description === ''){
-    //     setLoading(false)
-    //          toast({
-    //         variant: "destructive",
-    //         title: "Enter a news description",
-    //         })
-    //     }
-
-    //     if( selectedImage === null){
-    //     setLoading(false)
-    //          toast({
-    //         variant: "destructive",
-    //         title: "Please add an image",
-    //         })
-    //     }
-    //     if(selectedImage !== null && title !== '' && description !== ''){
-    //         try {
-    //             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/createnews`,{
-    //                 title: title,
-    //                 description: description,
-    //                 bannerimg: selectedFile
-    //             },{
-    //                 withCredentials: true,
-    //                 headers: {
-    //                     'Content-Type': 'multipart/form-data',
-    //                     }
-    //             })
-    //             if ( response.data.message === 'success'){
-    //                 setLoading(false)
-    //                 setTitle('')
-    //                 setDescription('')
-    //                 setSelectedImage(null)
-    //                   toast({
-    //                     description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News successfully created</p></div>)
-    //                     })
-    //             }
-
-    //              if ( response.data.message === 'failed'){
-    //                 setLoading(false)
-    //                 setTitle('')
-    //                 setDescription('')
-    //                 setSelectedImage(null)
-    //                   toast({
-    //                     variant:'destructive',
-    //                     description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
-    //                     })
-    //             }
-
-    //              if ( response.data.message === 'failed'){
-    //                 setLoading(false)
-    //                   toast({
-    //                     title: "Failed",
-    //                     description:`${response.data.data}`
-    //                     })
-    //             }
-    //         } catch (error) {
-    //              if (axios.isAxiosError(error)) {
-    //                 const axiosError = error as AxiosError<{ message: string, data: string }>;
-    //                 if (axiosError.response && axiosError.response.status === 401) {
-    //                     router.push('/')
-    //                     toast({
-    //                     variant: "destructive",
-    //                     title: `${axiosError.response.data.message}`,
-    //                     description: `${axiosError.response.data.data}`
-    //                     })
-                
-    //                 }
-
-    //                   if (axiosError.response && axiosError.response.status === 400) {
-    //                     const errorMessage = axiosError.response.data?.message;
-    //                     toast({
-    //                     variant: "destructive",
-    //                     title: `${axiosError.response.data.message}`,
-    //                     description: `${axiosError.response.data.data}`
-    //                     })
-                
-    //                 }
-    //             } 
-                
-    //         }
-    //     }
-        
-    // }
-
     const massNews = async () => {
         setLoading(true)
         if( title === ''){
@@ -284,7 +191,7 @@ export default function page() {
         const news = async () => {
             setListload(true)
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/news/getnewslist?page=${currentpage}&limit=10`,{
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/newsletter/getnewsletterlist?page=${currentpage}&limit=10`,{
                      withCredentials: true,
                     headers: {
                         'Content-Type': 'application/json',
@@ -325,7 +232,7 @@ export default function page() {
     const refresh = async () => {
             setListload(true)
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/news/getnewslist?page=${currentpage}&limit=10`,{
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/newsletter/getnewsletterlist?page=${currentpage}&limit=10`,{
                      withCredentials: true,
                     headers: {
                         'Content-Type': 'application/json',
@@ -364,8 +271,8 @@ export default function page() {
     const editNews = async () => {
         setEditLoad(true)
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news/editnews`,{
-                newsid: id,
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/newsletter/editnewsletter`,{
+                newsletterid: id,
                 title: editTitle,
                 description: editdescription,
                 bannerimg: selectedFile
@@ -380,7 +287,7 @@ export default function page() {
                 setSelectedImage(null)
                 setSelectedFile(null)
                  toast({
-                description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News updated successfully</p></div>)
+                description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Newsletter updated successfully</p></div>)
                 })
             }
 
@@ -420,7 +327,7 @@ export default function page() {
 
     const deleteNews = async () =>{
         try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/news/deletenews?newsid=${id}`,{
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/newsletter/deletenewsletter?newsletterid=${id}`,{
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
@@ -428,7 +335,7 @@ export default function page() {
             })
              if ( response.data.message === 'success') {
                  toast({
-                description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>News deleted successfully</p></div>)
+                description: (<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Newsletter deleted successfully</p></div>)
                 })
             }
 
@@ -552,12 +459,12 @@ const createNews = async () => {
     // Validation checks
     if (title === '') {
         setLoading(false);
-        toast({ variant: "destructive", title: "Enter a news title" });
+        toast({ variant: "destructive", title: "Enter a newsletter title" });
         return;
     }
     if (description === '') {
         setLoading(false);
-        toast({ variant: "destructive", title: "Enter a news description" });
+        toast({ variant: "destructive", title: "Enter a newsletter description" });
         return;
     }
     if (selectedImage === null) {
@@ -569,7 +476,7 @@ const createNews = async () => {
     try {
         // API call to create news
         const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/news/createnews`,
+            `${process.env.NEXT_PUBLIC_API_URL}/newsletter/createnewsletter`,
             {
                 title,
                 description,
@@ -593,13 +500,13 @@ const createNews = async () => {
                 description: (
                     <div className="flex items-center gap-2">
                         <FiCheck size={20} />
-                        <p>News successfully created</p>
+                        <p>Newsletter successfully created</p>
                     </div>
                 ),
             });
 
             // Send email notifications to subscribers
-            // await sendEmailToSubscribers(title, description);
+            await sendEmailToSubscribers(title, description);
         }
 
         if (response.data.message === 'failed') {
@@ -666,7 +573,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                     to_name: subscriber.email,
                     from_name: "Rise of Fearless", 
                     to_email: subscriber.email,
-                    subject: `New News from Rise of Fearless: ${title}`,
+                    subject: ` ${title}`,
                     message: description, 
                     banner_img: ''
                 },
@@ -675,12 +582,12 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
         }
         toast({
             variant: "default",
-            title: `Emails sent to all subscribers!`,
+            title: `Newsletter sent to all subscribers!`,
         });
     } catch (error) {
         toast({
             variant: "destructive",
-            title: `Failed to send emails to subscribers.`,
+            title: `Failed to send newsletter to subscribers.`,
         });
     }
 };
@@ -704,7 +611,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                     <div className=' absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#000000] to-[#00000000] rounded-lg'>
 
                     </div>
-                    <h2 className=' relative z-10 text-2xl font-bold text-secondary'>News</h2>
+                    <h2 className=' relative z-10 text-2xl font-bold text-secondary'>Newsletter</h2>
 
                 </div>     
                 <div className=' flex items-center gap-4'>
@@ -716,7 +623,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                             <button
                             style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                             className=' h-10 w-[220px] text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
-                            >Add News</button>
+                            >Add Newsletter</button>
                         </DialogTrigger>
                         <DialogContent className=' w-[90%] md:w-[500px] h-auto bg-zinc-950 border-zinc-900 text-white'
                         style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
@@ -737,14 +644,14 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                                 <div className=' flex flex-col gap-2'>
                                     <Input placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} type='text' className=' bg-zinc-900 border-none'/>
                                     <Textarea value={description}  onChange={(e) => setDescription(e.target.value)} placeholder='Description' className=' bg-zinc-900 border-none'/>
-                                    <div className=' flex items-center gap-2'>
+                                    {/* <div className=' flex items-center gap-2'>
                                         <input
                                         type="checkbox"
                                         checked={mass}
                                         onChange={handleCheckboxChange}
                                         />
                                         <p className=' text-xs text-zinc-300'>Send message to all players</p>
-                                    </div>
+                                    </div> */}
                                 </div>
 
                             </div>
@@ -773,7 +680,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                                             <div className="bar12 bg-zinc-950"></div>
                                         </div>
                                     )}
-                                    Add news</button>
+                                    Add newsletter</button>
                             </div>
 
                             

@@ -11,6 +11,7 @@ import { IoIosGift } from "react-icons/io";
 import { IoIosSettings } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaMessage, FaWebAwesome } from "react-icons/fa6";
+import { IoIosMail } from "react-icons/io";
 import {
   Collapsible,
   CollapsibleContent,
@@ -85,14 +86,14 @@ export default function Sidebar() {
           </CollapsibleContent>
         </Collapsible>
 
-         <Link
+          <Link
               href='/dashboard/message'
               className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/message/' && ' text-secondary'}`}
               passHref
             >
               <FaMessage size={20}/>
               <span>Message</span>
-            </Link>
+          </Link>
 
 
            <Link
@@ -113,6 +114,16 @@ export default function Sidebar() {
           >
             <FaBullhorn size={20}/>
             <span>News</span>
+          </Link>
+
+          <Link
+            href='/dashboard/newsletter'
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/newsletter/' && ' text-secondary'}`}
+            role='menuitem'
+            passHref
+          >
+            <IoIosMail size={20}/>
+            <span>Newsletter</span>
           </Link>
 
           <Collapsible>
