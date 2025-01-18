@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FaEdit, FaUsers } from "react-icons/fa";
+import { FaEdit, FaMobile, FaUsers } from "react-icons/fa";
 import { MdDashboard, MdWeb } from "react-icons/md";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { GrHostMaintenance } from "react-icons/gr";
@@ -17,6 +17,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { MessageCircle, Phone } from 'lucide-react';
 
 
 export default function Sidebar() {
@@ -148,6 +149,15 @@ export default function Sidebar() {
             >
               <MdWeb size={20}/>
               <span>Landing Page</span>
+            </Link>
+
+            <Link
+              href='/dashboard/customization/sociallinks'
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname.includes('/dashboard/customization/landingpage') && ' text-secondary'}`}
+              passHref
+            >
+              <MessageCircle size={20}/>
+              <span>Socials links</span>
             </Link>
 
            

@@ -43,6 +43,7 @@ import { TiArrowLeftThick, TiArrowRightThick } from 'react-icons/ti'
 import { RiCloseFill } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
 import emailjs from "emailjs-com";
+import Subcribers from './Subscribers'
 
 
 interface News {
@@ -185,6 +186,7 @@ export default function page() {
     const [editdescription, setEditDescription] = useState('')
     const [id, setId] = useState('')
     const [editload, setEditLoad] = useState(false)
+    const [tab, setTab] = useState('tab1')
 
     {/*News List*/}
     useEffect(() =>{
@@ -613,184 +615,67 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                     </div>
                     <h2 className=' relative z-10 text-2xl font-bold text-secondary'>Newsletter</h2>
 
-                </div>     
-                <div className=' flex items-center gap-4'>
-                    
-                    <div className=' flex items-center gap-2'>
-                        
-                        <Dialog>
-                        <DialogTrigger>
-                            <button
-                            style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                            className=' h-10 w-[220px] text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
-                            >Add Newsletter</button>
-                        </DialogTrigger>
-                        <DialogContent className=' w-[90%] md:w-[500px] h-auto bg-zinc-950 border-zinc-900 text-white'
-                        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                        >
-                           <div className=' w-full h-full md:p-4'>
-                            <p className=' text-lg font-semibold text-secondary'>News Information</p>
+                </div>
 
-                            <div className=' grid grid-cols-2 gap-1 md:gap-4 mt-6'>
-                                <div className=' flex flex-col'>
-                                    <div className=' w-[80%] h-[150px] rounded-md bg-zinc-900'>
-                                        <img src={selectedImage as string} alt="" />
-
-                                    </div>
-                                    <input type="file" accept="image/*" onChange={handleChange} className=' text-xs mt-4 cursor-pointer' />
-
-                                </div>
-
-                                <div className=' flex flex-col gap-2'>
-                                    <Input placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} type='text' className=' bg-zinc-900 border-none'/>
-                                    <Textarea value={description}  onChange={(e) => setDescription(e.target.value)} placeholder='Description' className=' bg-zinc-900 border-none'/>
-                                    {/* <div className=' flex items-center gap-2'>
-                                        <input
-                                        type="checkbox"
-                                        checked={mass}
-                                        onChange={handleCheckboxChange}
-                                        />
-                                        <p className=' text-xs text-zinc-300'>Send message to all players</p>
-                                    </div> */}
-                                </div>
-
-                            </div>
-
-                          
-
-                            <div className=' w-full flex items-center justify-center mt-8'>
-                                <button
-                                onClick={handleAddnews}
-                                style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                className=' h-10 w-[180px] text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
-                                >
-                                    { loading === true && (
-                                        <div className="loader">
-                                            <div className="bar1 bg-zinc-950"></div>
-                                            <div className="bar2 bg-zinc-950"></div>
-                                            <div className="bar3 bg-zinc-950"></div>
-                                            <div className="bar4 bg-zinc-950"></div>
-                                            <div className="bar5 bg-zinc-950"></div>
-                                            <div className="bar6 bg-zinc-950"></div>
-                                            <div className="bar7 bg-zinc-950"></div>
-                                            <div className="bar8 bg-zinc-950"></div>
-                                            <div className="bar9 bg-zinc-950"></div>
-                                            <div className="bar10 bg-zinc-950"></div>
-                                            <div className="bar11 bg-zinc-950"></div>
-                                            <div className="bar12 bg-zinc-950"></div>
-                                        </div>
-                                    )}
-                                    Add newsletter</button>
-                            </div>
-
-                            
-                           </div>
-                        </DialogContent>
-                        </Dialog>
-
-                        <button onClick={refresh} className=' p-2 bg-secondary text-zinc-950 rounded-md'><HiRefresh size={20}/></button>
-
-                    </div>
+                <div className=' flex items-center bg-zinc-800 w-fit text-xs p-1 rounded-sm'>
+                    <p onClick={() => setTab('tab1')} className={` cursor-pointer px-4 py-2 ${tab === 'tab1' && 'bg-orange-500'} rounded-sm`}>Newsletter</p>
+                    <p onClick={() => setTab('tab2')} className={` cursor-pointer px-4 py-2 ${tab === 'tab2' && 'bg-orange-500'} rounded-sm`}>Subscriber</p>
 
                 </div>
+
+                {tab === 'tab1' && (
+                    <>
+                     <div className=' flex items-center gap-4'>
                     
-                { listLoad ? (
-                    <>
-                    <div className=' w-full flex items-center justify-center'>
-                        <div className="loader">
-                              <div className="bar1 bg-secondary"></div>
-                              <div className="bar2 bg-secondary"></div>
-                              <div className="bar3 bg-secondary"></div>
-                              <div className="bar4 bg-secondary"></div>
-                              <div className="bar5 bg-secondary"></div>
-                              <div className="bar6 bg-secondary"></div>
-                              <div className="bar7 bg-secondary"></div>
-                              <div className="bar8 bg-secondary"></div>
-                              <div className="bar9 bg-secondary"></div>
-                              <div className="bar10 bg-secondary"></div>
-                              <div className="bar11 bg-secondary"></div>
-                              <div className="bar12 bg-secondary"></div>
-                          </div>
-                    </div>
-                    </>
-                ):(
-                    <>
-                    <Table>
-                    <TableHeader className=' bg-amber-800 border-b-2 border-orange-300'>
-                        <TableRow>
-                        <TableHead >Id</TableHead>
-                        <TableHead>Title</TableHead>
-                        <TableHead>Image</TableHead>
-                        <TableHead >Description</TableHead>
-                        <TableHead >Action</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        { news.map((list, idx) => (
-                            <TableRow key={idx} className=' bg-[#080808b4]'>
-                            <TableCell >{list.newsid}</TableCell>
-                            <TableCell>{list.title}</TableCell>
-
-                            <Dialog>
-                            <DialogTrigger>
-                                <TableCell className=' flex items-center justify-center'>
-                                    <button className=' text-xs px-2 py-1 bg-blue-800 rounded-md flex items-center gap-1'><IoMdEye size={15}/>View</button>
-                                </TableCell>
-                            </DialogTrigger>
-                            <DialogContent className=' w-[90%] md:w-auto h-auto p-10 flex items-center justify-center bg-zinc-950 border-zinc-900'
-                            style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                            
-                            >
-                                <img src={`${process.env.NEXT_PUBLIC_API_URL}/${list.banner}`} alt="" width={300} height={300} />
-                            </DialogContent>
-                            </Dialog>
-
-                            <TableCell className=' text-sm'><p className=' line-clamp-3'>{list.description}</p></TableCell>
-                            <TableCell className=' flex items-center gap-2' >
-
+                            <div className=' flex items-center gap-2'>
+                                
                                 <Dialog>
                                 <DialogTrigger>
-                                    <TableCell>
-                                        <button
-                                        onClick={() => {setEditTitle(list.title); setEditDescription(list.description); setId(list.newsid)}}
-                                        className=' text-xs px-2 py-1 bg-blue-800 rounded-md flex items-center gap-1'><IoMdEye size={15}/>View</button>
-                                    </TableCell>
+                                    <button
+                                    style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                    className=' h-10 w-[220px] text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
+                                    >Add Newsletter</button>
                                 </DialogTrigger>
-                                <DialogContent className=' flex-col w-[90%] md:w-[40%] h-auto p-4 md:p-10 flex items-center justify-center bg-zinc-950 border-zinc-900 text-white'
+                                <DialogContent className=' w-[90%] md:w-[500px] h-auto bg-zinc-950 border-zinc-900 text-white'
                                 style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                
                                 >
-                                   
-                                    <div className=' w-[200px] h-[200px] flex items-center justify-center rounded-lg bg-zinc-900'>
-                                        { selectedImage === null && (
-                                            <img src={`${process.env.NEXT_PUBLIC_API_URL}/${list.banner}`} alt="" width={250} height={150} />
-                                        )}
+                                <div className=' w-full h-full md:p-4'>
+                                    <p className=' text-lg font-semibold text-secondary'>News Information</p>
 
-                                        { selectedImage !== null && (
-                                            <img src={selectedImage as string} alt="" />
-                                        )}
-                                         
-                                        
-                                    </div>
-                                    <input type="file" accept="image/*" onChange={handleChange} className=' text-xs mt-4' />
-                                    <Input onChange={(e) => setEditTitle(e.target.value)} disabled={edit} placeholder='Title' type='text' value={editTitle} className=' bg-zinc-900 text-white border-none '/>
-                                    <Textarea onChange={(e) => setEditDescription(e.target.value)} disabled={edit} value={editdescription} placeholder='Description' className=' bg-zinc-900 border-none h-[150px]'/>
-                                    <div className=' w-full flex items-start gap-2'>
-                                       <input
-                                        type="checkbox"
-                                        checked={check}
-                                        onChange={handleEdit}
-                                        className=' h-4 w-4 bg-none border-2'
-                                        />
-                                        <p className=' text-xs text-zinc-300'>Edit news</p>
+                                    <div className=' grid grid-cols-2 gap-1 md:gap-4 mt-6'>
+                                        <div className=' flex flex-col'>
+                                            <div className=' w-[80%] h-[150px] rounded-md bg-zinc-900'>
+                                                <img src={selectedImage as string} alt="" />
+
+                                            </div>
+                                            <input type="file" accept="image/*" onChange={handleChange} className=' text-xs mt-4 cursor-pointer' />
+
+                                        </div>
+
+                                        <div className=' flex flex-col gap-2'>
+                                            <Input placeholder='Title' value={title} onChange={(e) => setTitle(e.target.value)} type='text' className=' bg-zinc-900 border-none'/>
+                                            <Textarea value={description}  onChange={(e) => setDescription(e.target.value)} placeholder='Description' className=' bg-zinc-900 border-none'/>
+                                            {/* <div className=' flex items-center gap-2'>
+                                                <input
+                                                type="checkbox"
+                                                checked={mass}
+                                                onChange={handleCheckboxChange}
+                                                />
+                                                <p className=' text-xs text-zinc-300'>Send message to all players</p>
+                                            </div> */}
+                                        </div>
+
                                     </div>
 
-                                    <div className=' w-full flex items-center justify-end gap-4 mt-4'>
-                                        <button onClick={handleEditnews} className=' px-4 py-2 w-[180px] rounded-lg flex items-center justify-center gap-2 text-amber-950 text-sm font-bold'
+                                
+
+                                    <div className=' w-full flex items-center justify-center mt-8'>
+                                        <button
+                                        onClick={handleAddnews}
                                         style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                        className=' h-10 w-[180px] text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2'
                                         >
-                                            { editload === true && (
-                                                <>
+                                            { loading === true && (
                                                 <div className="loader">
                                                     <div className="bar1 bg-zinc-950"></div>
                                                     <div className="bar2 bg-zinc-950"></div>
@@ -805,56 +690,189 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                                                     <div className="bar11 bg-zinc-950"></div>
                                                     <div className="bar12 bg-zinc-950"></div>
                                                 </div>
-                                                </>
                                             )}
-                                            Save Changes</button>
+                                            Add newsletter</button>
                                     </div>
-                                   
+
+                                    
+                                </div>
                                 </DialogContent>
                                 </Dialog>
 
-                                <AlertDialog>
-                                <AlertDialogTrigger>
-                                    <button onClick={() => setId(list.newsid)} className=' text-xs px-2 py-1 bg-red-600 rounded-md flex items-center gap-1'><RiDeleteBin5Fill size={15}/>Delete</button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent className=' bg-zinc-950 border-zinc-900 text-white w-[90%] md:w-auto'>
-                                    <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        This action cannot be undone. This will permanently delete news data
-                                        and remove the data from the server. <p className=' text-sm text-red-600'>{list.newsid}</p>
-                                    </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                    <AlertDialogCancel className=' bg-zinc-900 border-none hover:bg-zinc-800 text-white'><p className=' text-white'>Cancel</p></AlertDialogCancel>
-                                    <AlertDialogAction onClick={handleDelete} className=' bg-red-600 hover:bg-red-700 text-white'>Continue</AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                                </AlertDialog>
-                                
-                            </TableCell>
-                            </TableRow>
-                        ))}
+                                <button onClick={refresh} className=' p-2 bg-secondary text-zinc-950 rounded-md'><HiRefresh size={20}/></button>
+
+                            </div>
+
+                        </div>
+                            
+                        { listLoad ? (
+                            <>
+                            <div className=' w-full flex items-center justify-center'>
+                                <div className="loader">
+                                    <div className="bar1 bg-secondary"></div>
+                                    <div className="bar2 bg-secondary"></div>
+                                    <div className="bar3 bg-secondary"></div>
+                                    <div className="bar4 bg-secondary"></div>
+                                    <div className="bar5 bg-secondary"></div>
+                                    <div className="bar6 bg-secondary"></div>
+                                    <div className="bar7 bg-secondary"></div>
+                                    <div className="bar8 bg-secondary"></div>
+                                    <div className="bar9 bg-secondary"></div>
+                                    <div className="bar10 bg-secondary"></div>
+                                    <div className="bar11 bg-secondary"></div>
+                                    <div className="bar12 bg-secondary"></div>
+                                </div>
+                            </div>
+                            </>
+                        ):(
+                            <>
+                            <Table>
+                            <TableHeader className=' bg-amber-800 border-b-2 border-orange-300'>
+                                <TableRow>
+                                <TableHead >Id</TableHead>
+                                <TableHead>Title</TableHead>
+                                <TableHead>Image</TableHead>
+                                <TableHead >Description</TableHead>
+                                <TableHead >Action</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                { news.map((list, idx) => (
+                                    <TableRow key={idx} className=' bg-[#080808b4]'>
+                                    <TableCell >{list.newsid}</TableCell>
+                                    <TableCell>{list.title}</TableCell>
+
+                                    <Dialog>
+                                    <DialogTrigger>
+                                        <TableCell className=' flex items-center justify-center'>
+                                            <button className=' text-xs px-2 py-1 bg-blue-800 rounded-md flex items-center gap-1'><IoMdEye size={15}/>View</button>
+                                        </TableCell>
+                                    </DialogTrigger>
+                                    <DialogContent className=' w-[90%] md:w-auto h-auto p-10 flex items-center justify-center bg-zinc-950 border-zinc-900'
+                                    style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                    
+                                    >
+                                        <img src={`${process.env.NEXT_PUBLIC_API_URL}/${list.banner}`} alt="" width={300} height={300} />
+                                    </DialogContent>
+                                    </Dialog>
+
+                                    <TableCell className=' text-sm'><p className=' line-clamp-3'>{list.description}</p></TableCell>
+                                    <TableCell className=' flex items-center gap-2' >
+
+                                        <Dialog>
+                                        <DialogTrigger>
+                                            <TableCell>
+                                                <button
+                                                onClick={() => {setEditTitle(list.title); setEditDescription(list.description); setId(list.newsid)}}
+                                                className=' text-xs px-2 py-1 bg-blue-800 rounded-md flex items-center gap-1'><IoMdEye size={15}/>View</button>
+                                            </TableCell>
+                                        </DialogTrigger>
+                                        <DialogContent className=' flex-col w-[90%] md:w-[40%] h-auto p-4 md:p-10 flex items-center justify-center bg-zinc-950 border-zinc-900 text-white'
+                                        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                        
+                                        >
+                                        
+                                            <div className=' w-[200px] h-[200px] flex items-center justify-center rounded-lg bg-zinc-900'>
+                                                { selectedImage === null && (
+                                                    <img src={`${process.env.NEXT_PUBLIC_API_URL}/${list.banner}`} alt="" width={250} height={150} />
+                                                )}
+
+                                                { selectedImage !== null && (
+                                                    <img src={selectedImage as string} alt="" />
+                                                )}
+                                                
+                                                
+                                            </div>
+                                            <input type="file" accept="image/*" onChange={handleChange} className=' text-xs mt-4' />
+                                            <Input onChange={(e) => setEditTitle(e.target.value)} disabled={edit} placeholder='Title' type='text' value={editTitle} className=' bg-zinc-900 text-white border-none '/>
+                                            <Textarea onChange={(e) => setEditDescription(e.target.value)} disabled={edit} value={editdescription} placeholder='Description' className=' bg-zinc-900 border-none h-[150px]'/>
+                                            <div className=' w-full flex items-start gap-2'>
+                                            <input
+                                                type="checkbox"
+                                                checked={check}
+                                                onChange={handleEdit}
+                                                className=' h-4 w-4 bg-none border-2'
+                                                />
+                                                <p className=' text-xs text-zinc-300'>Edit news</p>
+                                            </div>
+
+                                            <div className=' w-full flex items-center justify-end gap-4 mt-4'>
+                                                <button onClick={handleEditnews} className=' px-4 py-2 w-[180px] rounded-lg flex items-center justify-center gap-2 text-amber-950 text-sm font-bold'
+                                                style={{backgroundImage: "url('/button.png')", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
+                                                >
+                                                    { editload === true && (
+                                                        <>
+                                                        <div className="loader">
+                                                            <div className="bar1 bg-zinc-950"></div>
+                                                            <div className="bar2 bg-zinc-950"></div>
+                                                            <div className="bar3 bg-zinc-950"></div>
+                                                            <div className="bar4 bg-zinc-950"></div>
+                                                            <div className="bar5 bg-zinc-950"></div>
+                                                            <div className="bar6 bg-zinc-950"></div>
+                                                            <div className="bar7 bg-zinc-950"></div>
+                                                            <div className="bar8 bg-zinc-950"></div>
+                                                            <div className="bar9 bg-zinc-950"></div>
+                                                            <div className="bar10 bg-zinc-950"></div>
+                                                            <div className="bar11 bg-zinc-950"></div>
+                                                            <div className="bar12 bg-zinc-950"></div>
+                                                        </div>
+                                                        </>
+                                                    )}
+                                                    Save Changes</button>
+                                            </div>
+                                        
+                                        </DialogContent>
+                                        </Dialog>
+
+                                        <AlertDialog>
+                                        <AlertDialogTrigger>
+                                            <button onClick={() => setId(list.newsid)} className=' text-xs px-2 py-1 bg-red-600 rounded-md flex items-center gap-1'><RiDeleteBin5Fill size={15}/>Delete</button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent className=' bg-zinc-950 border-zinc-900 text-white w-[90%] md:w-auto'>
+                                            <AlertDialogHeader>
+                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                This action cannot be undone. This will permanently delete news data
+                                                and remove the data from the server. <p className=' text-sm text-red-600'>{list.newsid}</p>
+                                            </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                            <AlertDialogCancel className=' bg-zinc-900 border-none hover:bg-zinc-800 text-white'><p className=' text-white'>Cancel</p></AlertDialogCancel>
+                                            <AlertDialogAction onClick={handleDelete} className=' bg-red-600 hover:bg-red-700 text-white'>Continue</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                        </AlertDialog>
+                                        
+                                    </TableCell>
+                                    </TableRow>
+                                ))}
+                            
+                            </TableBody>
+                            </Table>
+                            </>
+                        )}
+                        
                     
-                    </TableBody>
-                    </Table>
+
+                        <div className=' flex items-center justify-end gap-4'>
+                            <button 
+                            onClick={() => setCurrentpage( currentpage - 1)}
+                            disabled={loading ? true : currentpage === 0} 
+                        className=' cursor-pointer  bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
+                            {/* <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p> */}
+                            <button
+                            onClick={() => setCurrentpage(currentpage + 1)}
+                            disabled={ loading ? true :  currentpage + 1 === totalpages}
+                            className=' cursor-pointer bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
+
+                    </div>
                     </>
                 )}
-                
-              
 
-                 <div className=' flex items-center justify-end gap-4'>
-                    <button 
-                    onClick={() => setCurrentpage( currentpage - 1)}
-                    disabled={loading ? true : currentpage === 0} 
-                   className=' cursor-pointer  bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
-                    {/* <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p> */}
-                    <button
-                      onClick={() => setCurrentpage(currentpage + 1)}
-                    disabled={ loading ? true :  currentpage + 1 === totalpages}
-                    className=' cursor-pointer bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
-
-                </div>
+                {tab === 'tab2' && (
+                    <Subcribers/>
+                )}
+               
             </div>
              
         </main>
