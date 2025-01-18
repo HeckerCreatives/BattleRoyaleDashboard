@@ -135,63 +135,73 @@ export default function page() {
 
   const addLink = async (id: string) => {
 
-        try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sociallinks/editsociallink`,
-                 {
-                   id: id,
-                  title: type, // facebook, twitter, etc...
-                  link: link
-                 }, 
-                 {                
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        }
-                 })
-                 if ( response.data.message === 'success'){
-                  setOpen(false)
-                      fetchContent()
-                       toast({
-                        description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Link has saved sucessfully</p></div>)
-                        })
-                }
-
-                 if ( response.data.message === 'failed'){
-                  setOpen(false)
-                    
-                      toast({
-                        variant:'destructive',
-                        description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
-                        })
-                }
-               
-        } catch (error) {
-          setOpen(false)
-
-            if (axios.isAxiosError(error)) {
-
-                const axiosError = error as AxiosError<{ message: string, data: string }>;
-                if (axiosError.response && axiosError.response.status === 401) {
-                    router.push('/')
-                    toast({
-                    variant: "destructive",
-                    title: `${axiosError.response.data.message}`,
-                    description: `${axiosError.response.data.data}`
+    if(link.includes('https://')){
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sociallinks/editsociallink`,
+             {
+               id: id,
+              title: type, // facebook, twitter, etc...
+              link: link
+             }, 
+             {                
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    }
+             })
+             if ( response.data.message === 'success'){
+              setOpen(false)
+                  fetchContent()
+                   toast({
+                    description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Link has saved sucessfully</p></div>)
                     })
-            
-                }
+            }
 
-                  if (axiosError.response && axiosError.response.status === 400) {
-                    const errorMessage = axiosError.response.data?.message;
-                    toast({
-                    variant: "destructive",
-                    title: `${axiosError.response.data.message}`,
-                    description: `${axiosError.response.data.data}`
+             if ( response.data.message === 'failed'){
+              setOpen(false)
+                
+                  toast({
+                    variant:'destructive',
+                    description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>{response.data.data}</p></div>)
                     })
-            
-                }
+            }
+           
+    } catch (error) {
+      setOpen(false)
+
+        if (axios.isAxiosError(error)) {
+
+            const axiosError = error as AxiosError<{ message: string, data: string }>;
+            if (axiosError.response && axiosError.response.status === 401) {
+                router.push('/')
+                toast({
+                variant: "destructive",
+                title: `${axiosError.response.data.message}`,
+                description: `${axiosError.response.data.data}`
+                })
+        
+            }
+
+              if (axiosError.response && axiosError.response.status === 400) {
+                const errorMessage = axiosError.response.data?.message;
+                toast({
+                variant: "destructive",
+                title: `${axiosError.response.data.message}`,
+                description: `${axiosError.response.data.data}`
+                })
+        
             }
         }
+    }
+    }else {
+      toast({
+        variant: "destructive",
+        title: `Link should start with https://`,
+        
+        })
+    }
+
+        
   }
 
 
