@@ -153,7 +153,7 @@ export default function Sidebar() {
 
             <Link
               href='/dashboard/customization/sociallinks'
-              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname.includes('/dashboard/customization/landingpage') && ' text-secondary'}`}
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname.includes('/dashboard/customization/sociallinks') && ' text-secondary'}`}
               passHref
             >
               <MessageCircle size={20}/>
