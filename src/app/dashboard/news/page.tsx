@@ -730,8 +730,10 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                                         <img src={selectedImage as string} alt="" />
 
                                     </div>
+                                    
                                     <input type="file" accept="image/*" onChange={handleChange} className=' text-xs mt-4 cursor-pointer' />
 
+                                    <p className=' text-[.7rem] text-red-500 mt-4'>Image should have dimensions of 1280x720 pixels. </p>
                                 </div>
 
                                 <div className=' flex flex-col gap-2'>
