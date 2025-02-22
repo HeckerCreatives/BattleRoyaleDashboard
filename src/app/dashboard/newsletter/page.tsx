@@ -44,6 +44,7 @@ import { RiCloseFill } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
 import emailjs from "emailjs-com";
 import Subcribers from './Subscribers'
+import Investors from './Investors'
 
 
 interface News {
@@ -187,6 +188,12 @@ export default function page() {
     const [id, setId] = useState('')
     const [editload, setEditLoad] = useState(false)
     const [tab, setTab] = useState('tab1')
+
+    const [selected, setSelected] = useState('user');
+
+    const handleChangeCheck = (value: string) => {
+      setSelected(value);
+    };
 
     {/*News List*/}
     useEffect(() =>{
@@ -414,16 +421,28 @@ export default function page() {
   },[check])
 
   useEffect(() =>{
-    const news = async () => {
+    const getData = async () => {
         try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/subscription/getsubscribers`,{
-                 withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                    }
-            })
-
-            setSubscription(response.data.data)
+            if(selected === 'user'){
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/subscription/getsubscribers`,{
+                    withCredentials: true,
+                   headers: {
+                       'Content-Type': 'application/json',
+                       }
+               })
+   
+               setSubscription(response.data.data)
+            } else {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/investor/getinvestors`,{
+                    withCredentials: true,
+                   headers: {
+                       'Content-Type': 'application/json',
+                       }
+               })
+   
+               setSubscription(response.data.data)
+            }
+            
            
         } catch (error) {
              if (axios.isAxiosError(error)) {
@@ -451,8 +470,8 @@ export default function page() {
             
         }
     }
-    news()
-},[])
+    getData()
+},[selected])
 
 
 const createNews = async () => {
@@ -483,6 +502,7 @@ const createNews = async () => {
                 title,
                 description,
                 bannerimg: selectedFile,
+                type: selected
             },
             {
                 withCredentials: true,
@@ -551,23 +571,9 @@ const createNews = async () => {
 // Helper function to send emails using EmailJS
 const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string) => {
     try {
-        // Fetch subscribers
-        const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/subscription/getsubscribers`,
-            {
-                withCredentials: true,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-
-        const subscribers = response.data.data; // Assuming this is an array of emails
-
-        console.log(subscribers)
-
+    
         // Send email to each subscriber
-        for (const subscriber of subscribers) {
+        for (const subscriber of subscription) {
             await emailjs.send(
                 process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
                 process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
@@ -620,6 +626,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                 <div className=' flex items-center bg-zinc-800 w-fit text-xs p-1 rounded-sm'>
                     <p onClick={() => setTab('tab1')} className={` cursor-pointer px-4 py-2 ${tab === 'tab1' && 'bg-orange-500'} rounded-sm`}>Newsletter</p>
                     <p onClick={() => setTab('tab2')} className={` cursor-pointer px-4 py-2 ${tab === 'tab2' && 'bg-orange-500'} rounded-sm`}>Subscriber</p>
+                    <p onClick={() => setTab('tab3')} className={` cursor-pointer px-4 py-2 ${tab === 'tab3' && 'bg-orange-500'} rounded-sm`}>Investors</p>
 
                 </div>
 
@@ -640,7 +647,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                                 style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                 >
                                 <div className=' w-full h-full md:p-4'>
-                                    <p className=' text-lg font-semibold text-secondary'>News Information</p>
+                                    <p className=' text-lg font-semibold text-secondary'>NewsLetter Information</p>
 
                                     <div className=' grid grid-cols-2 gap-1 md:gap-4 mt-6'>
                                         <div className=' flex flex-col'>
@@ -665,7 +672,29 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                                             </div> */}
                                         </div>
 
+                                       
+
                                     </div>
+
+                                    <p className=' w-full text-xs text-zinc-400 mb-2 mt-4'>Send to:</p>
+                                        <div className=' flex text-xs gap-4'>
+                                            <label className=' flex items-center gap-1'>
+                                                <input
+                                                type="checkbox"
+                                                checked={selected === "user"}
+                                                onChange={() => handleChangeCheck("user")}
+                                                />
+                                               Users
+                                            </label>
+                                            <label className=' flex items-center gap-1'>
+                                                <input
+                                                type="checkbox"
+                                                checked={selected === "investor"}
+                                                onChange={() => handleChangeCheck("investor")}
+                                                />
+                                                Investors
+                                            </label>
+                                            </div>
 
                                 
 
@@ -871,6 +900,10 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
 
                 {tab === 'tab2' && (
                     <Subcribers/>
+                )}
+
+                {tab === 'tab3' && (
+                    <Investors/>
                 )}
                
             </div>
