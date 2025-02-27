@@ -64,20 +64,26 @@ export default function Subcribers() {
 
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  // Handle checkbox change
     const handleCheckboxChange = (id: string) => {
         setSelectedIds((prevSelectedIds) => {
         if (prevSelectedIds.includes(id)) {
-            // If the ID is already selected, remove it
             return prevSelectedIds.filter((selectedId) => selectedId !== id);
         } else {
-            // If the ID is not selected, add it
             return [...prevSelectedIds, id];
         }
         });
     };
 
-    {/* List*/}
+    const handleSelectAll = () => {
+        if (selectedIds.length === list.length) {
+            setSelectedIds([]); // Deselect all
+        } else {
+            setSelectedIds(list.map((item) => item._id)); // Select all
+        }
+    };
+
+    const isAllSelected = list.length > 0 && selectedIds.length === list.length;
+
     useEffect(() =>{
         const getlist = async () => {
             setListload(true)
@@ -319,16 +325,22 @@ export default function Subcribers() {
                         )}
                     <TableHeader className=' bg-amber-800 border-b-2 border-orange-300'>
                         <TableRow>
-                        <TableHead >Select</TableHead>
-                        <TableHead >Subscribed at</TableHead>
-                        <TableHead >Email</TableHead>
+                        <TableHead className=' flex items-center gap-2 w-[120px]' >
+                        <input
+                            type="checkbox"
+                            checked={isAllSelected}
+                            onChange={handleSelectAll}
+                        />
+                            Select All</TableHead>
+                        <TableHead className=' text-start' >Subscribed at</TableHead>
+                        <TableHead  className=' text-start'>Email</TableHead>
                        
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         { list.map((list, idx) => (
                             <TableRow key={idx} className=' bg-[#080808b4]'>
-                            <TableCell >
+                            <TableCell className=' w-[120px]'>
                                 <input
                                  type="checkbox"
                                  checked={selectedIds.includes(list._id)}

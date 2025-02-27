@@ -78,6 +78,17 @@ export default function Investors() {
         });
     };
 
+    const handleSelectAll = () => {
+        if (selectedIds.length === list.length) {
+            setSelectedIds([]); // Deselect all
+        } else {
+            setSelectedIds(list.map((item) => item.id)); // Select all
+        }
+    };
+
+    const isAllSelected = list.length > 0 && selectedIds.length === list.length;
+
+
     {/* List*/}
     useEffect(() =>{
         const getlist = async () => {
@@ -319,7 +330,13 @@ export default function Investors() {
                         )}
                     <TableHeader className=' bg-amber-800 border-b-2 border-orange-300'>
                         <TableRow>
-                        <TableHead >Select</TableHead>
+                        <TableHead className=' flex items-center gap-2 w-[120px]' >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isAllSelected}
+                                                    onChange={handleSelectAll}
+                                                />
+                                                    Select All</TableHead>
                         <TableHead >Subscribed at</TableHead>
                         <TableHead >Email</TableHead>
                        
@@ -328,7 +345,7 @@ export default function Investors() {
                     <TableBody>
                         { list.map((list, idx) => (
                             <TableRow key={idx} className=' bg-[#080808b4]'>
-                            <TableCell >
+                            <TableCell className=' w-[120px]'>
                                 <input
                                  type="checkbox"
                                  checked={selectedIds.includes(list.id)}
