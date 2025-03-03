@@ -25,9 +25,10 @@ import { toast, useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from 'react-icons/md'
-import { Link, Pen, Plus } from 'lucide-react'
+import { Instagram, Link, Pen, Plus } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { FiCheck } from 'react-icons/fi'
+import { BsTwitterX } from 'react-icons/bs'
 
 
 
@@ -51,6 +52,7 @@ interface Links {
   createdAt:string 
   updatedAt: string
   link: string
+  type: string
 }
 
 export default function page() {
@@ -59,9 +61,11 @@ export default function page() {
     const [link, setLink] = useState('')
     const router = useRouter()
     const [list, setList] = useState<Links[]>([])
+    const [investor, setInvestor] = useState<Links[]>([])
     const [open, setOpen] = useState(false)
 
     const finalList = list.filter((item) => item.title === 'facebook' || item.title === 'discord' || item.title === 'telegram' || item.title === 'tiktok')
+    const investorSocials = list.filter((item) => item.type === 'investor')
 
     useEffect(() => {
       const fetchContent = async () => {
@@ -99,6 +103,7 @@ export default function page() {
   
       fetchContent();
   }, [type]);
+
 
   const fetchContent = async () => {
     try {
@@ -212,11 +217,16 @@ export default function page() {
       return  <img src="/header/assets/Discord.png" alt="" width={80} className=' lg:w-[50px] w-[40px] hover:scale-110 ease-in-out duration-300'/>
     } else if(type === 'tiktok'){
       return  <img src="/header/assets/Tiktok.png" alt="" width={30} className=' lg:w-[50px] w-[40px] hover:scale-110 ease-in-out duration-300'/>
+    }  else if(type === 'instagram'){
+      return  <Instagram size={32} className=' bg-orange-300 p-1 rounded-full text-amber-950 hover:scale-110 ease-in-out duration-300'/>
+    }  else if(type === 'x'){
+      return  <BsTwitterX size={32} className=' bg-orange-300 p-1 rounded-full text-amber-950 hover:scale-110 ease-in-out duration-300'/>
     } else {
       return <img src="/header/assets/Telegram.png" alt="" width={30} className=' lg:w-[50px] w-[40px] hover:scale-110 ease-in-out duration-300'/>
     }
 
   }
+
 
 
     
@@ -232,7 +242,7 @@ export default function page() {
            <Header/>
 
            <div className=' w-full flex flex-col p-8'>
-            <p>Social Links</p>
+            <p className=' text-lg font-semibold'>Social Links</p>
 
             {/* <Dialog>
             <DialogTrigger className=' mt-8 w-fit bg-orange-600 flex items-center gap-1 px-4 py-2 text-xs rounded-sm'><Plus size={15}/>Add link</DialogTrigger>
@@ -273,9 +283,8 @@ export default function page() {
             </DialogContent>
           </Dialog> */}
 
-
+            <p className=' text-sm mt-8'>Landing Page</p>
             <div className=' grid auto-cols-min grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8'>
-
               {finalList.map((item,index) => (
                 <div key={item._id} className='bg-zinc-900 flex flex-col gap-2 p-4'>
                   <div className=' flex items-center gap-2'>
@@ -310,8 +319,43 @@ export default function page() {
               </div>
               ))}
 
-              
+            </div>
 
+            <p className=' text-sm mt-8'>Investor Page</p>
+            <div className=' grid auto-cols-min grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8'>
+              {investorSocials.map((item,index) => (
+                <div key={item._id} className='bg-zinc-900 flex flex-col gap-2 p-4'>
+                  <div className=' flex items-center gap-2'>
+                    {getImage(item.title)}
+                    <p className=' text-lg font-semibold uppercase'>{item.title}</p>
+                  </div>
+
+                <div className=' w-full flex items-center gap-2'>
+                  <input type="text" value={item.link} className=' w-full p-2 text-white bg-zinc-600 rounded-sm text-xs' />
+
+                  <Dialog>
+                      <DialogTrigger onClick={() => {setType(item.title), setLink(item.link)}} className='  bg-orange-600 text-white p-2 rounded-sm'>
+                        <Pen size={15}/>
+                      </DialogTrigger>
+                      <DialogContent className=' flex flex-col gap-1 text-white h-auto max-w-[500px] w-full bg-zinc-950 border-zinc-800'>
+                        <DialogHeader>
+                          <DialogTitle>Edit {item.title} Link</DialogTitle>
+                          <DialogDescription>
+                        
+                          </DialogDescription>
+                        </DialogHeader>
+
+                        <label htmlFor="" className=' text-xs text-zinc-500 mt-2'>Link</label>
+                        <input value={link} onChange={(e) => setLink(e.target.value)} placeholder='Link' className=' p-3 bg-zinc-900 rounded-md text-sm mb-4'/>
+
+                        <button onClick={() => addLink(item._id)} className=' w-fit px-4 py-2 text-sm bg-orange-600 rounded-sm'>Save</button>
+                      </DialogContent>
+                    </Dialog>
+
+                </div>
+
+              </div>
+              ))}
 
             </div>
 
