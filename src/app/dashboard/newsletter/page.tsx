@@ -647,7 +647,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
                                 style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                 >
                                 <div className=' w-full h-full md:p-4'>
-                                    <p className=' text-lg font-semibold text-secondary'>NewsLetter Information</p>
+                                    <p className=' text-lg font-semibold text-secondary'>Newsletter Information</p>
 
                                     <div className=' grid grid-cols-2 gap-1 md:gap-4 mt-6'>
                                         <div className=' flex flex-col'>
