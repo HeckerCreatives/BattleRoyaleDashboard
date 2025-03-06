@@ -188,7 +188,7 @@ export default function Headercontent() {
          value={type}
          onValueChange={setType}
           >
-            <SelectTrigger className='w-full bg-zinc-900 rounded-md'>
+            <SelectTrigger className='w-full bg-zinc-900 rounded-md hover:border-[1px] border-white'>
                 <SelectValue placeholder="Select Type"/>
             </SelectTrigger>
             <SelectContent>

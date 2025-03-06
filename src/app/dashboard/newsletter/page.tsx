@@ -188,6 +188,7 @@ export default function page() {
     const [id, setId] = useState('')
     const [editload, setEditLoad] = useState(false)
     const [tab, setTab] = useState('tab1')
+    const [bannerimg , setBannerimg] = useState('')
 
     const [selected, setSelected] = useState('user');
 
@@ -517,6 +518,7 @@ const createNews = async () => {
             setTitle('');
             setDescription('');
             setSelectedImage(null);
+            setBannerimg(response.data.data)
 
             toast({
                 description: (
@@ -528,7 +530,7 @@ const createNews = async () => {
             });
 
             // Send email notifications to subscribers
-            await sendEmailToSubscribers(title, description);
+            await sendEmailToSubscribers(title, description, response.data.data);
         }
 
         if (response.data.message === 'failed') {
@@ -569,36 +571,42 @@ const createNews = async () => {
 };
 
 // Helper function to send emails using EmailJS
-const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string) => {
-    try {
+const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string, banner: string) => {
+
+        try {
     
-        // Send email to each subscriber
-        for (const subscriber of subscription) {
-            await emailjs.send(
-                process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-                process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-                {
-                    to_name: subscriber.email,
-                    from_name: "Rise of Fearless", 
-                    to_email: subscriber.email,
-                    subject: ` ${title}`,
-                    message: description, 
-                    banner_img: ''
-                },
-                process.env.NEXT_PUBLIC_EMAILJS_USER_ID
-            );
+            // Send email to each subscriber
+            for (const subscriber of subscription) {
+                await emailjs.send(
+                    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+                    process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+                    {
+                        to_name: subscriber.email,
+                        from_name: "Rise of Fearless", 
+                        to_email: subscriber.email,
+                        subject: ` ${title}`,
+                        message: description, 
+                        banner: `${process.env.NEXT_PUBLIC_API_URL}/${banner}`
+                    },
+                    process.env.NEXT_PUBLIC_EMAILJS_USER_ID
+                );
+            }
+            toast({
+                variant: "default",
+                title: `Newsletter sent to all subscribers!`,
+            });
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: `Failed to send newsletter to subscribers.`,
+            });
         }
-        toast({
-            variant: "default",
-            title: `Newsletter sent to all subscribers!`,
-        });
-    } catch (error) {
-        toast({
-            variant: "destructive",
-            title: `Failed to send newsletter to subscribers.`,
-        });
-    }
+    
 };
+
+            console.log(`${process.env.NEXT_PUBLIC_API_URL}/${bannerimg}`)
+
 
 
     
