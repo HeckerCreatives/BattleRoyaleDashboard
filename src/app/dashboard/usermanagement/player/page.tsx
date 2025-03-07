@@ -80,6 +80,15 @@ interface Inbox {
 
 }
 
+interface UserStats {
+    kill: number;
+    death: number;
+    level: number;
+    xp: number;
+    userrank: number;
+  }
+  
+
 export default function page() {
   const { toast } = useToast()
   const router = useRouter()
@@ -101,6 +110,7 @@ export default function page() {
   const [total, setTotal] = useState(0)
   const [today, setToday] = useState(0)
   const [index, setIndex] = useState(0)
+  const [stats, setStats] = useState<UserStats>()
 
     useEffect(() => {
     const getCountregister = async () => {
@@ -486,7 +496,7 @@ export default function page() {
             })
         } else{
             try {
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/changeplayerpasswordadmin`,{
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/changeplayerpassword`,{
                      userid: userid,
                     newpw: passwordnew
                 },{
@@ -531,6 +541,39 @@ export default function page() {
     }
 
     const [inventory, setInventory] = useState('skin')
+
+    useEffect(() => {
+        const playerDetailsData = async () => {
+            if(userid !== ''){
+                try {
+                    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/usergamedetails/getusergamedetailssuperadmin?userid=${userid}`, {
+                        withCredentials: true,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+
+                    setStats(response.data.data)
+                } catch (error) {
+                    if (axios.isAxiosError(error)) {
+                        const axiosError = error as AxiosError;
+                        if (axiosError.response && axiosError.response.status === 401) {
+                            localStorage.setItem('auth', 'false');
+                            router.push('/');
+                            toast({
+                                variant: "destructive",
+                                title: "Unauthorized",
+                            });
+                        }
+                    } 
+                }
+            }
+           
+        };
+
+         playerDetailsData();
+ 
+    }, [userid]); 
 
   return (
     <div className=' flex w-full h-screen overflow-x-hidden'>
@@ -728,7 +771,7 @@ export default function page() {
                                             >
 
                                                 <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>0</h2>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.kill}</h2>
                                                     <p className=' text-sm text-amber-950'>Total Kills</p>
 
                                                 </div>
@@ -740,7 +783,7 @@ export default function page() {
                                             >
 
                                                 <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>0</h2>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.death}</h2>
                                                     <p className=' text-sm text-amber-950'>Total Deaths</p>
 
                                                 </div>
@@ -752,7 +795,7 @@ export default function page() {
                                             >
 
                                                 <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>0</h2>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.userrank}</h2>
                                                     <p className=' text-sm text-amber-950'>Current Rank</p>
 
                                                 </div>

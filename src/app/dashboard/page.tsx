@@ -130,11 +130,11 @@ export default function Dashboard() {
                     </div> */}
                     <h2 className=' relative z-10 text-2xl font-bold text-secondary'>Dashboard</h2>
 
-                    <div className=' hidden md:flex flex-col items-center justify-center gap-2 h-full w-[180px] bg-zinc-950 rounded-md'>
+                    {/* <div className=' hidden md:flex flex-col items-center justify-center gap-2 h-full w-[180px] bg-zinc-950 rounded-md'>
                       <IoMdDownload size={30} className=' text-secondary'/>
                       <h2 className=' text-lg font-bold'>0</h2>
                       <p className=' text-xs text-zinc-300'>Total Downloads</p>
-                    </div>
+                    </div> */}
 
               </div>     
 
