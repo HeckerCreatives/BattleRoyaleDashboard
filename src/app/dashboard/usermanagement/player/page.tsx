@@ -734,7 +734,7 @@ export default function page() {
                                 <DialogTrigger onClick={() => {setUserid(list.id)}}>
                                     <button className=' bg-blue-100 px-2 py-1 rounded-sm text-xs flex items-center gap-1 text-blue-950'><IoMdEye size={15}/>View</button>
                                 </DialogTrigger>
-                                <DialogContent className=' flex flex-col items-start border-x-8 border-orange-300 w-[90%] h-[600px] md:w-[800px] rounded-md '
+                                <DialogContent className=' flex flex-col items-start border-x-8 border-orange-300 w-[90%] min-h-[600px] h-auto md:w-[800px] rounded-md '
                                 style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
 
                                 >
@@ -766,7 +766,7 @@ export default function page() {
                                          <img src="/userdashboard/Assets/Character A.png" alt="" width={450} className=' absolute bottom-2 right-0 md:block hidden' />
                                         <div className=' relative z-30 flex flex-col gap-4 md:w-[40%] w-full'>
 
-                                            <div className=' flex items-end justify-end h-[100px] md:h-[120px]'
+                                            <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
                                             style={{backgroundImage: "url('/userdashboard/Assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                                             >
 
@@ -778,7 +778,7 @@ export default function page() {
 
                                             </div>
 
-                                            <div className=' flex items-end justify-end h-[100px] md:h-[120px]'
+                                            <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
                                             style={{backgroundImage: "url('/userdashboard/Assets/TAB B.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                                             >
 
@@ -790,13 +790,37 @@ export default function page() {
 
                                             </div>
 
-                                             <div className=' flex items-end justify-end h-[100px] md:h-[120px]'
+                                             <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
                                             style={{backgroundImage: "url('/userdashboard/Assets/TAB C.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
                                             >
 
                                                 <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
                                                     <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.userrank}</h2>
                                                     <p className=' text-sm text-amber-950'>Current Rank</p>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
+                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB C.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                                            >
+
+                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.level}</h2>
+                                                    <p className=' text-sm text-amber-950'>Level</p>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
+                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB C.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                                            >
+
+                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.xp}</h2>
+                                                    <p className=' text-sm text-amber-950'>Experience</p>
 
                                                 </div>
 

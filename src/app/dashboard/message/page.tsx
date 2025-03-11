@@ -162,7 +162,7 @@ export default function page() {
                     </div>
 
                     <div className=' w-full flex flex-col'>
-                        <p className=' text-sm text-orange-300 bg-zinc-900 py-1 px-4 rounded-t-md'>Descriptio:</p>
+                        <p className=' text-sm text-orange-300 bg-zinc-900 py-1 px-4 rounded-t-md'>Description:</p>
                         <Textarea placeholder='Description' value={description} onChange={(e)=> setDescription(e.target.value)} className=' bg-zinc-950 border-none h-[300px]'/>
 
                     </div>

@@ -18,6 +18,7 @@ import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
 import { RiCloseFill } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
+import { Eye, EyeOff } from 'lucide-react'
 
 interface List {
     value: number;
@@ -34,6 +35,16 @@ export default function page() {
     const [oldpw, setOldpw] = useState('')
     const [newpw, setnewpw] = useState('')
     const [confirmpw, setconfirmpw] = useState('')
+ 
+    const [showPasswords, setShowPasswords] = useState({
+      old: false,
+      new: false,
+      confirm: false,
+    });
+
+    const togglePasswordVisibility = (field: keyof typeof showPasswords) => {
+      setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }));
+    };
 
     const changepassword = async () => {
       setLoading(true)
@@ -147,36 +158,47 @@ export default function page() {
                    
                    >
                     <p className=' w-full py-2 px-4 text-xl font-semibold text-orange-100 absolute top-4 left-4 bg-gradient-to-r from-amber-900 to-[#00000000]'>Change Password</p>
-                        <div className=' flex flex-col gap-2 items-start p-8 mt-10'>
-                           <Input placeholder='Old password' value={oldpw} onChange={(e) => setOldpw(e.target.value)} type='password' className=' bg-zinc-900 border-none w-full'/>
-                           <Input placeholder='New password' value={newpw} onChange={(e) => setnewpw(e.target.value)} type='password' className=' bg-zinc-900 border-none w-full'/>
-                           <Input placeholder='Confirm new password' value={confirmpw} onChange={(e) => setconfirmpw(e.target.value)} type='password' className=' bg-zinc-900 border-none'/>
+                    <div className='flex flex-col gap-2 items-start p-8 mt-10'>
+                    {[
+                      { label: 'Old password', value: oldpw, setter: setOldpw, key: 'old' as keyof typeof showPasswords },
+                      { label: 'New password', value: newpw, setter: setnewpw, key: 'new' as keyof typeof showPasswords },
+                      { label: 'Confirm new password', value: confirmpw, setter: setconfirmpw, key: 'confirm' as keyof typeof showPasswords }
+                    ].map(({ label, value, setter, key }) => (
+                      <div key={key} className='relative w-full'>
+                        <Input
+                          placeholder={label}
+                          value={value}
+                          onChange={(e) => setter(e.target.value)}
+                          type={showPasswords[key] ? 'text' : 'password'}
+                          className='bg-zinc-900 border-none w-full pr-10'
+                        />
+                        <button
+                          type='button'
+                          onClick={() => togglePasswordVisibility(key)}
+                          className='absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-white'
+                        >
+                          {showPasswords[key] ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
+                    ))}
 
-                           <div className=' flex items-end justify-end w-full'>
-                             <button
+
+                          <div className='flex items-end justify-end w-full'>
+                            <button
                               onClick={changepassword}
                               disabled={loading}
-                              className=' w-[200px] py-3 mt-4 text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'
-                              >
-                                {loading === true && (
-                                  <div className="loader">
-                                    <div className="bar1 bg-zinc-950"></div>
-                                    <div className="bar2 bg-zinc-950"></div>
-                                    <div className="bar3 bg-zinc-950"></div>
-                                    <div className="bar4 bg-zinc-950"></div>
-                                    <div className="bar5 bg-zinc-950"></div>
-                                    <div className="bar6 bg-zinc-950"></div>
-                                    <div className="bar7 bg-zinc-950"></div>
-                                    <div className="bar8 bg-zinc-950"></div>
-                                    <div className="bar9 bg-zinc-950"></div>
-                                    <div className="bar10 bg-zinc-950"></div>
-                                    <div className="bar11 bg-zinc-950"></div>
-                                    <div className="bar12 bg-zinc-950"></div>
+                              className='w-[200px] py-3 mt-4 text-xs font-bold text-amber-950 hover:scale-105 ease-in-out duration-200 flex items-center justify-center gap-2 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'
+                            >
+                              {loading && (
+                                <div className='loader'>
+                                  {[...Array(12)].map((_, i) => (
+                                    <div key={i} className={`bar${i + 1} bg-zinc-950`}></div>
+                                  ))}
                                 </div>
-                                )}
-                                Change Password</button>
-                           </div>
-                           
+                              )}
+                              Change Password
+                            </button>
+                          </div>
                         </div>
 
                         <div className=' w-full h-full relative'>
