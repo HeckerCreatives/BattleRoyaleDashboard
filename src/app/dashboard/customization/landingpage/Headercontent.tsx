@@ -36,7 +36,6 @@ export default function Headercontent() {
                 },
             });
 
-            console.log(response.data)
             setContentData(response.data.data)
             setHeader(response.data.data[0].title)
             setContent(response.data.data[0].description)
@@ -150,7 +149,6 @@ export default function Headercontent() {
                     },
                 });
 
-                console.log(response.data)
                 setContentData(response.data.data)
                 setHeader(response.data.data[0].title)
                 setContent(response.data.data[0].description)

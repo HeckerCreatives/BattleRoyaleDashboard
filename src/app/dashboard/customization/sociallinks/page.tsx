@@ -75,7 +75,6 @@ export default function page() {
                   },
               });
 
-              console.log(response.data)
               setList(response.data.data)
           
           } catch (error) {
@@ -112,7 +111,6 @@ export default function page() {
             },
         });
 
-        console.log(response.data)
         setList(response.data.data)
     
     } catch (error) {

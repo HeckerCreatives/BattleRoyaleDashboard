@@ -209,7 +209,8 @@ export default function page() {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/inbox/newsmessage`,{
                     title: title,
                     description: description,
-                    bannerimg: selectedFile
+                    type:'Announcement'
+                    // bannerimg: selectedFile
                 },{
                     withCredentials: true,
                     headers: {
@@ -655,7 +656,6 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
 
         const subscribers = response.data.data; // Assuming this is an array of emails
 
-        console.log(subscribers)
 
         // Send email to each subscriber
         for (const subscriber of subscribers) {
@@ -684,6 +684,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
         });
     }
 };
+
 
 
     

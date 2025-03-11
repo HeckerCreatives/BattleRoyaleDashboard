@@ -96,7 +96,6 @@ export default function Subcribers() {
                 })
             setListload(false)
 
-               console.log(response.data)
                setList(response.data.data.data)
                setTotalPages(response.data.data.totalpages)
             
@@ -140,7 +139,6 @@ export default function Subcribers() {
             })
         setListload(false)
 
-           console.log(response.data)
            setList(response.data.data.data)
            setTotalPages(response.data.data.totalpages)
         
@@ -257,7 +255,6 @@ export default function Subcribers() {
         return formattedDate;
     }
     
-    console.log(selectedIds)
   return (
     <div className=' flex flex-col w-full'>
        <div className=' flex items-center gap-4 mb-6'>
