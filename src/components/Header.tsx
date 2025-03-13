@@ -21,10 +21,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { FaUsers, FaBullhorn } from 'react-icons/fa';
+import { FaUsers, FaBullhorn, FaEdit } from 'react-icons/fa';
 import { GrTransaction, GrHostMaintenance } from 'react-icons/gr';
-import { IoIosArrowDown, IoIosGift, IoIosSettings } from 'react-icons/io';
-import { MdDashboard, MdAdminPanelSettings } from 'react-icons/md';
+import { IoIosArrowDown, IoIosGift, IoIosMail, IoIosSettings } from 'react-icons/io';
+import { MdDashboard, MdAdminPanelSettings, MdWeb } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie'
 import { MdOutlineFileUpload } from "react-icons/md";
@@ -37,6 +37,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { FaMessage } from 'react-icons/fa6';
+import { MessageCircle } from 'lucide-react';
 
 
 export default function Header() {
@@ -71,7 +72,14 @@ export default function Header() {
                 <img src="/logo 06 B.png" alt="" width={120} />
                 </div>
             </Link>
-            <div className=' flex flex-col gap-4=2'>
+            <div className=' flex flex-col gap-5 w-full h-full p-4'>
+        {/* <Link href='/dashboard' aria-label='Go to the dashboard' passHref>
+            <div className='flex items-center justify-center space-x-3'>
+            <img src="/logo 06 B.png" alt="" width={120} />
+            </div>
+        </Link> */}
+
+        <div className=' flex flex-col gap-4=2'>
             <Link
             href='/dashboard'
             className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/' && ' text-secondary'}`}
@@ -123,14 +131,14 @@ export default function Header() {
           </CollapsibleContent>
         </Collapsible>
 
-         <Link
+          <Link
               href='/dashboard/message'
               className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/message/' && ' text-secondary'}`}
               passHref
             >
               <FaMessage size={20}/>
               <span>Message</span>
-            </Link>
+          </Link>
 
 
            <Link
@@ -152,6 +160,55 @@ export default function Header() {
             <FaBullhorn size={20}/>
             <span>News</span>
           </Link>
+
+          <Link
+            href='/dashboard/newsletter'
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/newsletter/' && ' text-secondary'}`}
+            role='menuitem'
+            passHref
+          >
+            <IoIosMail size={20}/>
+            <span>Newsletter</span>
+          </Link>
+
+          <Collapsible>
+          <CollapsibleTrigger className=' flex items-center justify-between'>
+
+           <p
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname.includes('/dashboard/customization/') && ' text-secondary'}`}
+              role='menuitem'
+            >
+              <FaEdit size={20}/>
+              <span>Customization</span>
+            </p>
+
+            <IoIosArrowDown size={10}/>
+           
+          </CollapsibleTrigger>
+          <CollapsibleContent className=' flex flex-col gap-2 pl-4'>
+             <Link
+              href='/dashboard/customization/landingpage'
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname.includes('/dashboard/customization/landingpage') && ' text-secondary'}`}
+              passHref
+            >
+              <MdWeb size={20}/>
+              <span>Landing Page</span>
+            </Link>
+
+            <Link
+              href='/dashboard/customization/sociallinks'
+              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname.includes('/dashboard/customization/sociallinks') && ' text-secondary'}`}
+              passHref
+            >
+              <MessageCircle size={20}/>
+              <span>Socials links</span>
+            </Link>
+
+           
+
+            
+          </CollapsibleContent>
+        </Collapsible>
 
 
           <Link
@@ -183,7 +240,9 @@ export default function Header() {
             <IoIosSettings size={20}/>
             <span>Account Settings</span>
           </Link>
-          </div>
+        </div>
+
+    </div>
 
         </div>
         </SheetContent>
