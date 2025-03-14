@@ -819,7 +819,7 @@ export default function page() {
                                             >
 
                                                 <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.xp}</h2>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.xp} / {(stats?.level || 1) * 80}</h2>
                                                     <p className=' text-sm text-amber-950'>Experience</p>
 
                                                 </div>
