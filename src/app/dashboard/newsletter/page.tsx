@@ -58,6 +58,8 @@ title: string
 type Subscriber = {
     email: string
 }
+
+
 export default function page() {
     const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
     const { toast } = useToast()
@@ -503,7 +505,7 @@ const createNews = async () => {
                 title,
                 description,
                 bannerimg: selectedFile,
-                type: selected
+                type: selected,
             },
             {
                 withCredentials: true,
@@ -528,9 +530,6 @@ const createNews = async () => {
                     </div>
                 ),
             });
-
-            // Send email notifications to subscribers
-            await sendEmailToSubscribers(title, description, response.data.data);
         }
 
         if (response.data.message === 'failed') {
@@ -572,9 +571,7 @@ const createNews = async () => {
 
 // Helper function to send emails using EmailJS
 const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string, banner: string) => {
-
         try {
-    
             // Send email to each subscriber
             for (const subscriber of subscription) {
                 await emailjs.send(
@@ -604,6 +601,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
         }
     
 };
+
 
 
 
