@@ -1094,10 +1094,10 @@ export default function page() {
                                                         <p className=' text-xs text-zinc-400'>Email:</p>
                                                         <p className=' text-sm text-zinc-100'>{list.email}</p>
                                                     </div>
-                                                    <div className=' flex flex-col w-full bg-zinc-950 p-2 rounded-md'>
+                                                    {/* <div className=' flex flex-col w-full bg-zinc-950 p-2 rounded-md'>
                                                         <p className=' text-xs text-zinc-400'>Country:</p>
                                                         <p className=' text-sm text-zinc-100'>{list.country}</p>
-                                                    </div>
+                                                    </div> */}
 
                                                 </div>
 

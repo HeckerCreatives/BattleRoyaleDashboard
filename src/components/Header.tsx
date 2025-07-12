@@ -284,6 +284,10 @@ export default function Header() {
           <a href='/dashboard/seetings' className=' text-xs md:text-sm text-white'>Account Settings</a>
         )}
 
+         { pathname === '/dashboard/game/' && (
+          <a href='/dashboard/game' className=' text-xs md:text-sm text-white'>Game</a>
+        )}
+
 
       </div>
     

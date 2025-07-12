@@ -52,7 +52,6 @@ interface News {
 description: string
 newsid: string
 title: string
-
 }
 
 type Subscriber = {

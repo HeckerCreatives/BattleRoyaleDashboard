@@ -17,7 +17,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { MessageCircle, Phone } from 'lucide-react';
+import { Box, MessageCircle, Phone } from 'lucide-react';
 
 
 export default function Sidebar() {
@@ -43,6 +43,16 @@ export default function Sidebar() {
           >
             <MdDashboard size={20}/>
             <span>Dashboard</span>
+          </Link>
+
+           <Link
+            href='/dashboard/game'
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/game/' && ' text-secondary'}`}
+            role='menuitem'
+            passHref
+          >
+            <Box size={20}/>
+            <span>Game</span>
           </Link>
 
           
