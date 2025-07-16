@@ -20,6 +20,7 @@ import { Loader2, RefreshCcw } from "lucide-react"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { SeasonSection } from "./Season"
+import GameVersionCard from "./GameVersion"
 
 export interface LeaderboardHistoryOptionsResponse {
   message: string
@@ -94,7 +95,7 @@ export default function page() {
     }, [selectedSeason])
 
     useEffect(() => {
-        setSelectedSeason(String(seasons?.data.options[0].index))
+        setSelectedSeason(String(seasons?.data.options[0]?.index))
     },[seasons])
 
 
@@ -190,15 +191,26 @@ export default function page() {
         >
         <Header />
 
-        <Tabs defaultValue="leaderboards" className="w-full  p-8">
-            {/* Tab Navigation */}
-            <TabsList className="mb-6 text-xs bg-zinc-800">
+        <Tabs defaultValue="version" className="w-full  p-8">
+            <div className="overflow-x-auto">
+              <TabsList className="mb-6 text-xs bg-zinc-800 flex w-max whitespace-nowrap px-2">
+                <TabsTrigger value="version" className="text-xs">Game Version</TabsTrigger>
+                <TabsTrigger value="leaderboards" className="text-xs">Leaderboards</TabsTrigger>
+                <TabsTrigger value="seasons" className="text-xs">Seasons</TabsTrigger>
+                <TabsTrigger value="reset" className="text-xs">Energy</TabsTrigger>
+              </TabsList>
+            </div>
+
+            {/* <TabsList className="mb-6 text-xs bg-zinc-800">
+            <TabsTrigger value="version" className=" text-xs">Game Version</TabsTrigger>
             <TabsTrigger value="leaderboards" className=" text-xs">Leaderboards</TabsTrigger>
             <TabsTrigger value="seasons" className=" text-xs">Seasons</TabsTrigger>
             <TabsTrigger value="reset" className=" text-xs">Energy</TabsTrigger>
-            </TabsList>
+            </TabsList> */}
+            <TabsContent value="version" className=" flex items-start justify-start">
+              <GameVersionCard/>
+            </TabsContent>
 
-            {/* Leaderboards Tab */}
             <TabsContent value="leaderboards">
             <section>
                 <h2 className="text-xl font-bold mb-4">Leaderboards</h2>
@@ -258,7 +270,6 @@ export default function page() {
             </section>
             </TabsContent>
 
-            {/* Seasons Tab */}
             <TabsContent value="seasons">
             <section>
               
@@ -266,7 +277,6 @@ export default function page() {
             </section>
             </TabsContent>
 
-            {/* Reset Energy Tab */}
             <TabsContent value="reset">
             <section>
                 <h2 className="text-xl font-bold mb-4">Reset</h2>
