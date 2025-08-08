@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableCaption } from "@/components/ui/table"
 import Sidebar from "@/components/Sidebar"
 import Header from "@/components/Header"
 import {
@@ -21,6 +21,7 @@ import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { SeasonSection } from "./Season"
 import GameVersionCard from "./GameVersion"
+import { TitlesSection } from "./Titles"
 
 export interface LeaderboardHistoryOptionsResponse {
   message: string
@@ -55,15 +56,32 @@ export default function page() {
   const [seasonName, setSeasonName] = useState("")
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [leaderboard, setLeaderboard] = useState('amount')
 
 
     const [seasons, setSeasons] = useState<LeaderboardHistoryOptionsResponse>()
     const [selectedSeason, setSelectedSeason] = useState("")
+    const [activeSeason, setActiveSeason] = useState("")
     const [leaderboards, setLeaderboards] = useState<LeaderboardResponse>()
 
     // Fetch seasons
     useEffect(() => {
-    const fetchSeasons = async () => {
+    const fetchOptions = async () => {
+        try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/leaderboard/getleaderboardhistoryoptions?category=${leaderboard}`,{
+            withCredentials: true,
+          headers: { 'Content-Type': 'application/json' },
+        })
+        setSeasons(res.data || [])
+        setSelectedSeason(res.data?.[0] || "")
+        } catch (err) {
+        console.error("Failed to fetch seasons", err)
+        }
+    }
+    fetchOptions()
+    }, [leaderboard])
+
+    const fetchData = async () => {
         try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/leaderboard/getleaderboardhistoryoptions`,{
             withCredentials: true,
@@ -75,14 +93,38 @@ export default function page() {
         console.error("Failed to fetch seasons", err)
         }
     }
-    fetchSeasons()
-    }, [])
+
+     const fetchActiveSeason = async () => {
+        try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/season/getcurrentseason`,{
+            withCredentials: true,
+          headers: { 'Content-Type': 'application/json' },
+        })
+
+        setActiveSeason(res.data.data.season._id)
+      
+        } catch (err) {
+        console.error("Failed to fetch seasons", err)
+        }
+    }
+
+    const dynamicApiroute = () => {
+      if(leaderboard === 'amount') {
+        return 'getleaderboardsa'
+      } else if(leaderboard === 'kill') {
+        return 'getkillleaderboardsa'
+      } else if(leaderboard === 'level') {
+        return 'getlevelleaderboardsa'
+      } else if(leaderboard === 'death') {
+        return 'getdeathleaderboardsa'
+      }
+    }
 
     useEffect(() => {
     const fetchLeaderboard = async () => {
         if (!selectedSeason) return
         try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/leaderboard/getleaderboardsa?index=${Number(selectedSeason)}`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/leaderboard/${dynamicApiroute()}?index=${Number(selectedSeason)}`, {
             withCredentials: true,
           headers: { 'Content-Type': 'application/json' },
         })
@@ -92,9 +134,10 @@ export default function page() {
         }
     }
     fetchLeaderboard()
-    }, [selectedSeason])
+    }, [selectedSeason, leaderboard])
 
     useEffect(() => {
+      fetchActiveSeason()
         setSelectedSeason(String(seasons?.data.options[0]?.index))
     },[seasons])
 
@@ -103,7 +146,7 @@ export default function page() {
         setLoading(true)
         try {
           await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/leaderboard/resetleaderboard`, {
-        
+          category: leaderboard, season: activeSeason
           }, {
             withCredentials: true,
             headers: { 'Content-Type': 'application/json' },
@@ -116,6 +159,8 @@ export default function page() {
             title: "Success",
             description: `Leaderboard have been reset.`,
           });
+
+          fetchData()
 
           setLoading(false)
         } catch (error) {
@@ -196,6 +241,7 @@ export default function page() {
               <TabsList className="mb-6 text-xs bg-zinc-800 flex w-max whitespace-nowrap px-2">
                 <TabsTrigger value="version" className="text-xs">Game Version</TabsTrigger>
                 <TabsTrigger value="leaderboards" className="text-xs">Leaderboards</TabsTrigger>
+                <TabsTrigger value="titles" className="text-xs">Titles</TabsTrigger>
                 <TabsTrigger value="seasons" className="text-xs">Seasons</TabsTrigger>
                 <TabsTrigger value="reset" className="text-xs">Energy</TabsTrigger>
               </TabsList>
@@ -213,11 +259,32 @@ export default function page() {
 
             <TabsContent value="leaderboards">
             <section>
-                <h2 className="text-xl font-bold mb-4">Leaderboards</h2>
+               <Select value={leaderboard} onValueChange={setLeaderboard}>
+                    <SelectTrigger className=" w-fit bg-zinc-700 text-xs mb-4">
+                    <SelectValue placeholder="Select Season" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem  value={`amount`}>
+                          Points
+                        </SelectItem>
+                        <SelectItem  value={`kill`}>
+                          Kills
+                        </SelectItem>
+
+                        <SelectItem  value={`level`}>
+                          Levels
+                        </SelectItem>
+
+                        <SelectItem  value={`death`}>
+                          Deaths
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
+                <h2 className="text-xl font-bold mb-4">Leaderboards <span className=" text-sm text-orange-500 uppercase">({leaderboard === 'amount' ? 'Points' : leaderboard})</span></h2>
                 <div className="flex items-center gap-4 mb-4">
                 <Select value={selectedSeason} onValueChange={setSelectedSeason}>
-                    <SelectTrigger className=" w-fit bg-zinc-700 text-xs">
-                    <SelectValue placeholder="Select Season" />
+                    <SelectTrigger className=" w-fit min-w-[150px] bg-zinc-700 text-xs">
+                    <SelectValue className=" text-white placeholder:text-white" placeholder="Select history" />
                     </SelectTrigger>
                     <SelectContent>
                     {seasons?.data.options.map((season) => (
@@ -246,11 +313,14 @@ export default function page() {
                     {/* Scrollable Table Body */}
                     <div className="max-h-[600px] overflow-y-auto">
                         <Table>
+                          {Object.values(leaderboards?.data.leaderboard || {}).length === 0 && (
+                            <TableCaption>No data</TableCaption>
+                          )}
                         <TableHeader>
                         <TableRow className=" border-b border-zinc-600">
                             <TableHead className=" text-start">Rank</TableHead>
                             <TableHead className=" text-start">Player</TableHead>
-                            <TableHead className=" text-start">Points</TableHead>
+                            <TableHead className=" text-start">{leaderboard === 'amount' ? 'Points' : leaderboard.charAt(0).toUpperCase() + leaderboard.slice(1)}</TableHead>
                         </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -274,6 +344,13 @@ export default function page() {
             <section>
               
                 <SeasonSection/>
+            </section>
+            </TabsContent>
+
+             <TabsContent value="titles">
+            <section>
+              
+                <TitlesSection/>
             </section>
             </TabsContent>
 

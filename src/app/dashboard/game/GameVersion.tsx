@@ -85,7 +85,7 @@ export default function GameVersionCard() {
           <div className="flex flex-col gap-2">
             <p className="text-sm text-muted">Game Version</p>
 
-            <div className="flex items-center gap-2"> <p className=" text-sm">V.</p>
+            <div className="flex items-center gap-2"><p className=" text-sm">V.</p>
               {isEditing ? (
                 <>
                   <Input
