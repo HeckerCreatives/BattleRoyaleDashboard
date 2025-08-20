@@ -288,6 +288,10 @@ export default function Header() {
           <a href='/dashboard/game' className=' text-xs md:text-sm text-white'>Game</a>
         )}
 
+        { pathname === '/dashboard/marketplace/' && (
+          <a href='/dashboard/marketplace' className=' text-xs md:text-sm text-white'>Marketplace</a>
+        )}
+
 
       </div>
     

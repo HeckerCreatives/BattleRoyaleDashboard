@@ -60,6 +60,23 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
 import { RiCloseFill } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
+import Inventory from './Inventory'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import api from '@/lib/axios'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { ChevronsUpDownIcon, CheckIcon } from 'lucide-react'
+import DialogWithPopover from './Sample'
+import Transaction from './Transaction'
+import { MatchHistory } from './MatchHsitory'
+
 
 
 interface PlayerList{
@@ -87,6 +104,21 @@ interface UserStats {
     xp: number;
     userrank: number;
   }
+
+
+  
+interface Items {
+  _id: string
+  itemid:string
+  itemname: string
+  description: string
+  amount: 10,
+  currency: string
+  type: string
+  consumable: string
+  createdAt: string
+  updatedAt: string
+}
   
 
 export default function page() {
@@ -111,7 +143,8 @@ export default function page() {
   const [today, setToday] = useState(0)
   const [index, setIndex] = useState(0)
   const [stats, setStats] = useState<UserStats>()
-
+  const [view, setView] = useState(false)
+  
     useEffect(() => {
     const getCountregister = async () => {
       try {
@@ -669,6 +702,7 @@ export default function page() {
                             Search</button>
                     </div>
 
+
                    
 
                     <div className=' flex items-center gap-4'>
@@ -730,11 +764,18 @@ export default function page() {
                             <TableCell >{formatISODate(list.createdAt)}</TableCell>
                             <TableCell className=' flex items-center justify-start gap-2'>
  
-                                <Dialog onOpenChange={() => setTab('dashboard')}>
+                                <Dialog onOpenChange={() => {setTab('dashboard')}}
+                                   
+                                    >
                                 <DialogTrigger onClick={() => {setUserid(list.id)}}>
                                     <button className=' bg-blue-100 px-2 py-1 rounded-sm text-xs flex items-center gap-1 text-blue-950'><IoMdEye size={15}/>View</button>
                                 </DialogTrigger>
-                                <DialogContent className=' flex flex-col items-start border-x-8 border-orange-300 w-[90%] min-h-[600px] h-auto md:w-[800px] rounded-md '
+                                <DialogContent className=' flex flex-col items-start border-x-8 border-orange-300 w-[90%] min-h-[600px] h-auto max-h-[80vh] md:w-[800px] rounded-md '
+                                onInteractOutside={(e) => {
+                                    if (e.target instanceof Element && e.target.closest("[data-radix-popover-content]")) {
+                                    e.preventDefault() // don’t close dialog when clicking inside popover
+                                    }
+                                }}
                                 style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
 
                                 >
@@ -743,7 +784,8 @@ export default function page() {
                                     <PopoverContent className=' ml-10 bg-zinc-950 border-zinc-900 text-white w-[180px]'>
                                         <p onClick={()=> setTab('dashboard')} className={`text-xs px-4 py-1 cursor-default ${tab === 'dashboard' && ' bg-secondary rounded-md'}`}>Dashboard</p>
                                         <p onClick={()=> setTab('inventory')} className={`text-xs px-4 py-1 cursor-default ${tab === 'inventory' && ' bg-secondary rounded-md'}`}> Inventory</p>
-                                        <p onClick={()=> setTab('transaction')} className={`text-xs px-4 py-1 cursor-default ${tab === 'transaction' && ' bg-secondary rounded-md'}`}>Transaction history</p>
+                                        <p onClick={()=> setTab('transaction')} className={`text-xs px-4 py-1 cursor-default ${tab === 'transaction' && ' bg-secondary rounded-md'}`}>Transaction</p>
+                                        <p onClick={()=> setTab('match')} className={`text-xs px-4 py-1 cursor-default ${tab === 'match' && ' bg-secondary rounded-md'}`}>Match</p>
                                         <p onClick={()=> {setTab('inbox'); playerInbox()}} className={`text-xs px-4 py-1 cursor-default ${tab === 'inbox' && ' bg-secondary rounded-md'}`}>Inbox</p>
                                         <p onClick={()=> setTab('profile')} className={`text-xs px-4 py-1 cursor-default ${tab === 'profile' && ' bg-secondary rounded-md'}`}>Profile</p>
                                     </PopoverContent>
@@ -753,6 +795,7 @@ export default function page() {
                                         <p onClick={()=> setTab('dashboard')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'dashboard' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>DASHBOARD</p>
                                         <p onClick={()=> setTab('inventory')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'inventory' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>INVENTORY</p>
                                         <p onClick={()=> setTab('transaction')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'transaction' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>TRANSACTION</p>
+                                        <p onClick={()=> setTab('match')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'match' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>MATCH</p>
                                         <p onClick={()=> {setTab('inbox'); playerInbox()}} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'inbox' && ' text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>INBOX</p>
                                         <p onClick={()=> setTab('profile')} className={`text-sm font-semibold border-[1px] border-opacity-30 border-orange-300 rounded-md px-4 py-1 cursor-pointer ${tab === 'profile' && 'text-amber-950 bg-gradient-to-r from-orange-200 to-orange-400 rounded-md'}`}>PROFILE</p>
 
@@ -831,101 +874,15 @@ export default function page() {
                                     )}
 
                                      {tab === 'inventory' && (
-                                        <div className=' relative w-full h-full rounded-lg flex flex-col gap-6 items-start p-4'
-                                        style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                        
-                                        >
-
-                                            <div className=' hidden w-full bg-amber-900 md:grid grid-cols-4 p-2'>
-                                                <p onClick={() => setInventory('skin')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-pointer ${inventory === 'skin' ? ' text-orange-300' : ' text-orange-100'}`}>SKIN</p>
-
-                                                 <p onClick={() => setInventory('color')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-pointer ${inventory === 'color' ? ' text-orange-300' : ' text-orange-100'}`}>COLOR</p>
-
-                                                  <p onClick={() => setInventory('effects')} className={`w-full text-lg text-center border-r-4 border-amber-950 cursor-pointer ${inventory === 'effects' ? ' text-orange-300' : ' text-orange-100'}`}>EFFECTS</p>
-
-                                                   <p onClick={() => setInventory('misc')} className={`w-full text-lg text-center cursor-pointer ${inventory === 'misc' ? ' text-orange-300' : ' text-orange-100'}`}>MISC</p>
-                                            
-
-                                            </div>
-
-                                            <Select>
-                                            <SelectTrigger className=" visible md:hidden bg-zinc-950 border-2 border-orange-300 border-opacity-30 text-orange-100">
-                                                <SelectValue placeholder="Select" />
-                                            </SelectTrigger>
-                                            <SelectContent className=' bg-zinc-950 border-orange-300 border-opacity-30 text-orange-100'>
-                                                <SelectItem value="skin" className=' cursor-pointer'>SKIN</SelectItem>
-                                                <SelectItem value="color" className=' cursor-pointer'>COLOR</SelectItem>
-                                                <SelectItem value="effects" className=' cursor-pointer'>EFFECTS</SelectItem>
-                                                <SelectItem value="misc" className=' cursor-pointer'>MISC</SelectItem>
-                                            </SelectContent>
-                                            </Select>
-
-                                            <div className=' grid grid-cols-3 md:grid-cols-5 w-full h-[75%] overflow-y-auto gap-4'>
-
-                                                <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 <div className=' aspect-square bg-gradient-to-b from-amber-950 to-amber-900 border-2 border-orange-300 border-opacity-50'>
-
-                                                </div>
-
-                                                 
-
-                                            </div>
-
-                                            <div className=' absolute bottom-4 right-4 flex items-center gap-4'>
-                                                <button 
-                                             
-                                                className=' bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowLeftThick size={30}/></button>
-                                                {/* <p className=' text-sm font-bold bg-zinc-950 px-4 py-2 text-center  rounded-md'>{currentpage + 1}</p> */}
-                                                <button
-                                               
-                                                className='bg-gradient-to-r from-orange-200 to-orange-400 rounded-md text-amber-950 px-6'><TiArrowRightThick size={30}/></button>
-
-                                            </div>
-                                        </div>
+                                        <Inventory userid={list.id}/>
                                     )}
 
                                     {tab === 'transaction' && (
-                                        <div className=' bg-zinc-900 w-full h-full rounded-lg flex items-center justify-center'
-                                        style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-                                        
-                                        >
-                                            <p className=' text-xs text-zinc-300'>Coming Soon!</p>
-                                        </div>
+                                        <Transaction userid={list.id}/>
+                                    )}
+
+                                    {tab === 'match' && (
+                                        <MatchHistory/>
                                     )}
 
                                     {tab === 'inbox' && (
@@ -958,6 +915,11 @@ export default function page() {
                                                             </div>
                                                         </DialogTrigger>
                                                         <DialogContent className=' w-[90%] border-4 border-orange-300 rounded-md'
+                                                        onInteractOutside={(e) => {
+                                                            if (e.target instanceof HTMLElement && e.target.closest("[data-radix-popover-content]")) {
+                                                            e.preventDefault()
+                                                            }
+                                                        }}
                                                         style={{backgroundImage: "url('/inbox/Assets/Tab Big.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
                                                            

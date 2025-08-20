@@ -17,7 +17,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { Box, MessageCircle, Phone } from 'lucide-react';
+import { Box, MessageCircle, Phone, Store } from 'lucide-react';
 
 
 export default function Sidebar() {
@@ -53,6 +53,16 @@ export default function Sidebar() {
           >
             <Box size={20}/>
             <span>Game</span>
+          </Link>
+
+          <Link
+            href='/dashboard/marketplace'
+            className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/dashboard/marketplace/' && ' text-secondary'}`}
+            role='menuitem'
+            passHref
+          >
+            <Store size={20}/>
+            <span>Marketplace</span>
           </Link>
 
           
