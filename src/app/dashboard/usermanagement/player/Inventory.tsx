@@ -281,7 +281,7 @@ export default function Inventory(props: Props) {
                                                     <div className=' p-3 w-fit rounded-md bg-orange-700 flex items-center justify-center text-white mb-4'>
                                                        {getItemIcon(item.type)}
                                                     </div>
-                                                <p className="text-[clamp(1rem,1vw,1.5rem)] font-semibold text-orange-500">
+                                                <p className="text-[clamp(1rem,1vw,1.2rem)] font-semibold text-orange-500">
                                                     {item.itemname}
                                                 </p>
                                                 <p className="text-[clamp(0.5rem,0.9vw,0.7rem)] text-white">

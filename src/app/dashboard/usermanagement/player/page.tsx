@@ -61,19 +61,6 @@ import { TiArrowLeftThick, TiArrowRightThick } from "react-icons/ti";
 import { RiCloseFill } from "react-icons/ri";
 import { FiCheck } from "react-icons/fi";
 import Inventory from './Inventory'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import api from '@/lib/axios'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { ChevronsUpDownIcon, CheckIcon } from 'lucide-react'
-import DialogWithPopover from './Sample'
 import Transaction from './Transaction'
 import { MatchHistory } from './MatchHsitory'
 
@@ -801,76 +788,96 @@ export default function page() {
 
                                     </div>
                                     {tab === 'dashboard' && (
-                                        <div className=' relative w-full h-full rounded-lg flex items-start p-6'
+                                    <div className=' relative w-full h-full rounded-lg flex items-start p-6 py-12'
                                         style={{backgroundImage: "url('/userdashboard/Assets/TAB HOLDER small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                         >
 
                                         <img src="/userdashboard/Assets/Character B.png" alt="" width={350} className=' absolute bottom-2 right-0 z-20 md:block hidden' />
-                                         <img src="/userdashboard/Assets/Character A.png" alt="" width={450} className=' absolute bottom-2 right-0 md:block hidden' />
-                                        <div className=' relative z-30 flex flex-col gap-4 md:w-[40%] w-full'>
+                                         <img src="/userdashboard/Assets/Character A.png" alt="" width={450} className=' absolute bottom-2 h-full right-0 md:block hidden' />
+                                       <div className=' w-fit h-full flex flex-col gap-4'>
+                                            {/* <div className=' flex items-center justify-between  p-4 bg-amber-950 rounded-md w-fit'>
+                                                <div className=' flex flex-col '>
+                                                    <p className=' text-xl font-semibold text-white'>
+                                                        {list.username} <span className=' text-sm text-orange-500 animate-pulse'>({title})</span>
+                                                    </p>
+                                                    <p className=' text-sm text-zinc-400'>{list.email}</p>
+                                                </div>
 
-                                            <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
-                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB A.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                                             
+                                            </div> */}
+
+                                            
+                                          
+                                            <div className=' relative z-30 grid grid-cols-1 md:grid-cols-2 w-fit gap-2'>
+
+                                            <div className=' flex items-end justify-end h-fit w-fit  relative'
                                             >
+                                                <img src="/userdashboard/Assets/TAB A.png" alt="tab" width={250} height={300} />
 
-                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.kill}</h2>
+                                                <div className=' absolute flex flex-col items-center justify-center gap-2 h-full w-[65%]'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.kill.toLocaleString()}</h2>
                                                     <p className=' text-sm text-amber-950'>Total Kills</p>
-
                                                 </div>
 
                                             </div>
 
-                                            <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
-                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB B.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                                            <div className=' flex items-end justify-end w-fit h-fit relative'
                                             >
+                                                <img src="/userdashboard/Assets/TAB B.png" alt="tab" width={250} height={300} />
 
-                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.death}</h2>
+                                                <div className=' absolute flex flex-col items-center justify-center gap-2 h-full w-[65%]'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.death.toLocaleString()}</h2>
                                                     <p className=' text-sm text-amber-950'>Total Deaths</p>
 
                                                 </div>
 
                                             </div>
 
-                                             <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
-                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB C.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
-                                            >
 
-                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.userrank}</h2>
+                                              <div className=' flex items-end justify-end w-fit h-fit relative'
+                                            >
+                                                <img src="/userdashboard/Assets/TAB C.png" alt="tab" width={250} height={300} />
+
+                                                <div className=' absolute flex flex-col items-center justify-center gap-2 h-full w-[65%]'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.userrank.toLocaleString()}</h2>
                                                     <p className=' text-sm text-amber-950'>Current Rank</p>
 
                                                 </div>
 
                                             </div>
 
-                                            <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
-                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB C.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
-                                            >
+                                         
 
-                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.level}</h2>
+                                            <div className=' flex items-end justify-end w-fit h-fit relative'
+                                            >
+                                                <img src="/userdashboard/Assets/TAB C.png" alt="tab" width={250} height={300} />
+
+                                                <div className=' absolute flex flex-col items-center justify-center gap-2 h-full w-[65%]'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.level.toLocaleString()}</h2>
                                                     <p className=' text-sm text-amber-950'>Level</p>
 
                                                 </div>
 
                                             </div>
 
-                                            <div className=' flex items-end justify-end h-[100px] md:h-[80px]'
-                                            style={{backgroundImage: "url('/userdashboard/Assets/TAB C.png')", backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat:"no-repeat"}}
+                                            <div className=' flex items-end justify-end w-fit h-fit relative'
                                             >
+                                                <img src="/userdashboard/Assets/TAB C.png" alt="tab" width={250} height={300} />
 
-                                                <div className=' flex flex-col items-center justify-center gap-2 w-[60%] h-full'>
-                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.xp} / {(stats?.level || 1) * 80}</h2>
-                                                    <p className=' text-sm text-amber-950'>Experience</p>
+                                                <div className=' absolute flex flex-col items-center justify-center gap-2 h-full w-[65%]'>
+                                                    <h2 className=' text-amber-950 text-xl font-semibold'>{stats?.xp.toLocaleString()}</h2>
+                                                    <p className=' text-sm text-amber-950'>EXP</p>
 
                                                 </div>
 
                                             </div>
 
+
+                                             </div>
                                         </div>
-                                        </div>
+
+                                        
+                                    </div>
                                     )}
 
                                      {tab === 'inventory' && (
@@ -882,7 +889,7 @@ export default function page() {
                                     )}
 
                                     {tab === 'match' && (
-                                        <MatchHistory/>
+                                        <MatchHistory userid={list.id}/>
                                     )}
 
                                     {tab === 'inbox' && (
