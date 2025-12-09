@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
+import ClientProviders from "@/utils/ClientProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +22,12 @@ export default function RootLayout({
         <script src="https://cdn.lordicon.com/lordicon.js"></script>
       </head>
       <body className={inter.className}>
-        <main className=" bg-zinc-900">
-          {children}
-          <Toaster/>
-        </main>
-        
+        <ClientProviders>
+          <main className=" bg-zinc-900">
+            {children}
+            <Toaster/>
+          </main>
+        </ClientProviders>
         </body>
     </html>
   );
