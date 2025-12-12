@@ -1,6 +1,6 @@
 'use client'
 
-import { useAccount, useBalance, useConnect, useEnsAvatar, useEnsName, useSwitchAccount, useSwitchChain, useChains, useChainId } from 'wagmi'
+import { useAccount, useBalance, useConnect, useEnsAvatar, useEnsName, useSwitchAccount, useSwitchChain, useChains, useChainId, useDisconnect } from 'wagmi'
 import { injected } from 'wagmi/connectors'
 import { FaEthereum } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { normalize } from 'viem/ens'
 import { config } from "@/wagmi/config";
 import { LinkWallet } from '@/components/auth/LinkWallet';
+import toast from 'react-hot-toast';
 
 import {
   Tabs,
@@ -20,14 +21,33 @@ import { useCheckSession } from '@/app/api/auth/auth';
 import { Button } from '@/components/ui/button';
 
 export default function ProfilePage() {
-
     const [network, setNetwork] = useState<String>("");
-  const { data, isPending } = useCheckSession();
+    const { data, isPending } = useCheckSession();
+    const { disconnect } = useDisconnect();
 
     const { connect } = useConnect()
     const { chains, switchChain } = useSwitchChain()
     const allchains = useChains()
     const chainId = useChainId()
+
+    const { address, isConnected } = useAccount();
+    
+    // Validate wallet matches session
+    useEffect(() => {
+        if (!isPending && data) {
+            const sessionWallet = data.data?.walletAddress;
+            
+            // If both connected and session wallet exists, check if they match
+            if (isConnected && sessionWallet && address) {
+                const addressesMatch = sessionWallet.toLowerCase() === address.toLowerCase();
+                
+                if (!addressesMatch) {
+                    disconnect();
+                    toast.error('Connected wallet does not match your account wallet');
+                }
+            }
+        }
+    }, [data, isPending, isConnected, disconnect, address]);
 
     useEffect(() => {
         // get chain name from chainId
@@ -37,7 +57,6 @@ export default function ProfilePage() {
         }
         
     }, [allchains, chainId])
-  const { address, isConnected } = useAccount();
   const { data: balance } = useBalance({
     address: address,
   });

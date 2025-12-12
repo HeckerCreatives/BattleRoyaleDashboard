@@ -66,14 +66,6 @@ export default function UserSidebar() {
               <span>Inventory</span>
           </Link>
 
-         <Link
-              href='/user/minting'
-              className={`flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${pathname === '/user/minting/' && ' text-secondary'}`}
-              passHref
-            >
-              <FaHammer size={20}/>
-              <span>Minting</span>
-          </Link>
 
          <Link
               href='/user/activate'

@@ -2,7 +2,6 @@
 import { handleApiError } from "@/utils/AxiosErrorHandler";
 import axiosInstance from "@/utils/AxiosInstance";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { use } from "react";
 
 const loginUser = async ( ipAddress: string, email: string, password: string
 ) => {

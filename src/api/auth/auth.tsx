@@ -112,4 +112,18 @@ export const useUnlinkWallet = () => {
 };
 
 
+// const checkSession = async (): Promise<CheckSessionResponse> => {
 
+const userList = async (page: number, limit: number) => {
+  const response = await axiosInstance.get(`/auth/getuserlist?page=${page}&limit=${limit}`);
+  return response.data;
+}
+
+
+export const useUserList = (page: number, limit: number) => {
+  return useQuery({
+    queryKey: ['userList', page, limit],
+    queryFn: () => userList(page, limit),
+    retry: false,
+  })
+};
