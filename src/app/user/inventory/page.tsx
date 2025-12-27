@@ -9,10 +9,12 @@ import toast from 'react-hot-toast';
 import { useGetMyInventory } from '@/api/inventory/list';
 import MintAction from './components/MintAction';
 import { useCheckSession } from '@/app/api/auth/auth';
+import { useCheckOwnedTokens, useClaimInventory } from '@/api/inventory/mutations';
 
 export default function InventoryPage() {
     const { address, isConnected } = useAccount();
     const { disconnect } = useDisconnect();
+    const router = useRouter();
     const { data: sessionData, isLoading: sessionLoading } = useCheckSession();
     
     // State management (must be before conditional returns)
@@ -29,7 +31,7 @@ export default function InventoryPage() {
     // Data fetching hooks (must be before conditional returns)
     const { data: items, isLoading, isError } = useGetMyNFTs(address as string, !!address);
     const { data: invInGameResp, isLoading: invInGameLoading } = useGetMyInventory({ page: inGamePage, limit: inGameLimit });
-    const { data: invBridgeResp, isLoading: invBridgeLoading } = useGetMyInventory({ page: bridgeBackendPage, limit: bridgeBackendLimit });
+    const { data: invBridgeResp, isLoading: invBridgeLoading } = useGetMyInventory({ page: bridgeBackendPage, limit: bridgeBackendLimit, includeNFTs: true });
     
     // Check if user has wallet address in session and matches connected wallet
     useEffect(() => {
@@ -67,6 +69,7 @@ export default function InventoryPage() {
                 price: '0',
                 seller: '',
                 listed: !!e.isListed,
+                isMinted: !!e.isMinted,
             }));
         }, [invInGameResp]);
 
@@ -82,6 +85,7 @@ export default function InventoryPage() {
                 price: '0',
                 seller: '',
                 listed: !!e.isListed,
+                isMinted: !!e.isMinted,
             }));
         }, [invBridgeResp]);
 
@@ -92,12 +96,15 @@ export default function InventoryPage() {
         return all.slice(start, start + onchainLimit);
     }, [items, onchainPage]);
 
-    const toggleBackend = (id: number) => {
-        setSelectedBackend(s => s.includes(id) ? s.filter(x => x !== id) : [...s, id]);
-    };
-    const toggleOnchain = (id: number) => {
-        setSelectedOnchain(s => s.includes(id) ? s.filter(x => x !== id) : [...s, id]);
-    };
+    // Check which tokens from current page are already owned in backend
+    const pageTokenIds = React.useMemo(() => pagedOnchainItems.map(i => i.tokenId), [pagedOnchainItems]);
+    const { data: checkResp } = useCheckOwnedTokens(pageTokenIds, !!pageTokenIds.length && tab === 'bridge');
+    const ownedOnchainIds = React.useMemo(() => new Set<number>(checkResp?.owned || []), [checkResp]);
+
+    // Claim/bridge mutation
+    const { mutate: claimInventory, isPending: isClaiming } = useClaimInventory();
+
+
     
     // Show loading while checking session
     if (sessionLoading) {
@@ -150,11 +157,18 @@ export default function InventoryPage() {
         return img;
     }
 
-    const router = useRouter();
-
     const handleBridgeNFT = (tokenId: number) => {
-        // placeholder: mark NFT as usable in-game (backend action)
-        toast.success(`Requested bridge for NFT ${tokenId}`);
+        if (!address) {
+            toast.error('Wallet not connected');
+            return;
+        }
+        claimInventory(
+            { tokenId, walletAddress: address },
+            {
+                onSuccess: () => toast.success(`Successfully bridged token #${tokenId} to your account`),
+                onError: (e: any) => toast.error(e?.message || 'Bridge failed'),
+            }
+        );
     }
 
     return (
@@ -182,14 +196,25 @@ export default function InventoryPage() {
             {tab === 'in-game' && (
                 <>
                         <div>
-                            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-stretch">
-                                {backendItems.map(item => (
-                                    <div key={item.tokenId} className={`relative ${selectedBackend.includes(item.tokenId) ? 'ring-2 ring-indigo-500' : ''}`}>
-                                
-                                        <ItemCard item={item as any} mintAction={<MintAction item={item as any} />} isMinted={false} />
-                                    </div>
-                                ))}
-                            </div>
+                            {invInGameLoading && <div>Loading inventory...</div>}
+                            {!invInGameLoading && backendItems.length === 0 && (
+                                <div className="text-center py-12">
+                                    <div className="text-gray-400 text-lg mb-2">No items in your inventory</div>
+                                    <div className="text-gray-500 text-sm">Items you receive will appear here</div>
+                                </div>
+                            )}
+                            {backendItems.length > 0 && (
+                                <div className="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-stretch">
+                                    {backendItems
+                                        .filter(item => item.inventoryId)
+                                        .map(item => (
+                                        <div key={item.inventoryId || item.tokenId} className={`relative ${selectedBackend.includes(item.tokenId) ? 'ring-2 ring-indigo-500' : ''}`}>
+                                    
+                                            <ItemCard item={item as any} mintAction={!item.isMinted ? <MintAction item={item as any} /> : undefined} isMinted={item.isMinted} />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
                             {/* Pagination controls for in-game inventory */}
                             <div className="mt-4 flex items-center justify-center gap-2">
@@ -213,14 +238,24 @@ export default function InventoryPage() {
                 <div className="mt-6 flex gap-4">
                     <div className="w-1/2">
                         <h4 className="text-sm font-semibold mb-2">In-Game Inventory</h4>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                            {bridgeBackendItems.map(item => (
-                                <div key={`backend-${item.tokenId}`} className={`relative ${selectedBackend.includes(item.tokenId) ? 'ring-2 ring-indigo-500' : ''}`}>
-                                    
-                                    <ItemCard item={item as any} mintAction={<MintAction item={item as any} />} isMinted={false} />
-                                </div>
-                            ))}
-                        </div>
+                        {invBridgeLoading && <div>Loading inventory...</div>}
+                        {!invBridgeLoading && bridgeBackendItems.length === 0 && (
+                            <div className="text-center py-12">
+                                <div className="text-gray-400 text-sm">No items to display</div>
+                            </div>
+                        )}
+                        {bridgeBackendItems.length > 0 && (
+                            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                                {bridgeBackendItems
+                                    .filter(item => item.inventoryId)
+                                    .map(item => (
+                                    <div key={item.inventoryId || `backend-${item.tokenId}`} className={`relative ${selectedBackend.includes(item.tokenId) ? 'ring-2 ring-indigo-500' : ''}`}>
+                                        
+                                        <ItemCard item={item as any} mintAction={!item.isMinted ? <MintAction item={item as any} /> : undefined} isMinted={item.isMinted} />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
                         {/* Pagination controls for bridge in-game list */}
                         <div className="mt-4 flex items-center justify-center gap-2">
@@ -246,15 +281,30 @@ export default function InventoryPage() {
                     <div className="w-1/2">
                         <h4 className="text-sm font-semibold mb-2">Your NFTs</h4>
                         {isLoading && <div>Loading your NFTs...</div>}
-                        {!isLoading && items && items.length === 0 && <div>You have no NFTs.</div>}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                            {pagedOnchainItems?.map(item => (
-                                <div key={`my-${item.tokenId}`} className={`relative ${selectedOnchain.includes(item.tokenId) ? 'ring-2 ring-indigo-500' : ''}`}>
-                                    
-                                    <ItemCard item={item} onList={() => {}} onBridge={handleBridgeNFT} isMinted={true} />
-                                </div>
-                            ))}
-                        </div>
+                        {!isLoading && items && items.length === 0 && (
+                            <div className="text-center py-12">
+                                <div className="text-gray-400 text-sm mb-2">No NFTs found</div>
+                                <div className="text-gray-500 text-xs">Mint or purchase NFTs to see them here</div>
+                            </div>
+                        )}
+                        {!isLoading && pagedOnchainItems && pagedOnchainItems.length > 0 && (
+                            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                                {pagedOnchainItems?.map(item => {
+                                    const isBridgeable = !ownedOnchainIds.has(item.tokenId);
+                                    return (
+                                        <div key={`my-${item.tokenId}`} className={`relative ${selectedOnchain.includes(item.tokenId) ? 'ring-2 ring-indigo-500' : ''}`}>
+                                            <ItemCard 
+                                                item={item} 
+                                                onList={() => {}} 
+                                                onBridge={isBridgeable ? handleBridgeNFT : undefined} 
+                                                isMinted={true}
+                                                isBridgePending={isClaiming}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
 
                         {/* Pagination controls for on-chain NFTs (client-side) */}
                         <div className="mt-4 flex items-center justify-center gap-2">

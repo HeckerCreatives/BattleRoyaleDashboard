@@ -5,6 +5,7 @@ import { useAccount } from 'wagmi';
 import { NFTItem } from '../../../../api/nft/list';
 import ListItemDialog from './ListItemDialog';
 import GiftNFTDialog from './GiftNFTDialog';
+import BridgeNFTDialog from './BridgeNFTDialog';
 
 interface Props {
   item: NFTItem;
@@ -12,12 +13,14 @@ interface Props {
   mintAction?: React.ReactNode;
   onBridge?: (tokenId: number) => void;
   isMinted?: boolean;
+  isBridgePending?: boolean;
 }
 
-export default function ItemCard({ item, onList, mintAction, onBridge, isMinted }: Props) {
+export default function ItemCard({ item, onList, mintAction, onBridge, isMinted, isBridgePending }: Props) {
   const { address } = useAccount();
   const [listDialogOpen, setListDialogOpen] = useState(false);
   const [giftDialogOpen, setGiftDialogOpen] = useState(false);
+  const [bridgeDialogOpen, setBridgeDialogOpen] = useState(false);
 
   const resolveImage = (img?: string) => {
     if (!img) return '';
@@ -27,7 +30,8 @@ export default function ItemCard({ item, onList, mintAction, onBridge, isMinted 
     return img;
   };
 
-  const formatTokenId = (tokenId: number) => {
+  const formatTokenId = (tokenId?: number) => {
+    if (tokenId === undefined || tokenId === null) return '000000';
     return tokenId.toString().padStart(6, '0');
   }
 
@@ -76,9 +80,9 @@ export default function ItemCard({ item, onList, mintAction, onBridge, isMinted 
                 <div className="text-xs text-black">Price</div>
                 <div className="text-sm text-black font-medium">{item.price} ETH</div>
               </>
-            ) : (
+            ) : isMinted ? (
               <div className="text-xs text-gray-400">Not for sale</div>
-            )}
+            ) : null}
           </div>
 
           <div className="text-right">
@@ -97,8 +101,8 @@ export default function ItemCard({ item, onList, mintAction, onBridge, isMinted 
 
             {onBridge && (
               <button
-                onClick={() => onBridge && onBridge(item.tokenId)}
-                className="px-3 py-1 text-sm bg-indigo-600 text-white rounded-md"
+                onClick={() => setBridgeDialogOpen(true)}
+                className="px-3 py-1 text-sm bg-yellow-600 text-white rounded-md hover:bg-yellow-700"
               >
                 Bridge
               </button>
@@ -124,12 +128,6 @@ export default function ItemCard({ item, onList, mintAction, onBridge, isMinted 
               </button>
             )}
           </div>
-
-          {!mintAction && !onBridge && !onList && (item.listed ? (
-            <div className="text-xs text-gray-400">You listed this item</div>
-          ) : (
-            <div className="text-xs text-gray-400">Not for sale</div>
-          ))}
         </div>
       </div>
 
@@ -146,16 +144,28 @@ export default function ItemCard({ item, onList, mintAction, onBridge, isMinted 
         />
       )}
 
-      {isMinted && (
+      {isMinted && item.inventoryId && (
         <GiftNFTDialog
           tokenId={item.tokenId}
           itemName={item.name}
+          inventoryId={item.inventoryId}
           open={giftDialogOpen}
           onOpenChange={setGiftDialogOpen}
           onSuccess={() => {
             // Refresh parent data after gifting
             onList?.(item.tokenId);
           }}
+        />
+      )}
+
+      {onBridge && (
+        <BridgeNFTDialog
+          tokenId={item.tokenId}
+          itemName={item.name}
+          open={bridgeDialogOpen}
+          onOpenChange={setBridgeDialogOpen}
+          onConfirm={onBridge}
+          isPending={isBridgePending}
         />
       )}
     </div>

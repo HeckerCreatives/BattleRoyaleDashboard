@@ -111,9 +111,6 @@ export const useUnlinkWallet = () => {
   });
 };
 
-
-// const checkSession = async (): Promise<CheckSessionResponse> => {
-
 const userList = async (page: number, limit: number) => {
   const response = await axiosInstance.get(`/auth/getuserlist?page=${page}&limit=${limit}`);
   return response.data;

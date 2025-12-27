@@ -70,6 +70,12 @@ export type GetMyInventoryParams = {
   sort?: string;
 };
 
+export type getNFTActivityHistoryParams = {
+  page?: number | string;
+  limit?: number | string;
+  tokenId?: number | string;
+  activityType?: string;
+};
 const getMyInventory = async (params?: GetMyInventoryParams): Promise<GetMyInventoryResponse> => {
   try {
     const response = await axiosInstance.get<GetMyInventoryResponse>("/inventory/getmyinventory", { params });
@@ -85,5 +91,25 @@ export const useGetMyInventory = (params?: GetMyInventoryParams, enabled: boolea
     queryFn: () => getMyInventory(params),
     enabled,
     retry: false,
+  })
+}
+
+
+export const getNFTActivityHistory = async (params?: getNFTActivityHistoryParams) => {
+  try {
+    const response = await axiosInstance.get("/inventory/nftactivity", { params });
+    return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
+}
+
+export const useGetNFTActivityHistory = (params?: getNFTActivityHistoryParams, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: ['nftActivityHistory', params],
+    queryFn: () => getNFTActivityHistory(params),
+    enabled,
+    retry: false,
+    staleTime: 30000, // 30 seconds
   })
 }

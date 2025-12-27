@@ -6,7 +6,7 @@ import axios from 'axios';
 import { mintInventoryItem } from '../inventory/mutations';
 import axiosInstance from "@/utils/AxiosInstance";
 
-const contractAddress = "0xE4F69Ed29813E0a6Fc4029B4A5e1C6ea273b6638";
+const contractAddress = "0xFD351B5ce367626Ae8CF3E5ac92be137410d23a5";
 
 // Pinata Helper Functions
 async function uploadMetadata(metadata: object): Promise<any> {
@@ -84,18 +84,44 @@ type MintParams = {
 };
 
 const mintNFT = async ({ tokenId, metadata, inventoryId, targetWallet }: MintParams) => {
-  if (!window.ethereum) throw new Error('No wallet found');
-  if (!inventoryId) throw new Error('Inventory ID is required for minting');
-  await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+  console.log('mintNFT called with:', { tokenId, inventoryId, targetWallet });
+  
+  if (!window.ethereum) {
+    console.error('No window.ethereum found');
+    throw new Error('No wallet found. Please install MetaMask or another Web3 wallet.');
+  }
+  
+  if (!inventoryId) {
+    throw new Error('Inventory ID is required for minting');
+  }
+  
+  try {
+    console.log('Requesting accounts...');
+    await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+  } catch (err: any) {
+    console.error('Failed to request accounts:', err);
+    throw new Error('Failed to connect wallet: ' + (err.message || 'Unknown error'));
+  }
+  
   const provider = new BrowserProvider(window.ethereum as any);
   const signer = await provider.getSigner();
   const contract = new Contract(contractAddress, market, signer);
   const walletAddress = await signer.getAddress();
+  
+  console.log('Connected wallet:', walletAddress);
+  console.log('Contract address:', contractAddress);
 
   // Pre-flight checks
-  const saleActive = await contract.saleActive();
-  if (!saleActive) {
-    throw new Error('Sale is not active. Contact admin to activate sale.');
+  try {
+    console.log('Checking if sale is active...');
+    const saleActive = await contract.saleActive();
+    console.log('Sale active:', saleActive);
+    if (!saleActive) {
+      throw new Error('Sale is not active. Contact admin to activate sale.');
+    }
+  } catch (err: any) {
+    console.error('Error checking sale status:', err);
+    throw new Error('Failed to check sale status: ' + (err.message || 'Contract may not be deployed'));
   }
 
   // Check if token already exists
@@ -174,7 +200,7 @@ export const useMintNFT = () => {
   });
 };
 
-const listNFT = async (tokenId: number, price: string) => {
+const listNFT = async (tokenId: number, price: string, inventoryId?: string) => {
   if (!window.ethereum) throw new Error('No wallet found');
     await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
     const provider = new BrowserProvider(window.ethereum as any);
@@ -183,13 +209,25 @@ const listNFT = async (tokenId: number, price: string) => {
     const priceInWei = parseUnits(price, 'ether');
     const tx = await contract.listNFT(tokenId, priceInWei);
     await tx.wait();
+    
+    // Call backend API after successful blockchain transaction
+    if (inventoryId) {
+      try {
+        const { listInventoryItem } = await import('../inventory/mutations');
+        await listInventoryItem(inventoryId, price);
+      } catch (err) {
+        console.error('Backend listing failed (non-critical):', err);
+        // NFT is already listed on-chain, backend sync can be done manually later
+      }
+    }
+    
     return { tokenId, price };
 };
 
 export const useListNFT = () => {
   return useMutation({
-    mutationFn: ({ tokenId, price }: { tokenId: number; price: string }) =>
-      listNFT(tokenId, price),
+    mutationFn: ({ tokenId, price, inventoryId }: { tokenId: number; price: string; inventoryId?: string }) =>
+      listNFT(tokenId, price, inventoryId),
     onError: (error) => {
       handleApiError(error);
     },
@@ -197,10 +235,13 @@ export const useListNFT = () => {
 };
 
 
-const giftNFT = async (tokenId: number, targetWallet: string) => {
+const giftNFT = async (tokenId: number, targetWallet: string, inventoryId: string) => {
   if (!window.ethereum) throw new Error('No wallet found');
   if (!targetWallet || targetWallet.length !== 42 || !targetWallet.startsWith('0x')) {
     throw new Error('Invalid target wallet address');
+  }
+  if (!inventoryId) {
+    throw new Error('Inventory ID is required for gifting');
   }
   
   await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
@@ -218,13 +259,22 @@ const giftNFT = async (tokenId: number, targetWallet: string) => {
   const tx = await contract.gift(targetWallet, tokenId);
   await tx.wait();
   
+  // Call backend API after successful blockchain transaction
+  try {
+    const { giftNFT: giftNFTBackend } = await import('../inventory/mutations');
+    await giftNFTBackend(inventoryId, targetWallet);
+  } catch (err) {
+    console.error('Backend gift registration failed (non-critical):', err);
+    // NFT is already gifted on-chain, backend sync can be done manually later
+  }
+  
   return { tokenId, targetWallet };
 };
 
 export const useGiftNFT = () => {
   return useMutation({
-    mutationFn: ({ tokenId, targetWallet }: { tokenId: number; targetWallet: string }) =>
-      giftNFT(tokenId, targetWallet),
+    mutationFn: ({ tokenId, targetWallet, inventoryId }: { tokenId: number; targetWallet: string; inventoryId: string }) =>
+      giftNFT(tokenId, targetWallet, inventoryId),
     onError: (error) => {
       handleApiError(error);
     },

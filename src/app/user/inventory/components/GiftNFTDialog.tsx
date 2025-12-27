@@ -23,6 +23,7 @@ import { useUserList } from '@/api/auth/auth';
 interface GiftNFTDialogProps {
   tokenId: number;
   itemName: string;
+  inventoryId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
@@ -31,6 +32,7 @@ interface GiftNFTDialogProps {
 export default function GiftNFTDialog({
   tokenId,
   itemName,
+  inventoryId,
   open,
   onOpenChange,
   onSuccess,
@@ -43,6 +45,15 @@ export default function GiftNFTDialog({
   const { toast } = useToast();
 
   const handleGift = () => {
+    if (!inventoryId) {
+      toast({
+        title: 'Error',
+        description: 'Inventory ID is required',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     if (!targetWallet) {
       toast({
         title: 'Invalid Address',
@@ -62,7 +73,7 @@ export default function GiftNFTDialog({
     }
 
     giftNFT(
-      { tokenId, targetWallet },
+      { tokenId, targetWallet, inventoryId },
       {
         onSuccess: () => {
           toast({

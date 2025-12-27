@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/tabs"
 import Activity from "./components/Activity";
 import Leaderboard from "./components/Leaderboard";
+import { useGetNFTActivityHistory } from "@/api/inventory/list";
 
 
 
@@ -20,6 +21,9 @@ import Leaderboard from "./components/Leaderboard";
 export default function Dashboard() {
 
   const { address, isConnected } = useAccount({ config });
+  const { data, isPending } = useGetNFTActivityHistory();
+
+
     
    const { data: balance } = useBalance({
     address: address,
@@ -49,7 +53,7 @@ export default function Dashboard() {
             {/* Activity and Leaderboard 3/4 of the width */}
             <div className="flex flex-col w-3/5 ">
                 {/* Activity */}
-                <Activity/>
+                <Activity activityData={data?.data} isLoading={isPending} />
                 {/* Leaderboard */}
                 <Leaderboard/>
             </div>

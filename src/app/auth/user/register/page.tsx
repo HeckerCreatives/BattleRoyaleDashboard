@@ -341,7 +341,7 @@ export default function login() {
         setCountry('')
         console.log(response.data)
         if (response.data.message === 'success') {
-          router.push('/auth/login')
+          router.push('/auth/user')
           setLoading(false)
            toast({
             title: "Success",

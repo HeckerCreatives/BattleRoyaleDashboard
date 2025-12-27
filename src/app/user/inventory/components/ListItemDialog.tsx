@@ -16,6 +16,7 @@ import { useToast } from '@/components/ui/use-toast';
 interface ListItemDialogProps {
   tokenId: number;
   itemName: string;
+  inventoryId?: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
@@ -24,6 +25,7 @@ interface ListItemDialogProps {
 export default function ListItemDialog({
   tokenId,
   itemName,
+  inventoryId,
   open,
   onOpenChange,
   onSuccess,
@@ -43,7 +45,7 @@ export default function ListItemDialog({
     }
 
     listNFT(
-      { tokenId, price },
+      { tokenId, price, inventoryId },
       {
         onSuccess: () => {
           setPrice('');

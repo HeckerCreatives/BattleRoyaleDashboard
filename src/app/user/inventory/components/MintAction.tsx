@@ -26,13 +26,34 @@ export default function MintAction({ item }: Props) {
       attributes: [],
     };
 
+    console.log('Minting NFT with:', { tokenId: item.tokenId, inventoryId: item.inventoryId, metadata });
+
     // Call mintNFT with tokenId, metadata, and inventoryId
     mintMutation.mutate(
       { 
         tokenId: item.tokenId, 
         metadata,
         inventoryId: item.inventoryId, // Use backend inventory _id/id for registration
-      });
+      },
+      {
+        onSuccess: (data) => {
+          console.log('Mint success:', data);
+          toast({ 
+            title: 'Success!', 
+            description: `NFT #${item.tokenId} minted successfully${data.backendRegistered ? '' : ' (backend sync pending)'}` 
+          });
+        },
+        onError: (error: any) => {
+          console.error('Mint error:', error);
+          const errorMessage = error?.message || 'Failed to mint NFT';
+          toast({ 
+            variant: 'destructive', 
+            title: 'Minting Failed', 
+            description: errorMessage 
+          });
+        }
+      }
+    );
   };
 
   return (

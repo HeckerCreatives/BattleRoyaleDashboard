@@ -20,7 +20,7 @@ export interface NFTItem {
 async function fetchAvailableNFTs(): Promise<NFTItem[]> {
   try {
     const provider = new JsonRpcProvider('https://bsc-prebsc-dataseed.bnbchain.org');
-    const contractAddress = "0xE4F69Ed29813E0a6Fc4029B4A5e1C6ea273b6638"; //process.env.NFT_CONTRACT_ADDRESS;
+    const contractAddress = "0xFD351B5ce367626Ae8CF3E5ac92be137410d23a5"; //process.env.NFT_CONTRACT_ADDRESS;
     if (!contractAddress) {
       throw new Error('NFT_CONTRACT_ADDRESS environment variable is not defined');
     }
@@ -82,7 +82,7 @@ export async function fetchMyNFTs(owner: string): Promise<NFTItem[]> {
   try {
     if (!owner) return [];
     const provider = new JsonRpcProvider('https://bsc-prebsc-dataseed.bnbchain.org');
-    const contractAddress = "0xE4F69Ed29813E0a6Fc4029B4A5e1C6ea273b6638"; // ensure this matches deployed address
+    const contractAddress = "0xFD351B5ce367626Ae8CF3E5ac92be137410d23a5"; // ensure this matches deployed address
     const marketContract = new Contract(contractAddress, market, provider);
 
     const resp: any[] = await marketContract.walletOfOwner(owner);
