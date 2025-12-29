@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Tabs,
   TabsContent,
@@ -12,13 +14,77 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useGetNFTActivityHistory } from "@/api/inventory/list";
+import { useGetViewMatchHistory } from "@/api/matchhistory/list";
 
-interface ActivityProps {
-  activityData?: any[];
-  isLoading?: boolean;
+// Types for Match History
+interface MatchHistoryItem {
+    id: string;
+    player: string;
+    kills: number;
+    placement: number;
+    createdAt: string;
 }
 
-export default function Activity({ activityData, isLoading }: ActivityProps) {
+interface MatchHistoryResponse {
+    message: string;
+    data: MatchHistoryItem[];
+    pagination: {
+        totalCount: number;
+        totalPages: number;
+    };
+}
+
+// Types for Activity/Transactions
+interface User {
+    _id: string;
+    username: string;
+    walletAddress: string;
+}
+
+interface InventoryItem {
+    _id: string;
+    itemname: string;
+    type: string;
+    ipfsImage: string;
+}
+
+interface ActivityItem {
+    _id: string;
+    tokenId: number;
+    inventoryItem: InventoryItem;
+    activityType: 'gift' | 'bridge' | 'mint' | 'transfer' | 'list';
+    from: User | null;
+    fromWallet: string;
+    to: User | null;
+    toWallet: string;
+    itemname: string;
+    type: string;
+    metadata: any;
+    createdAt: string;
+    updatedAt: string;
+    description: string;
+}
+
+interface ActivityResponse {
+    message: string;
+    data: ActivityItem[];
+    pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalItems: number;
+        itemsPerPage: number;
+    };
+}
+
+export default function Activity() {
+
+    const { data: activityResponse, isPending: isLoading } = useGetNFTActivityHistory();
+    const { data: matchResponse, isPending: isMatchLoading } = useGetViewMatchHistory({ page: 0, limit: 10 });
+
+    const matchData = (matchResponse as MatchHistoryResponse)?.data || [];
+    const activityData = (activityResponse as ActivityResponse)?.data || [];
+
     const formatDate = (dateString?: string) => {
         if (!dateString) return 'N/A';
         try {
@@ -51,16 +117,63 @@ export default function Activity({ activityData, isLoading }: ActivityProps) {
         );
     };
 
+    const formatTokenId = (tokenId?: number) => {
+        if (tokenId === undefined || tokenId === null) return '000000';
+        return tokenId.toString().padStart(6, '0');
+    }
+
+    const getPlacementColor = (placement: number) => {
+        if (placement === 1) return 'text-yellow-400 font-bold';
+        if (placement <= 3) return 'text-orange-400 font-semibold';
+        if (placement <= 10) return 'text-green-400';
+        return 'text-gray-400';
+    };
+
     return (
-        <div className="border rounded-md h-[500px] p-6">
-            <h2 className=" text-xl font-semibold mb-4 bg-gradient-to-r from-orange-500 to-black p-2 rounded-sm">Activity</h2>
-            <Tabs defaultValue="match" className=" w-full">
-                <TabsList className=" bg-zinc-800 rounded-md mb-4">
-                    <TabsTrigger value="match" className=" data-[state=active]:bg-orange-400 data-[state=active]:text-amber-950 w-1/2">Match</TabsTrigger>
-                    <TabsTrigger value="transactions" className=" data-[state=active]:bg-orange-400 data-[state=active]:text-amber-950 w-1/2">Transactions</TabsTrigger>
+        <div className="border border-gray-700 rounded-lg h-[500px] bg-zinc-900/50 overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-600 to-orange-800 p-4">
+                <h2 className="text-xl font-bold text-white">Activity</h2>
+            </div>
+            <Tabs defaultValue="match" className="w-full p-4">
+                <TabsList className="bg-zinc-800 rounded-lg mb-4 w-full">
+                    <TabsTrigger value="match" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white w-1/2 rounded-lg">Match</TabsTrigger>
+                    <TabsTrigger value="transactions" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white w-1/2 rounded-lg">Transactions</TabsTrigger>
                 </TabsList>
-                <TabsContent value="match">
-                    <p className=" text-zinc-400">No recent match.</p>
+                <TabsContent value="match" className="max-h-[350px] overflow-y-auto">
+                    {isMatchLoading ? (
+                        <p className="text-zinc-400">Loading match history...</p>
+                    ) : matchData.length === 0 ? (
+                        <p className="text-zinc-400">No recent match.</p>
+                    ) : (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="text-white">Player</TableHead>
+                                    <TableHead className="text-white">Kills</TableHead>
+                                    <TableHead className="text-white">Placement</TableHead>
+                                    <TableHead className="text-white">Date</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {matchData.map((match: MatchHistoryItem) => (
+                                    <TableRow key={match.id}>
+                                        <TableCell className="font-medium">
+                                            {match.player}
+                                        </TableCell>
+                                        <TableCell className="font-medium text-orange-400">
+                                            {match.kills}
+                                        </TableCell>
+                                        <TableCell className={getPlacementColor(match.placement)}>
+                                            #{match.placement}
+                                        </TableCell>
+                                        <TableCell className="text-sm text-zinc-400">
+                                            {formatDate(match.createdAt)}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
                 </TabsContent>
                 <TabsContent value="transactions" className="max-h-[350px] overflow-y-auto">
                     {isLoading ? (
@@ -71,6 +184,7 @@ export default function Activity({ activityData, isLoading }: ActivityProps) {
                         <Table>
                             <TableHeader>
                                 <TableRow>
+                                    <TableHead className="text-white">Token ID</TableHead>
                                     <TableHead className="text-white">Item</TableHead>
                                     <TableHead className="text-white">Type</TableHead>
                                     <TableHead className="text-white">Description</TableHead>
@@ -78,8 +192,11 @@ export default function Activity({ activityData, isLoading }: ActivityProps) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {activityData.map((activity) => (
+                                {activityData.map((activity: ActivityItem) => (
                                     <TableRow key={activity._id}>
+                                        <TableCell className="font-medium">
+                                            #{formatTokenId(activity.tokenId)}
+                                        </TableCell>
                                         <TableCell className="font-medium">
                                             <div className="flex items-center gap-2">
                                                 {activity.inventoryItem?.ipfsImage && (

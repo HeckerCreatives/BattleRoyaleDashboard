@@ -76,6 +76,49 @@ export type getNFTActivityHistoryParams = {
   tokenId?: number | string;
   activityType?: string;
 };
+
+// Token Details Types
+export interface TokenDetailsResponse {
+  message: string;
+  data: {
+    id: string;
+    tokenId: number;
+    itemname: string;
+    type: string;
+    quantity: number;
+    ipfsImage: string;
+    owner: {
+      userId: string;
+      username: string;
+      walletAddress: string;
+      email: string;
+    };
+    itemDetails: {
+      itemname: string;
+      description: string;
+      type: string;
+      rarity: string;
+      canBeMintedAsNFT: boolean;
+      ipfsImage: string;
+    } | null;
+    status: {
+      isEquipped: boolean;
+      isMintable: boolean;
+      isMinted: boolean;
+      isListed: boolean;
+      isTransferable: boolean;
+    };
+    nftData: any;
+    marketplaceListing: any;
+    listingData: any;
+    transferHistory: any[];
+    recentActivity: any[];
+    createdAt: string;
+    updatedAt: string;
+    _id: string; // This is the inventoryId
+  };
+}
+
 const getMyInventory = async (params?: GetMyInventoryParams): Promise<GetMyInventoryResponse> => {
   try {
     const response = await axiosInstance.get<GetMyInventoryResponse>("/inventory/getmyinventory", { params });
@@ -109,6 +152,28 @@ export const useGetNFTActivityHistory = (params?: getNFTActivityHistoryParams, e
     queryKey: ['nftActivityHistory', params],
     queryFn: () => getNFTActivityHistory(params),
     enabled,
+    retry: false,
+    staleTime: 30000, // 30 seconds
+  })
+}
+
+// Get Token Details by TokenId
+const getTokenDetails = async (tokenId: number): Promise<TokenDetailsResponse> => {
+  try {
+    const response = await axiosInstance.get<TokenDetailsResponse>("/inventory/token", { 
+      params: { tokenId } 
+    });
+    return response.data;
+  } catch (err) {
+    throw handleApiError(err);
+  }
+}
+
+export const useGetTokenDetails = (tokenId: number, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: ['tokenDetails', tokenId],
+    queryFn: () => getTokenDetails(tokenId),
+    enabled: enabled && tokenId > 0,
     retry: false,
     staleTime: 30000, // 30 seconds
   })
