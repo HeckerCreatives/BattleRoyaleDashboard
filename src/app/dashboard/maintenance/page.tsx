@@ -83,12 +83,7 @@ export default function Page() {
 
   return (
     <div className="flex w-full h-screen">
-      <Sidebar />
-      <main
-        className="bg-zinc-900 w-full text-white"
-        style={{ backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}
-      >
-        <Header />
+   
         <div className="w-full h-[500px] flex flex-col items-center justify-center p-4 md:p-10">
           <div className="relative w-full h-[180px] rounded-lg flex items-end p-6 shadow-lg overflow-hidden border-[1px] border-opacity-50 border-orange-300"
             style={{ backgroundImage: "url('/dashboard/assets/Tab.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
@@ -116,7 +111,6 @@ export default function Page() {
             </div>
           </div>
         </div>
-      </main>
     </div>
   );
 }

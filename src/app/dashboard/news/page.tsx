@@ -690,12 +690,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
     
   return (
     <div className=' flex w-full'>
-        <Sidebar/>
-        <main className=' bg-zinc-900 h-screen  overflow-y-auto w-full text-white'
-        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-        
-        >
-           <Header/>
+      
 
             <div className=' flex flex-col gap-8 w-full p-4 md:p-8'>
                 <div className=' relative w-full h-[180px] rounded-lg flex items-end p-6 shadow-lg border-[1px] border-opacity-50 border-orange-300'
@@ -952,10 +947,7 @@ const sendEmailToSubscribers = async (newsTitle: string, newsDescription: string
 
                 </div>
             </div>
-             
-        </main>
       
-
     </div>
   )
 }

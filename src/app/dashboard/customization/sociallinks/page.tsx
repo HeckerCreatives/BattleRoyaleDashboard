@@ -224,12 +224,7 @@ export default function page() {
     
   return (
     <div className=' flex w-full'>
-        <Sidebar/>
-        <main className=' bg-zinc-900 h-screen  overflow-y-auto w-full text-white'
-        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-        
-        >
-           <Header/>
+       
 
            <div className=' w-full flex flex-col p-8'>
             <p className=' text-lg font-semibold'>Social Links</p>
@@ -313,8 +308,6 @@ export default function page() {
          
            </div>
  
-        </main>
-    
     </div>
   )
 }

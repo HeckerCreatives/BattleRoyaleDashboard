@@ -224,18 +224,6 @@ export default function page() {
   return (
     <div className="flex w-full h-screen overflow-x-hidden">
 
-      <Sidebar/>
-        <main
-        className="w-full text-white h-auto overflow-y-auto "
-        style={{
-            backgroundImage: "url('/dashboard/assets/BG.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-        }}
-        >
-        <Header />
-
         <Tabs defaultValue="version" className="w-full  p-8">
             <div className="overflow-x-auto">
               <TabsList className="mb-6 text-xs bg-zinc-800 flex w-max whitespace-nowrap px-2">
@@ -379,8 +367,6 @@ export default function page() {
             </section>
             </TabsContent>
         </Tabs>
-        </main>
-
     
     </div>
   )

@@ -15,7 +15,7 @@ import Sidebar from '@/components/Sidebar'
 export default function page() {
   return (
     <div className=' flex w-full h-full'>
-        <Sidebar/>
+        
         <main className=' bg-zinc-900 w-full text-white'>
             <div className=' w-full h-[80px] bg-zinc-950'>
 

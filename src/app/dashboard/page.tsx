@@ -113,13 +113,7 @@ export default function Dashboard() {
 
   return (
      <div className=' flex w-full h-full'>
-        <Sidebar/>
-        <main className=' bg-zinc-900 w-full text-white'
-        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-        
-        >
-            <Header/>
-
+       
             <div className=' flex flex-col gap-4 w-full rounded-lg p-4 md:p-10'> 
 
              <div className=' relative w-full h-[180px] rounded-lg flex items-end justify-between p-6 shadow-lg border-[1px] border-opacity-50 border-orange-300'
@@ -269,9 +263,6 @@ export default function Dashboard() {
 
             </div>
              
-        </main>
-      
-
     </div>
   )
 }

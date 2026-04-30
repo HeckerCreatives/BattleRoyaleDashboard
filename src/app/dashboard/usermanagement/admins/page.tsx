@@ -48,10 +48,7 @@ export default function page() {
   
   return (
     <div className=' flex w-full h-screen'>
-        <Sidebar/>
-        <main className=' bg-zinc-900 w-full text-white'>
-           <Header/>
-
+     
          
             <div className=' flex flex-col gap-8 w-full p-4 md:p-8'>
 
@@ -165,8 +162,6 @@ export default function page() {
                 </TableBody>
                 </Table>
             </div>
-             
-        </main>
       
 
     </div>

@@ -89,18 +89,7 @@ export default function page() {
   return (
     <div className="flex w-full h-screen overflow-x-hidden">
     
-      <Sidebar/>
-        <main
-        className="w-full text-white h-auto overflow-y-auto "
-        style={{
-            backgroundImage: "url('/dashboard/assets/BG.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-        }}
-        >
-      <Header />
-
+    
         <section className=" p-4 md:p-8">
       <h2 className="text-xl font-bold mb-4">Marketplace</h2>
 
@@ -178,9 +167,7 @@ export default function page() {
                 </div>
 
     </section>
-    
-            
-    </main> 
+
   </div>
  
   )

@@ -12,12 +12,7 @@ export default function page() {
 
   return (
     <div className=' flex w-full h-screen'>
-        <Sidebar/>
-        <main className=' bg-zinc-900 w-full text-white'
-        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-        
-        >
-           <Header/>
+    
 
            <div className=' w-full h-[500px] flex flex-col items-center p-4 md:p-10'>
               <div className=' relative w-full h-[180px] rounded-lg flex items-end p-6 shadow-lg border-[1px] border-opacity-50 border-orange-300'
@@ -37,9 +32,7 @@ export default function page() {
               </div>     
 
            </div>
-             
-        </main>
-      
+
 
     </div>
   )

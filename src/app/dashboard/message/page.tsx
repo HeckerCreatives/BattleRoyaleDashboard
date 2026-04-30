@@ -130,13 +130,7 @@ export default function page() {
     }
   return (
     <div className=' flex w-full h-full bg-zinc-900'>
-        <Sidebar/>
-        <main className=' bg-zinc-900 w-full text-white'
-        style={{backgroundImage: "url('/dashboard/assets/BG.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
-        
-        >
-            <Header/>
-
+    
             <div className=' flex flex-col gap-4 w-full p-4 md:p-10'
             
             >
@@ -200,8 +194,7 @@ export default function page() {
                 
             </div>
              
-        </main>
-
+      
     </div>
   )
 }
