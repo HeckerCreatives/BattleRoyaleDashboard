@@ -29,7 +29,7 @@ export function DeleteQuestForm({quest}: {quest:Quest}) {
   const handleDelete = async () => {
     deleteQuest({id: quest._id, questid: quest.questid},{
         onSuccess: () => {
-            toast.success('New quest added.')
+            toast.success('Quest deleted.')
             setOpen(false)
         }
     })

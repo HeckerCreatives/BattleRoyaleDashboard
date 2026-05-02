@@ -25,7 +25,7 @@ export default function QuestPage() {
             <p className="text-zinc-500 text-xs mt-0.5">Manage all game quests and their rewards</p>
           </div>
         </div>
-        <CreateQuestForm />
+        {/* <CreateQuestForm /> */}
       </div>
 
       {/* Loading */}
@@ -102,7 +102,7 @@ export default function QuestPage() {
                         className="bg-orange-500/10 capitalize text-orange-400 border border-orange-500/20 text-xs px-2 py-0.5 rounded-ful flex gap-2"
                       >
                         {reward.type}:
-                        {reward.type === 'item' ? (
+                        {['energy', 'potion', 'title', 'item'].includes(reward.type) ? (
                            <>
                           {reward.itemid}
 
@@ -123,7 +123,7 @@ export default function QuestPage() {
               {/* Divider + Actions */}
               <div className="border-t border-zinc-800 pt-3 flex justify-end gap-2">
                 <EditQuestForm quest={item} />
-                <DeleteQuestForm quest={item} />
+                {/* <DeleteQuestForm quest={item} /> */}
               </div>
             </div>
           ))}

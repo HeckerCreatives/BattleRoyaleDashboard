@@ -14,7 +14,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { FaMessage } from 'react-icons/fa6'
+import { FaMessage, FaRankingStar } from 'react-icons/fa6'
 
 // ─── Nav Config ──────────────────────────────────────────────────────────────
 
@@ -47,6 +47,12 @@ const NAV_ITEMS: NavItem[] = [
     type: 'link',
     label: 'Game',
     href: '/dashboard/game',
+    icon: <FaRankingStar size={20} />,
+  },
+   {
+    type: 'link',
+    label: 'Leaderboards',
+    href: '/dashboard/leaderboards',
     icon: <Box size={20} />,
   },
   {

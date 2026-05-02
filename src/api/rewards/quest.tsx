@@ -4,7 +4,7 @@ import { QuestSchema } from "@/validations/quest";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const VALID_QUEST_TYPES = ["MATCH", "WIN", "KILL", "USE_ITEM", "WATCH_ADS"] as const;
-export const VALID_REWARD_TYPES = ["exp", "leaderboard", "energy", "potion", "title", "item"] as const;
+export const VALID_REWARD_TYPES = ["exp", "leaderboard", "energy", "potion", "title"] as const;
 
 export type RewardType = 'exp' | 'leaderboard' | "energy" | "potion" | "title" | "item"
 
@@ -62,7 +62,8 @@ export interface Item {
   itemname: string
   description: string
   amount: number
-  currency: 'points' | 'coins' | string
+  currency: 'points' | 'coins' | string,
+  type: string
 }
 
 export interface ItemsResponse {

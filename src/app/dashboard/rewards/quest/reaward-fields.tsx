@@ -20,9 +20,7 @@ interface RewardsFieldProps {
 export function RewardsField({ selected, onChange }: RewardsFieldProps) {
   const { data } = useGetRewardItems()
 
-  console.log(selected)
 
-  // ➜ ADD
   const addReward = () => {
     onChange([
       ...selected,
@@ -30,12 +28,10 @@ export function RewardsField({ selected, onChange }: RewardsFieldProps) {
     ])
   }
 
-  // ➜ DELETE
   const removeReward = (index: number) => {
     onChange(selected.filter((_, i) => i !== index))
   }
 
-  // ➜ UPDATE FIELD
   const updateReward = (index: number, updated: Partial<RewardSchema>) => {
     const copy = [...selected]
     copy[index] = { ...copy[index], ...updated }
@@ -64,7 +60,7 @@ export function RewardsField({ selected, onChange }: RewardsFieldProps) {
             </SelectTrigger>
             <SelectContent>
               {VALID_REWARD_TYPES.map((t) => (
-                <SelectItem key={t} value={t}>
+                <SelectItem key={t} value={t} className=' capitalize'>
                   {t}
                 </SelectItem>
               ))}
@@ -76,7 +72,7 @@ export function RewardsField({ selected, onChange }: RewardsFieldProps) {
           {/* ITEM SELECT (only if type === 'item') */}
 
           
-          {reward.type === 'item' && (
+          {['energy', 'potion', 'title', 'item'].includes(reward.type) && (
             <div className=' space-y-1'>
             <p className=' text-xs text-zinc-500'>Items</p>
          <Select
@@ -89,8 +85,11 @@ export function RewardsField({ selected, onChange }: RewardsFieldProps) {
                 <SelectValue placeholder="Select item" />
               </SelectTrigger>
               <SelectContent>
-                {data?.data?.map((item: any) => (
-                  <SelectItem key={item.itemid} value={item.itemid}>
+                {data?.data
+                ?.filter((item) => item.type === reward.type
+                )
+                .map((item: any) => (
+                  <SelectItem key={item.itemid} value={item.itemid} className=' capitalize'>
                     {item.itemname}
                   </SelectItem>
                 ))}
@@ -103,17 +102,22 @@ export function RewardsField({ selected, onChange }: RewardsFieldProps) {
           {/* AMOUNT */}
           <div className=' space-y-1'>
             <p className=' text-xs text-zinc-500'>Amount</p>
-              <Input
-            type="number"
-            min={1}
-            value={reward.amount}
-            onChange={(e) =>
-              updateReward(i, {
-                amount: parseInt(e.target.value) || 1,
-              })
-            }
-            className="w-[80px] bg-zinc-600"
-          />
+             <Input
+              type="number"
+              min={1}
+              value={reward.amount === 0 ? '' : reward.amount}
+              onChange={(e) =>
+                updateReward(i, {
+                  amount: parseInt(e.target.value) || 0,
+                })
+              }
+              onBlur={(e) => {
+                if (!e.target.value || parseInt(e.target.value) < 1) {
+                  updateReward(i, { amount: 1 })
+                }
+              }}
+              className="w-[80px] bg-zinc-600"
+            />
             </div>
         
 
