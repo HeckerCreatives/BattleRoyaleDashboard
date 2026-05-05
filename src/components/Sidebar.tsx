@@ -34,9 +34,9 @@ type NavGroup = {
   children: Omit<NavLink, 'type'>[]
 }
 
-type NavItem = NavLink | NavGroup
+export type NavItem = NavLink | NavGroup
 
-const NAV_ITEMS: NavItem[] = [
+ export const NAV_ITEMS: NavItem[] = [
   {
     type: 'link',
     label: 'Dashboard',
@@ -49,12 +49,12 @@ const NAV_ITEMS: NavItem[] = [
     href: '/dashboard/game',
     icon: <FaRankingStar size={20} />,
   },
-   {
-    type: 'link',
-    label: 'Leaderboards',
-    href: '/dashboard/leaderboards',
-    icon: <Box size={20} />,
-  },
+  //  {
+  //   type: 'link',
+  //   label: 'Leaderboards',
+  //   href: '/dashboard/leaderboards',
+  //   icon: <Box size={20} />,
+  // },
   {
     type: 'link',
     label: 'Dailies',
@@ -169,14 +169,14 @@ const NAV_ITEMS: NavItem[] = [
 
 // ─── Shared class helper ──────────────────────────────────────────────────────
 
-const linkClass = (active: boolean) =>
+export const linkClass = (active: boolean) =>
   `flex items-center space-x-4 px-3 py-2 text-sm hover:text-secondary ease-in-out duration-300 ${
     active ? 'text-secondary' : ''
   }`
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function NavLinkItem({ item, pathname }: { item: NavLink; pathname: string }) {
+export function NavLinkItem({ item, pathname }: { item: NavLink; pathname: string }) {
   const isActive = pathname === item.href || pathname === `${item.href}/`
   return (
     <Link href={item.href} passHref className={linkClass(isActive)} role="menuitem">
@@ -186,7 +186,7 @@ function NavLinkItem({ item, pathname }: { item: NavLink; pathname: string }) {
   )
 }
 
-function NavGroupItem({ item, pathname }: { item: NavGroup; pathname: string }) {
+export function NavGroupItem({ item, pathname }: { item: NavGroup; pathname: string }) {
   const isActive =
     item.matchPrefixes?.some((prefix) => pathname.startsWith(prefix)) ?? false
 

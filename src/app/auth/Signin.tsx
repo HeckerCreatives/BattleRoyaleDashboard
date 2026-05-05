@@ -5,15 +5,10 @@ import Link from 'next/link'
 import { useToast } from "@/components/ui/use-toast"
 import axios, {AxiosError} from 'axios'
 import { useRouter } from 'next/navigation'
-import CustomBg from '@/components/CustomBg'
-import Cookies from 'js-cookie'
-import { CheckIcon } from 'lucide-react'
-import { RiCloseFill } from "react-icons/ri";
-import { FiCheck } from "react-icons/fi";
+import toast from 'react-hot-toast'
 
 
 export default function Signin() {
-  const { toast } = useToast()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -23,18 +18,13 @@ export default function Signin() {
     setLoading(true)
     if ( password === '' ){
       setLoading(false)
-       toast({
-        variant: "destructive",
-          description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>Please enter your password</p></div>),
-        })
+      toast.error('Please enter your password')
+     
     }
 
     if ( username === '' ){
       setLoading(false)
-       toast({
-        variant: "destructive",
-          description: (<div className=' flex items-center gap-2'><RiCloseFill size={20} /><p>Please enter your username</p></div>),
-        })
+      toast.error('Please enter your username')
     }
 
     if ( password !== '' && username !== ''){
@@ -51,9 +41,7 @@ export default function Signin() {
         setLoading(false)
         setUsername('')
         setPassword('')
-        toast({
-          description:(<div className=' flex items-center gap-2'><FiCheck size={20} /><p>Successfully logged in</p></div>),
-        })
+        toast.success(`Welcome, ${username}`)
         }
 
         if ( response.data.message === 'success' && response.data.data.auth === 'admin') {
@@ -61,81 +49,25 @@ export default function Signin() {
         setLoading(false)
         setUsername('')
         setPassword('')
-        toast({
-          title: "Success",
-          description: "Successfully logged in",
-        })
+        toast.success(`Welcome, ${username}`)
         }
 
          if ( response.data.message === 'success' && response.data.data.auth === 'player') {
         setLoading(false)
         setUsername('')
         setPassword('')
-        toast({
-          variant:"destructive",
-          title: "error",
-          description: "You are not authorized to view this page",
-        })
+        toast.error(`You are not authorized to view this page`)
+       
         }
 
         if (response.data.message === 'failed') {
           setLoading(false)
-           toast({
-            variant:'destructive',
-          title: `${response.data.message}`,
-          description: `${response.data.data}`,
-        })
+        toast.error(`${response.data.message}, ${response.data.data}`)
+
         }
         
       } catch (error) {
-         if (axios.isAxiosError(error)) {
-                    const axiosError = error as AxiosError<{ message: string, data: string }>;
-                    if (axiosError.response && axiosError.response.status === 401) {
-                        router.push('/')
-                        toast({
-                        variant:'destructive',
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
-                
-                    }
-
-                    if (axiosError.response && axiosError.response.status === 400) {
-                        toast({
-                        variant:'destructive',
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
-                
-                    }
-
-                    if (axiosError.response && axiosError.response.status === 402) {
-                        toast({
-                        variant:'destructive',
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
-                
-                    }
-
-                    if (axiosError.response && axiosError.response.status === 403) {
-                        toast({
-                        variant:'destructive',
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
-                
-                    }
-
-                    if (axiosError.response && axiosError.response.status === 404) {
-                        toast({
-                        variant:'destructive',
-                        title: `${axiosError.response.data.message}`,
-                        description: `${axiosError.response.data.data}`
-                        })
-                
-                    }
-                } 
+       
 
       }
     }

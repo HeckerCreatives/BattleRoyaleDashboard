@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
@@ -61,6 +61,10 @@ export default function Page() {
   }
 
   const selectedType = watch('type')
+
+  useEffect(() => {
+    setValue('amount', 1)
+  },[selectedType])
 
   return (
     <div className="flex w-full h-screen md:h-screen">
@@ -181,7 +185,11 @@ export default function Page() {
                     <SelectTrigger className="w-full bg-zinc-800 border-none">
                       <SelectValue placeholder="Select item" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent
+                      position="popper"
+                      sideOffset={4}
+                      className="z-[9999]"
+                    >
                       {rewardItems?.data
                         .filter((item) => item.type === selectedType)
                         .map((item) => (
@@ -201,6 +209,7 @@ export default function Page() {
                 <Input
                   placeholder="Amount"
                   type="number"
+                  disabled={selectedType === 'title'}
                   min={1}
                   className="bg-zinc-800 border-none"
                   {...register('amount', { valueAsNumber: true })}
@@ -208,7 +217,7 @@ export default function Page() {
                 {errors.amount && <p className="text-red-400 text-xs">{errors.amount.message}</p>}
               </div>
 
-              <Button className="w-full mt-4" type="submit" disabled={isPending}>
+              <Button className="w-full mt-4 relative z-0" type="submit" disabled={isPending}>
                 {isPending ? <Loader2 size={14} className="animate-spin mr-2" /> : null}
                 Grant
               </Button>

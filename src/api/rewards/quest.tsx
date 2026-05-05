@@ -10,7 +10,7 @@ export type RewardType = 'exp' | 'leaderboard' | "energy" | "potion" | "title" |
 
 export interface Reward {
   _id: string
-  type: RewardType
+  type: any
   amount: number
   itemid: string
 }

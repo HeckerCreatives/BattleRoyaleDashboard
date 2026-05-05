@@ -28,7 +28,7 @@ interface ResetCardProps {
 
 function ResetCard({ icon, title, description, onReset, isPending }: ResetCardProps) {
   return (
-    <div className="w-full space-y-4 h-fit bg-zinc-900 border border-zinc-700 rounded-lg p-6">
+    <div className="w-full space-y-4 flex flex-col items-start justify-between h-full bg-zinc-900 border border-zinc-700 rounded-lg p-6">
       <div className="flex items-center gap-2">
         {icon}
         <p>{title}</p>

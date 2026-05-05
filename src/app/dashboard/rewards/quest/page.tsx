@@ -12,7 +12,7 @@ export default function QuestPage() {
   const { data, isLoading, isError } = useGetQuests()
 
   return (
-    <div className="flex flex-col w-full min-h-screen p-8 gap-6 bg-zinc-950">
+    <div className="flex flex-col w-full min-h-screen md:p-8 p-4 gap-6 bg-zinc-950">
 
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -52,9 +52,9 @@ export default function QuestPage() {
               className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col gap-4 hover:border-zinc-600 transition-colors"
             >
               {/* Card Header */}
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex flex-col gap-1 flex-1 min-w-0">
-                  <span className="text-white font-medium text-sm truncate">{item.title}</span>
+              <div className="flex items-start flex-wrap justify-between gap-2">
+                <div className="flex flex-col gap-1 flex-1 max-w-[12rem]">
+                  <span className="text-white font-medium text-sm">{item.title}</span>
                   <span className="text-zinc-500 text-xs truncate">{item.questid}</span>
                 </div>
                 <Badge

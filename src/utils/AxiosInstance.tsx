@@ -1,74 +1,41 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
-
-let isRedirecting = false;
-let isShowingToast = false;
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 
-const showToastOnce = (message: string) => {
-  if (isShowingToast) return;
-  isShowingToast = true;
-  toast.error(message);
-  setTimeout(() => {
-    isShowingToast = false;
-  }, 3000); 
+
+const Response = (response: AxiosResponse): AxiosResponse => {
+
+  // if (response.config.method?.toLowerCase() !== 'get') {
+
+  //   const data = response?.data as { msg?: string; message?: string, data?: string } | undefined;
+  //   const successMsg = ` ${data?.message || 'Success'}, ${data?.data}`;
+  //   const toastId = response.config.url || 'default';
+
+  //   toast.success(successMsg, { id: toastId }); 
+  // }
+
+  return response;
 };
 
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error: AxiosError<{ message?: string; data?: string }>) => {
-    if (error.response) {
-      const { status, data } = error.response;
+const ResponseError = async (error: AxiosError): Promise<never> => {
+  const data = error.response?.data as { msg?: string } | undefined;
+  const errMsg = data?.msg || 'An error occurred';
 
-
-      switch (status) {
-        case 401:
-          if (!isRedirecting) {
-            isRedirecting = true;
-
-            showToastOnce(data?.message || "Session expired. Please log in again.");
-            localStorage.removeItem("auth");
-
-            // if (typeof window !== "undefined") {
-            //   setTimeout(() => {
-            //     window.location.href = "/";
-            //   }, 5000);
-            // }
-
-            setTimeout(() => {
-              isRedirecting = false;
-            }, 5000);
-          }
-          break;
-
-        case 400:
-           showToastOnce(`${data?.message}, ${data.data}` || "Something went wrong.");
-          break;
-        case 403:
-           showToastOnce(`${data?.message}, ${data.data}` || "Something went wrong.");
-          break;
-        case 404:
-           showToastOnce(`${data?.message}, ${data.data}` || "Something went wrong.");
-          break;
-        case 500:
-          
-          showToastOnce(`${data?.message}, ${data.data}` || "Something went wrong.");
-          break;
-
-        default:
-          showToastOnce(`${data?.message}, ${data.data}` || "An unknown error occurred.");
-          break;
-      }
-    } else {
-      showToastOnce("Network error. Please check your connection.");
-    }
-
-    return Promise.reject(error);
+  
+  if (error.response?.status === 401) {
+    localStorage.removeItem('auth');
+    toast.error(errMsg)
+    
+  } else {
+    toast.error(errMsg)
   }
-);
+  return Promise.reject(error);
+};
+
+axiosInstance.interceptors.response.use(Response, ResponseError);
 
 export default axiosInstance;

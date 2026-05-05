@@ -80,7 +80,7 @@ export function EditQuestForm({quest}: {quest:Quest}) {
         
         </Button>
         </DialogTrigger>
-      <DialogContent className="bg-zinc-900 border border-zinc-700 text-white max-w-xl max-h-[90%] overflow-y-auto">
+      <DialogContent className="bg-zinc-900 border border-zinc-700 text-white max-w-xl max-h-[90%] w-[95%] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-white flex items-center gap-2">
             <FaTasks size={16} />

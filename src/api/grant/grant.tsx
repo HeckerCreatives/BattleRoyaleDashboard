@@ -50,7 +50,7 @@ export const useGrantUser = () => {
 export const getUser = async (search: string): Promise<PlayerList> => {
   try {
     const response = await axiosInstance.get(`/user/getplayerlist`, {
-      params: { page: 1, limit: 10, search },
+      params: { page: 0, limit: 10, search },
     })
     return response.data
   } catch (err) {
