@@ -80,12 +80,12 @@ export type NavItem = NavLink | NavGroup
      
     ],
   },
-  {
-    type: 'link',
-    label: 'Marketplace',
-    href: '/dashboard/marketplace',
-    icon: <Store size={20} />,
-  },
+  // {
+  //   type: 'link',
+  //   label: 'Marketplace',
+  //   href: '/dashboard/marketplace',
+  //   icon: <Store size={20} />,
+  // },
   {
     type: 'group',
     label: 'User Management',

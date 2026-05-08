@@ -92,20 +92,26 @@ export default function Page() {
           </div>
 
           <div className="w-full h-full mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
               {maintenances.map((maintenance, index) => (
-                <div key={index} className="flex items-center justify-center w-full h-[150px] lg:h-[200px] rounded-lg bg-zinc-950 p-4"
-                  style={{ backgroundImage: `url('/maintenance/Assets/TAB ${index === 0 ? 'A' : 'B'}.png')`, backgroundSize: "cover", backgroundPosition: "left", backgroundRepeat: "no-repeat" }}>
-                  <div className="w-[50%]"></div>
-                  <div className="flex flex-col items-center justify-center gap-4">
-                    <p className="text-lg font-semibold text-center h-12 text-amber-950">
-                      {maintenance.type === "fullgame" ? "Maintenance Fullgame" : "Maintenance In-Game Queue"}
-                    </p>
-                    <Switch
-                      checked={maintenance.value === "1"}
-                      onCheckedChange={(checked) => toggleMaintenance(maintenance.type, checked)}
-                    />
-                  </div>
+                <div key={index} className="flex items-center justify-center w-full rounded-lg bg-zinc-950 p-4 relative"
+                 >
+                    <div className=' w-full h-full grid grid-cols-[40%_1fr] bg-[#CA6A03]'>
+                      <div className=' w-full'>
+                      <img src={`/maintenance/Assets/${index === 0 ? 'gameque' : 'full'}.png`} className=' h-full w-full'/>
+
+                      </div>
+                      <div className="flex flex-col items-center justify-center gap-4 h-full ">
+                        <p className=" text-sm md:text-[1rem] font-bold text-center text-amber-950 max-w-32">
+                          {maintenance.type === "fullgame" ? "Maintenance Fullgame" : "Maintenance In-Game Queue"}
+                        </p>
+                        <Switch
+                          checked={maintenance.value === "1"}
+                          onCheckedChange={(checked) => toggleMaintenance(maintenance.type, checked)}
+                        />
+                      </div>
+                    </div>
+                  
                 </div>
               ))}
             </div>
