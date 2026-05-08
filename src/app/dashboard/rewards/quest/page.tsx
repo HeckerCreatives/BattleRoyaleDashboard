@@ -3,13 +3,15 @@
 import React, { useState } from 'react'
 import { FaSpinner, FaTasks } from 'react-icons/fa'
 import { Badge } from '@/components/ui/badge'
-import { useGetQuests } from '@/api/rewards/quest'
+import { useGetQuests, useGetRewardItems } from '@/api/rewards/quest'
 import { CreateQuestForm } from './form'
 import { EditQuestForm } from './edit'
 import { DeleteQuestForm } from './delete'
 
 export default function QuestPage() {
   const { data, isLoading, isError } = useGetQuests()
+  const { data: rewards } = useGetRewardItems()
+  
 
   return (
     <div className="flex flex-col w-full min-h-screen md:p-8 p-4 gap-6 bg-zinc-950">
@@ -104,7 +106,7 @@ export default function QuestPage() {
                         {reward.type}:
                         {['energy', 'potion', 'title', 'item'].includes(reward.type) ? (
                            <>
-                          {reward.itemid}
+                          {rewards?.data.find((item) => item.itemid === reward.itemid)?.itemname || ''}
 
                           </>
                         ): (

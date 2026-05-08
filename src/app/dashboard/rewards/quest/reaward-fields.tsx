@@ -106,6 +106,7 @@ export function RewardsField({ selected, onChange }: RewardsFieldProps) {
               type="number"
               min={1}
               value={reward.amount === 0 ? '' : reward.amount}
+              disabled={reward.type === 'title'}
               onChange={(e) =>
                 updateReward(i, {
                   amount: parseInt(e.target.value) || 0,

@@ -450,6 +450,7 @@ export default function page() {
     }
 
     const [ title, setTitle] = useState('')
+    const [ inboxid, setInboxId] = useState('')
     const [ description, setDescription] = useState('')
 
     {/*Player Inbox*/}
@@ -965,9 +966,9 @@ export default function page() {
 
                                                     { inbox.map((list, idx)=>(
                                                         <div 
-                                                        onClick={() =>{setTitle(list.title); setDescription(list.description); setActive(list.title)}}
+                                                        onClick={() =>{setInboxId(`${list.type}-${idx}`); setDescription(list.description); setActive(list.title)}}
                                                         key={idx} 
-                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg text-white border-4 p-3 cursor-pointer ${active === list.title ? ' border-orange-400' : 'border-orange-300'}`}
+                                                        className={`flex items-center justify-between gap-4 w-full rounded-lg text-white border-4 p-3 cursor-pointer ${inboxid === `${list.type}-${idx}` ? ' border-orange-400' : 'border-orange-300'}`}
                                                        style={{backgroundImage: "url('/inbox/Assets/Tab small.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat:"no-repeat"}}
                                                         >
                                                             <ImBullhorn size={30}/>
